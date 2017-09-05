@@ -1,0 +1,36 @@
+<h2>Client List</h2>
+<div class="example-container mat-elevation-z8">
+  <md-table #table [dataSource]="dataSource"
+            selectable-rows="true"
+            multi-selection="false"
+            select-on-rowclick="true"
+            clicked-row-callback="showit(x);">
+    <ng-container cdkColumnDef="client_id">
+      <md-header-cell *cdkHeaderCellDef>Id</md-header-cell>
+      <md-cell *cdkCellDef="let row">{{row.client_id}}
+        <button md-raised-button (click)="openDialog(row)">Gerry</button>
+      </md-cell>
+    </ng-container>
+    <ng-container cdkColumnDef="last_name">
+      <md-header-cell *cdkHeaderCellDef>Last Name</md-header-cell>
+      <md-cell *cdkCellDef="let row">{{row.last_name}}</md-cell>
+    </ng-container>
+    <ng-container cdkColumnDef="first_name">
+      <md-header-cell *cdkHeaderCellDef>First Name</md-header-cell>
+      <md-cell *cdkCellDef="let row">{{row.first_name}}</md-cell>
+    </ng-container>
+    <ng-container cdkColumnDef="recorded_on">
+      <md-header-cell *cdkHeaderCellDef>Recorded On</md-header-cell>
+      <md-cell *cdkCellDef="let row">{{row.recorded_on}}</md-cell>
+    </ng-container>
+    <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
+    <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
+    <!--(click)="getPerson(row)"-->
+  </md-table>
+  <md-paginator #paginator
+                [length]="dataLength"
+                [pageIndex]="0"
+                [pageSize]="25"
+                [pageSizeOptions]="[5, 10, 25, 100]">
+  </md-paginator>
+</div>
