@@ -64,6 +64,7 @@ export class PersonsService {
           //console.log(data);
           if (resp['data']) {
             this.person.set(resp['data']);
+            this.personSubject.next(this.person);
             //this.personChange.next(resp['data']);
           }
         },
