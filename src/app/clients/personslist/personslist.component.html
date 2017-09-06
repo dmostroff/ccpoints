@@ -4,7 +4,8 @@
             selectable-rows="true"
             multi-selection="false"
             select-on-rowclick="true"
-            clicked-row-callback="showit(x);">
+            clicked-row-callback="showit(x);"
+            mdSort>
     <ng-container cdkColumnDef="client_id">
       <md-header-cell *cdkHeaderCellDef>Id</md-header-cell>
       <md-cell *cdkCellDef="let row">{{row.client_id}}
@@ -27,8 +28,14 @@
     <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
     <!--(click)="getPerson(row)"-->
   </md-table>
+
+  <div class="example-no-results"
+       [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
+    No users found matching filter.
+  </div>
+
   <md-paginator #paginator
-                [length]="dataLength"
+                [length]="dataSource.filteredData.length"
                 [pageIndex]="0"
                 [pageSize]="25"
                 [pageSizeOptions]="[5, 10, 25, 100]">

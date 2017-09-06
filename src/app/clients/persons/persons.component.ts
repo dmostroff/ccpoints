@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PersonsService} from './../persons.service';
+import { Subscription } from 'rxjs/Subscription';
 import { ClientPerson} from './../clientperson';
 import {MD_DIALOG_DATA} from '@angular/material';
 
@@ -11,19 +12,24 @@ import {MD_DIALOG_DATA} from '@angular/material';
 export class PersonsComponent implements OnInit {
 
   person: ClientPerson;
+  subscription: Subscription;
 
   constructor( private personService: PersonsService) {
-    this.person = new ClientPerson;
   }
 
   ngOnInit() {
-    this.person = this.personService.person;
+    this.subscription = this.personService.getPerson().subscribe( aperson => { this.person = aperson; });
+    //this.person = this.personService.person;
     this.newClient();
     }
 
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
   newClient() {
     let id = Math.floor(Math.random() * 45);
-    let x = this.personService.getPerson(id);
+    let x = this.personService.loadPerson(id);
   }
 
 

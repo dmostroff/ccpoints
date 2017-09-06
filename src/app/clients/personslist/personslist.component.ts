@@ -1,8 +1,9 @@
 import {Component, OnInit, ElementRef, ViewChild, Inject} from '@angular/core';
 import {DataSource} from '@angular/cdk/collections';
-import {MdPaginator} from '@angular/material';
+import {MdPaginator, MdSort} from '@angular/material';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/operator/map';
@@ -28,18 +29,37 @@ export class PersonslistComponent implements OnInit {
   dataSource: ClientPersonDataSource;
   dataLength: Number;
 
+  persons: ClientPerson[];
+  personListSubscription: Subscription;
+
+  person: ClientPerson;
+  personSubscription: Subscription;
+
   @ViewChild(MdPaginator) paginator: MdPaginator;
+  @ViewChild(MdSort) sort: MdSort;
+  @ViewChild('filter') filter: ElementRef;
 
   constructor(public dialog: MdDialog, private personService: PersonsService) {
     this.myPersonService = personService;
     this.dataLength = 0;
+    this.personSubscription = this.personService.getPerson().subscribe( aperson => { this.person = aperson; });
+    this.personListSubscription = this.personService.getPersons().subscribe( personslist => { this.persons = personslist; });
     //this.persons = personService.persons;
   }
 
   ngOnInit() {
-    this.dataSource = new ClientPersonDataSource(this.myPersonService, this.paginator);
-    let x = this.myPersonService.getPersonsList();
-    this.dataLength = this.myPersonService.persons.length;
+    this.myPersonService.loadPersons();
+    this.dataSource = new ClientPersonDataSource(this.myPersonService, this.paginator, this.sort);
+    Observable.fromEvent(this.filter.nativeElement, 'keyup')
+      .debounceTime(150)
+      .distinctUntilChanged()
+      .subscribe(() => {
+        if (!this.dataSource) { return; }
+        this.dataSource.filter = this.filter.nativeElement.value;
+      });
+
+    //let x = this.myPersonService.getPersonsList();
+    //this.dataLength = this.myPersonService.persons.length;
   }
 
   showit(r) {
@@ -49,10 +69,10 @@ export class PersonslistComponent implements OnInit {
 
   getPerson(p) {
     console.log(p);
-    let x = this.myPersonService.personChange.getValue();
-    this.myPersonService.getPerson(p.client_id);
+    let x = this.myPersonService.loadPerson(p.client_id);
     console.log(['getPerson', x]);
   }
+
   openDialog(p): void {
     let dialogRef = this.dialog.open(PersonDlgComponent,{ width: '250px', data: { person: p }});
 
@@ -71,25 +91,84 @@ export class PersonslistComponent implements OnInit {
  * should be rendered.
  */
 export class ClientPersonDataSource extends DataSource<any> {
-  constructor(private pService: PersonsService, private _paginator: MdPaginator) {
+  _filterChange = new BehaviorSubject('');
+  get filter(): string { return this._filterChange.value; }
+  set filter( filter:string) { this._filterChange.next(filter); }
+
+  filteredData: ClientPerson[] = [];
+  renderedData: ClientPerson[] = [];
+
+  constructor(
+    private _pService: PersonsService
+    , private _paginator: MdPaginator
+    , private _sort: MdSort) {
     super();
+    this._filterChange.subscribe(() => this._paginator.pageIndex = 0);
   }
 
   /** Connect function called by the table to retrieve one stream containing the data to render. */
   connect(): Observable<ClientPerson[]> {
     const displayDataChanges = [
-      this.pService.personsChange,
-      this._paginator.page
+      this._pService.personsChange,
+      this._sort.mdSortChange,
+      this._filterChange,
+      this._paginator.page,
     ];
 
     return Observable.merge(...displayDataChanges).map(() => {
-      const data = this.pService.persons.slice();
-console.log(this.pService.persons);
-      // Grab the page's slice of data.
+      // Filter data
+      this.filteredData = this._pService.persons.slice().filter((item: ClientPerson) => {
+        let searchStr = (item.last_name + item.first_name).toLowerCase();
+        return searchStr.indexOf(this.filter.toLowerCase()) != -1;
+      });
+
+      // Sort filtered data
+      const sortedData = this.sortData(this.filteredData.slice());
+
+      // Grab the page's slice of the filtered sorted data.
       const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
-      return data.splice(startIndex, this._paginator.pageSize);
+      this.renderedData = sortedData.splice(startIndex, this._paginator.pageSize);
+      return this.renderedData;
     });
   }
 
   disconnect() {}
+
+  /** Returns a sorted copy of the database data. */
+  sortData(data: ClientPerson[]): ClientPerson[] {
+    if (!this._sort.active || this._sort.direction == '') { return data; }
+
+    return data.sort((a, b) => {
+      let propertyA: number|string = '';
+      let propertyB: number|string = '';
+
+      switch (this._sort.active) {
+        case 'cliewnt_id': [propertyA, propertyB] = [a.client_id, b.client_id]; break;
+        case 'last_name': [propertyA, propertyB] = [a.last_name, b.last_name]; break;
+        case 'first_name': [propertyA, propertyB] = [a.first_name, b.first_name]; break;
+        case 'recorded_on': [propertyA, propertyB] = [a.recorded_on, b.recorded_on]; break;
+      }
+
+      let valueA = isNaN(+propertyA) ? propertyA : +propertyA;
+      let valueB = isNaN(+propertyB) ? propertyB : +propertyB;
+
+      return (valueA < valueB ? -1 : 1) * (this._sort.direction == 'asc' ? 1 : -1);
+    });
+  }
+//
+//  const displayDataChanges = [
+//      this.pService.getPersonsList(),
+//      this._paginator.page
+//    ];
+//
+//    return Observable.merge(...displayDataChanges).map((data, page) => {
+//      const clonedData = data.slice(); // this.pService.persons.slice();
+//console.log(clonedData);
+//      // Grab the page's slice of data.
+//      const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
+//      return data.splice(startIndex, this._paginator.pageSize);
+//    });
+//  }
+//
+//  disconnect() {}
 }
