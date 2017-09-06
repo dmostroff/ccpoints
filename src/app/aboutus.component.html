@@ -1,3 +1,7 @@
-<p>
-  aboutus works!
-</p>
+<button class="btn btn-success" (click)="toggleSpinner()"> See spinner </button>
+<div>
+  <app-spinner [show]="showSpinner" [size]="50"> </app-spinner>
+  Gerd
+</div>
+<p>About Us</p>
+<h2 class="md-display-2">{{name}}</h2>
