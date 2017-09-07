@@ -10,9 +10,10 @@ import 'rxjs/add/operator/map';
 export class PersonsService {
 
   apiUrl:string;
+  personListCount: Number;
 
-  persons:ClientPerson[];
-  public personsChange:BehaviorSubject<ClientPerson[]> = new BehaviorSubject<ClientPerson[]>([]);
+  personList:ClientPerson[];
+  public personsListChange:BehaviorSubject<ClientPerson[]> = new BehaviorSubject<ClientPerson[]>([]);
 
   person:ClientPerson;
   private personSubject:BehaviorSubject<ClientPerson> = new BehaviorSubject<ClientPerson>(new ClientPerson());
@@ -20,21 +21,21 @@ export class PersonsService {
   constructor(private http:HttpClient) {
     this.apiUrl = 'http://ccapi.com/client/person';
     this.person = new ClientPerson();
-    this.persons = <ClientPerson[]>[];
+    this.personList = <ClientPerson[]>[];
     this.person.last_name = "Ostroff";
     this.person.first_name = "Dan";
   }
 
-  public loadPersons() {
+  public loadPersonList() {
     return this.http.get(this.apiUrl)
       .subscribe(
         resdata => {
-          console.log(["resdata", resdata]);
+          //console.log(["resdata", resdata]);
           if (resdata['data']) {
             for (let person of resdata['data']) {
-              this.persons.push(person);
+              this.personList.push(person);
             }
-            this.personsChange.next(this.persons);
+            console.log(this.personList);
           }
         },
         (err:HttpErrorResponse) => {
@@ -47,12 +48,19 @@ export class PersonsService {
       );
   }
 
-  public clearPersons() {
-    this.personsChange.next([]);
+  public retrievePersonList( startIndex, pageLength) {
+    let p = this.personList.slice(startIndex, startIndex + pageLength)
+    console.log([startIndex, startIndex + pageLength, p]);
+    this.personsListChange.next([]);
+    this.personsListChange.next(p); // 9,2,5
   }
 
-  public getPersons():Observable < ClientPerson[] > {
-    return this.personsChange.asObservable();
+  public clearPersonList() {
+    this.personsListChange.next([]);
+  }
+
+  public getPersonList():Observable < ClientPerson[] > {
+    return this.personsListChange.asObservable();
   }
 
   /* Single Person */

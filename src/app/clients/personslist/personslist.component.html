@@ -1,4 +1,14 @@
-<h2>Client List</h2>
+<h2>Client List {{dataLength}}</h2>
+<button md-button (click)="testButton()">Test</button>
+
+<md-paginator #paginator
+              [length]="dataSource.dataLength"
+              [pageIndex]="0"
+              [pageSize]="25"
+              [pageSizeOptions]="[5, 10, 25, 100]"
+              (page)="pageEvent = getServerData($event)"
+>
+</md-paginator>
 <div class="example-container mat-elevation-z8">
   <md-table #table [dataSource]="dataSource"
             selectable-rows="true"
@@ -33,11 +43,4 @@
        [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
     No users found matching filter.
   </div>
-
-  <!--<md-paginator #paginator-->
-                <!--[length]="dataSource.filteredData.length"-->
-                <!--[pageIndex]="0"-->
-                <!--[pageSize]="25"-->
-                <!--[pageSizeOptions]="[5, 10, 25, 100]">-->
-  <!--</md-paginator>-->
 </div>
