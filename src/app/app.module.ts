@@ -4,45 +4,18 @@ import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {
-  MdAutocompleteModule,
-  MdButtonModule,
-  MdButtonToggleModule,
-  MdCardModule,
-  MdCheckboxModule,
-  MdChipsModule,
-  MdCoreModule,
-  MdDatepickerModule,
-  MdDialogModule,
-  MdExpansionModule,
-  MdGridListModule,
-  MdIconModule,
-  MdInputModule,
-  MdListModule,
-  MdMenuModule,
-  MdNativeDateModule,
-  MdPaginatorModule,
-  MdProgressBarModule,
-  MdProgressSpinnerModule,
-  MdRadioModule,
-  MdRippleModule,
-  MdSelectModule,
-  MdSidenavModule,
-  MdSliderModule,
-  MdSlideToggleModule,
-  MdSnackBarModule,
-  MdSortModule,
-  MdTableModule,
-  MdTabsModule,
-  MdToolbarModule,
-  MdTooltipModule,
-} from '@angular/material';
-import { CdkTable} from '@angular/cdk/table'
-import { CdkTableModule } from '@angular/cdk/table';
-
 import { AppRoutingModule } from './app-routing.module';
-
+import { AppMaterialModule } from './app-material.module';
 import { ClientsModule } from './clients/clients.module';
+
+/* components */
+
+export interface LiveComponents {
+  title: string;
+  component: any;
+  additionalFiles?: string[];
+  selectorName?: string;
+}
 
 import { AppComponent } from './app.component';
 import { AboutusComponent } from './aboutus.component';
@@ -50,58 +23,53 @@ import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 
+export const MY_COMPONENTS = {
+  'app-component': {
+    title: 'Application Component',
+    component: AppComponent,
+    additionalFiles: null,
+    selectorName: null
+  },
+  'aboutus-component': {
+    title: 'About Us Component',
+    component: AboutusComponent,
+    additionalFiles: null,
+    selectorName: null
+  },
+  'login-component': {
+    title: 'Login Component',
+    component: LoginComponent,
+    additionalFiles: null,
+    selectorName: null
+  },
+  'page-not-found': {
+    title: 'Page Not Found',
+    component: PageNotFoundComponent,
+    additionalFiles: null,
+    selectorName: null
+  }
+}
+
+export const MY_COMPONENTS_LIST = [
+  AppComponent,
+  AboutusComponent,
+  LoginComponent,
+  PageNotFoundComponent
+]
 @NgModule({
-  exports: [
-    CdkTableModule,
-    MdAutocompleteModule,
-    MdButtonModule,
-    MdButtonToggleModule,
-    MdCardModule,
-    MdCheckboxModule,
-    MdChipsModule,
-    MdCoreModule,
-    MdDatepickerModule,
-    MdDialogModule,
-    MdExpansionModule,
-    MdGridListModule,
-    MdIconModule,
-    MdInputModule,
-    MdListModule,
-    MdMenuModule,
-    MdNativeDateModule,
-    MdPaginatorModule,
-    MdProgressBarModule,
-    MdProgressSpinnerModule,
-    MdRadioModule,
-    MdRippleModule,
-    MdSelectModule,
-    MdSidenavModule,
-    MdSliderModule,
-    MdSlideToggleModule,
-    MdSnackBarModule,
-    MdSortModule,
-    MdTableModule,
-    MdTabsModule,
-    MdToolbarModule,
-    MdTooltipModule,
-  ],
-  declarations: [
-    AppComponent,
-    AboutusComponent,
-    LoginComponent,
-    PageNotFoundComponent,
-    SpinnerComponent
-  ],
+  declarations: MY_COMPONENTS_LIST,
+  entryComponents: MY_COMPONENTS_LIST,
   imports: [
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MdProgressSpinnerModule,
-
     AppRoutingModule,
+    AppMaterialModule,
     ClientsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+
+export class AppModule {
+}

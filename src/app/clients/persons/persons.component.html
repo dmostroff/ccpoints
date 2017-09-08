@@ -1,5 +1,26 @@
-<p>
-  persons works!{{person.first_name}} {{person.middle_name}} {{person.last_name}}
+<md-card class="containerX" fxFlex="100%">
+  <md-card-title>Person</md-card-title>
+  <md-card-subtitle>Mastr</md-card-subtitle>
+  <md-card-content>
+    <div fxLayout="row">
+      <div fxFlex fxFlexFill class="idClass">{{person.client_id}}</div>
+    </div>
+    <div fxLayout="column">
+      <div fxFlex="33.33%" class="nameClass">{{person.first_name}}
+        <div fxFlex>Peace of Mind</div>
+        <div fxFlex>Treat her Kind</div>
+      </div>
+      <div fxFlex="33.33%">{{person.middle_name}}</div>
+      <div fxFlexFill fxFlex="33.33%">{{person.last_name}}</div>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column">
+      <div fxFlex> <button md-button (click)="newClient()">New</button></div>
+    </div>
+
+  </md-card-content>
+  <md-card-footer>
+    <div>So unknind</div>
+  </md-card-footer>
+</md-card>
   <br>
-  <button (click)="newClient()">New</button>
-</p>
+

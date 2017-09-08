@@ -1,10 +1,12 @@
-import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Injectable, OnInit, OnDestroy } from '@angular/core';
+import {HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
 import {ClientPerson} from './clientperson';
 import 'rxjs/add/operator/map';
+
+import { CcapiResult } from './../ccapi';
 
 @Injectable()
 export class PersonsService {
@@ -14,6 +16,7 @@ export class PersonsService {
 
   personList:ClientPerson[];
   public personsListChange:BehaviorSubject<ClientPerson[]> = new BehaviorSubject<ClientPerson[]>([]);
+  public plDone: Subject<boolean> = new Subject();
 
   person:ClientPerson;
   private personSubject:BehaviorSubject<ClientPerson> = new BehaviorSubject<ClientPerson>(new ClientPerson());
@@ -24,26 +27,33 @@ export class PersonsService {
     this.personList = <ClientPerson[]>[];
     this.person.last_name = "Ostroff";
     this.person.first_name = "Dan";
+    this.plDone = new Subject<boolean>();
   }
 
-  public loadPersonList() {
-    return this.http.get(this.apiUrl)
+  ngOnInit() {
+    console.log( "person service init");
+  }
+  ngOnDestroy() {
+    console.log( "person service destroy");
+  }
+
+  public getHubUsers() {
+    let url = 'https://api.github.com/users/jonuts';
+    return this.http.get(url)
+  }
+
+  public loadPersonList( ) {
+    this.plDone.next(false);
+    return this.http.get<CcapiResult>(this.apiUrl)
       .subscribe(
         resdata => {
-          //console.log(["resdata", resdata]);
-          if (resdata['data']) {
-            for (let person of resdata['data']) {
-              this.personList.push(person);
-            }
-            console.log(this.personList);
-          }
-        },
-        (err:HttpErrorResponse) => {
-          if (err.error instanceof Error) {
-            console.log("Client Side Error.");
-          } else {
-            console.log('wrong');
-          }
+          this.personList = resdata.data;
+          this.personListCount = this.personList.length;
+          console.log( [this.personList, this.personList.length] );
+          this.plDone.next(true);
+        }
+        , err => {
+          console.log(err);
         }
       );
   }
@@ -51,7 +61,6 @@ export class PersonsService {
   public retrievePersonList( startIndex, pageLength) {
     let p = this.personList.slice(startIndex, startIndex + pageLength)
     console.log([startIndex, startIndex + pageLength, p]);
-    this.personsListChange.next([]);
     this.personsListChange.next(p); // 9,2,5
   }
 
@@ -63,7 +72,15 @@ export class PersonsService {
     return this.personsListChange.asObservable();
   }
 
+  public isPersonListDone():Observable <boolean> {
+    return this.plDone.asObservable();
+  }
+
   /* Single Person */
+  public getPersonById(id: number): ClientPerson {
+    return this.personList.find(person => person.client_id === id);
+  }
+
   public loadPerson(client_id) {
     let apiUrl1 = this.apiUrl + '/' + client_id;
     return this.http.get(apiUrl1)

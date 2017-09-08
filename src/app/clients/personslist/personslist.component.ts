@@ -1,9 +1,10 @@
-import {Component, OnInit, ElementRef, ViewChild, Inject} from '@angular/core';
+import {Component, OnInit, OnDestroy, ElementRef, ViewChild, Inject} from '@angular/core';
 import {DataSource} from '@angular/cdk/collections';
 import {MdPaginator, MdSort, MdButton} from '@angular/material';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/observable/combineLatest'
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/operator/map';
@@ -28,6 +29,7 @@ export class PersonslistComponent implements OnInit {
   myPersonService: PersonsService;
   dataSource: ClientPersonDataSource;
   dataLength: Number;
+  showTable: Boolean;
 
   personList: ClientPerson[];
   personListSubscription: Subscription;
@@ -42,17 +44,26 @@ export class PersonslistComponent implements OnInit {
   constructor(public dialog: MdDialog, private personService: PersonsService) {
     this.myPersonService = personService;
     this.dataLength = 0;
-    this.personSubscription = this.personService.getPerson().subscribe( aperson => { this.person = aperson; });
+    this.showTable = false;
+    // this.personSubscription = this.personService.getPerson().subscribe( aperson => { this.person = aperson; });
     //this.persons = personService.persons;
   }
 
   ngOnInit() {
+    //const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
     this.myPersonService.loadPersonList();
-    console.log( [this.personList, this.dataLength ]);
-    this.dataSource = new ClientPersonDataSource(this.myPersonService, this.paginator); // , this.paginator, this.sort);
-    // this.personListSubscription = this.personService.getPersonList().subscribe( personslist => { this.dataSource.readData(); });
-    this.dataLength = this.dataSource.renderedData.length
+    this.dataSource = new ClientPersonDataSource(this.personService, this.paginator); // , this.paginator, this.sort);
+    this.personService.plDone.subscribe( isDone => {
+      if( isDone) {
+        this.showTable = true;
+        this.dataSource.readData();
+      }
 
+    })
+  }
+
+  ngOnDestroy() {
+    this.personService.plDone.unsubscribe();
   }
 
   getServerData($event) {
@@ -94,6 +105,7 @@ export class PersonslistComponent implements OnInit {
  * should be rendered.
  */
 export class ClientPersonDataSource extends DataSource<any> {
+//  _dataSource = new BehaviorSubject<ClientPerson[]>([]);
   _filterChange = new BehaviorSubject('');
   get filter(): string { return this._filterChange.value; }
   set filter( filter:string) { this._filterChange.next(filter); }
@@ -116,21 +128,28 @@ export class ClientPersonDataSource extends DataSource<any> {
   /** Connect function called by the table to retrieve one stream containing the data to render. */
   connect(): Observable<ClientPerson[]> {
     console.log( 'connect');
-    const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
-    console.log(['mamas', startIndex, this._paginator.pageIndex, this._paginator.pageSize]);
-    this._pService.retrievePersonList(startIndex, this._paginator.pageSize);
-    this._pService.getPersonList().subscribe( personslist => { this.renderedData = personslist;});
-    return this._pService.getPersonList();
-      //.subscribe(); // .splice(startIndex, this._paginator.pageSize);
+    //const displayDataChanges = [
+    //    this._pService.getPersonList(),
+    //    this._paginator.page
+    //  ];
+    //Observable.combineLatest(displayDataChanges);
+    return this._pService.personsListChange;
   }
 
-  disconnect() {}
+  disconnect() {
+    this._pService.personsListChange.unsubscribe( );
+
+  }
 
   readData() {
     console.log( 'readData');
     const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
+    console.log(['mamas', startIndex, this._paginator.pageIndex, this._paginator.pageSize]);
     this._pService.retrievePersonList(startIndex, this._paginator.pageSize);
-    console.log(['papas', this._pService.personList]);
+    this._pService.personsListChange.subscribe( personslist => { this.renderedData = personslist;});
+    //const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
+    //this._pService.retrievePersonList(startIndex, this._paginator.pageSize);
+    //console.log(['papas', this._pService.personList]);
     this.dataLength = this._pService.personList.length;
     //this._pService.getPersonList().subscribe( personslist => { this.renderedData = personslist;});
 

@@ -22,7 +22,6 @@ export class ClientPerson {
 
   set(newClientPerson:ClientPerson) {
     for( let ii in newClientPerson) {
-      console.log( ii);
       this[ii] = newClientPerson[ii];
     }
   }
