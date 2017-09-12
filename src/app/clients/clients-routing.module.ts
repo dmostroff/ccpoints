@@ -8,7 +8,7 @@ import { AddressComponent }    from './address/address.component';
 const routes: Routes = [
   { path: '', redirectTo: 'list', pathMatch: 'full'},
   { path: 'personslist', component: PersonslistComponent },
-  { path: 'person', component: PersonsComponent },
+  { path: 'person/:client_id', component: PersonsComponent },
   { path: 'address', component: AddressComponent }
 ];
 

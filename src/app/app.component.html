@@ -1,14 +1,48 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1 _ngcontent-c9="" class="mat-h1">{{title}}</h1>
-</div>
-<h2 _ngcontent-c8="" class="mat-h2">Here are some links to help you start: </h2>
-<!--<app-navbar [class.mat-elevation-z6]="showShadow"></app-navbar>-->
-<nav><span>Get started</span>
-  <a routerLink="login" routerLinkActive="active" class="mat-button-wrapper">Login</a>
-  <a routerLink="aboutus" routerLinkActive="active">About</a>
-  <a routerLink="clients/address" routerLinkActive="active">Address</a>
-  <a routerLink="clients/person" routerLinkActive="active">Person</a>
-  <a routerLink="clients/personslist" routerLinkActive="active">Persons Yaakov</a>
-</nav>
-<router-outlet></router-outlet>
+<md-toolbar color="primary">
+  <span>{{title}}</span>
+  <span fxFlex></span>
+  <nav>
+    <div fxFlex>
+      <div fxLayout="row">
+        <div fxFlex>
+          <a routerLink="login" routerLinkActive="active" class="mat-button-wrapper">Login</a>
+        </div>
+        <div fxFlex="10px;"></div>
+        <div fxFlex>
+          <a routerLink="aboutus" routerLinkActive="active" class="mat-button-wrapper" (click)="aboutUs()">About Us</a>
+          <!--<a routerLink="aboutus" routerLinkActive="active" >About</a>-->
+        </div>
+        <!--<li class="list-item"><a routerLink="aboutus" routerLinkActive="active">About</a></li>-->
+        <!--<li class="list-item"><a routerLink="clients/address" routerLinkActive="active">Address</a></li>-->
+        <!--<li class="list-item"><a routerLink="clients/person" routerLinkActive="active">Person</a></li>-->
+        <!--<li class="list-item"><a routerLink="clients/personslist" routerLinkActive="active">Persons Yaakov</a></li>-->
+
+      </div>
+    </div>
+    </nav>
+  <button md-button [mdMenuTriggerFor]="appMenu"><md-icon>menu</md-icon> Menu</button>
+
+</md-toolbar>
+
+<md-menu #appMenu="mdMenu">
+  <button md-menu-item> Settings </button>
+  <button md-menu-item> Help </button>
+</md-menu>
+<md-sidenav-container class="example-sidenav-fab-container">
+  <md-sidenav #sidenav mode="side" opened="true">
+    <div class="example-scrolling-content">
+      <app-context-menu></app-context-menu>
+    </div>
+    </md-sidenav>
+  <button md-mini-fab class="example-fab" (click)="sidenav.toggle();">
+    <span *ngIf="sidenav._opened"><md-icon>remove</md-icon></span>
+    <span *ngIf="!sidenav._opened"><md-icon>add</md-icon></span>
+  </button>
+  <router-outlet name="primary"></router-outlet>
+</md-sidenav-container>
+<md-toolbar>
+  <md-toolbar-row>
+    <div>{{footerInfo}}{{sidenav.mode}}{{sidenav._opened}}</div>
+  </md-toolbar-row>
+</md-toolbar>

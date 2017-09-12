@@ -5,7 +5,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
-import { AppMaterialModule } from './app-material.module';
+import { AppMaterialModule } from './utils/app-material.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { ClientsModule } from './clients/clients.module';
 
 /* components */
@@ -21,12 +22,18 @@ import { AppComponent } from './app.component';
 import { AboutusComponent } from './aboutus.component';
 import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { SpinnerComponent } from './spinner/spinner.component';
+import { ContextMenuComponent } from './utils/context-menu.component';
 
 export const MY_COMPONENTS = {
   'app-component': {
     title: 'Application Component',
     component: AppComponent,
+    additionalFiles: null,
+    selectorName: null
+  },
+  'context-menu-component': {
+    title: 'Context Menu Component',
+    component: ContextMenuComponent,
     additionalFiles: null,
     selectorName: null
   },
@@ -52,6 +59,7 @@ export const MY_COMPONENTS = {
 
 export const MY_COMPONENTS_LIST = [
   AppComponent,
+  ContextMenuComponent,
   AboutusComponent,
   LoginComponent,
   PageNotFoundComponent
@@ -63,8 +71,11 @@ export const MY_COMPONENTS_LIST = [
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     AppMaterialModule,
+    FlexLayoutModule,
     ClientsModule
   ],
   providers: [],

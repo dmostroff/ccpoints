@@ -1,35 +1,23 @@
-<div class="pageContainer">
-  <div md-content class="md-padding" layout-xs="column" layout="row">
-    <md-card >
-      <md-card-title>
-          <span class="md-headline">Card with image</span>
-          <span class="md-subhead">Large</span>
-      </md-card-title>
-      <md-card-actions layout="row" layout-align="end center">
-        <button md-button>Action 1</button>
-        <button md-button>Action 2</button>
-      </md-card-actions>
-    </md-card>
-    <md-card >
-      <md-card-title>
-          <span class="md-headline">Card with image</span>
-          <span class="md-subhead">Extra Large</span>
-      </md-card-title>
-      <md-card-content layout="row" layout-align="space-between">
-        <div class="md-media-xl card-media"></div>
-
-        <md-card-actions layout="column">
-          <button md-button class="md-icon-button" aria-label="Favorite">
-            <md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
-          </button>
-          <button md-button class="md-icon-button" aria-label="Settings">
-            <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
-          </button>
-          <button md-button class="md-icon-button" aria-label="Share">
-            <md-icon md-svg-icon="img/icons/share-arrow.svg"></md-icon>
-          </button>
-        </md-card-actions>
-      </md-card-content>
-    </md-card>
+<form [formGroup]="loginFormGroup" (ngSubmit)="onSubmit()" validate fxLayout="column" fxLayoutAlign="center center">
+  <md-form-field class="form-group" fxFlex>
+    <input mdInput type="text" formControlName="user_name" placeholder="User Name">
+  </md-form-field>
+  <div fxFlex>
+    <div fxLayout="row">
+    <md-form-field class="form-group" fxFlex fxFlexAlign="end center">
+        <input mdInput type="text" formControlName="login" placeholder="Login">
+        <md-error *ngIf="loginFormControl.hasError('required')">
+          Login is <strong>required</strong>
+        </md-error>
+    </md-form-field>
+      </div>
   </div>
-</div>
+  <md-form-field class="form-group" fxFlex>
+    <input mdInput type="password" formControlName="pwd" placeholder="Password">
+    <md-hint>Must be at lest 8 characters.</md-hint>
+    <md-error *ngIf="loginFormControl.hasError('pattern')">
+      Password must be 8 characters long and consist of mixed case, number, and punctuation.
+    </md-error>
+  </md-form-field>
+  <button md-raised-button type="submit" (click)="onSubmit()" class="loginButton">Login</button>
+</form>

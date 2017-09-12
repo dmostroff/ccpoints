@@ -45,6 +45,7 @@ export class PersonslistComponent implements OnInit {
     this.myPersonService = personService;
     this.dataLength = 0;
     this.showTable = false;
+
     // this.personSubscription = this.personService.getPerson().subscribe( aperson => { this.person = aperson; });
     //this.persons = personService.persons;
   }

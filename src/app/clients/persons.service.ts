@@ -19,7 +19,7 @@ export class PersonsService {
   public plDone: Subject<boolean> = new Subject();
 
   person:ClientPerson;
-  private personSubject:BehaviorSubject<ClientPerson> = new BehaviorSubject<ClientPerson>(new ClientPerson());
+  public personSubject:BehaviorSubject<ClientPerson> = new BehaviorSubject<ClientPerson>(new ClientPerson());
 
   constructor(private http:HttpClient) {
     this.apiUrl = 'http://ccapi.com/client/person';

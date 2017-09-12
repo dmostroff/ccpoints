@@ -5,12 +5,9 @@
     <div fxLayout="row">
       <div fxFlex fxFlexFill class="idClass">{{person.client_id}}</div>
     </div>
-    <div fxLayout="column">
-      <div fxFlex="33.33%" class="nameClass">{{person.first_name}}
-        <div fxFlex>Peace of Mind</div>
-        <div fxFlex>Treat her Kind</div>
-      </div>
-      <div fxFlex="33.33%">{{person.middle_name}}</div>
+    <div fxLayout="row">
+      <div fxFlex="33%" class="nameClass">{{person.first_name}}</div>
+      <div fxFlex="33%">{{person.middle_name}}</div>
       <div fxFlexFill fxFlex="33.33%">{{person.last_name}}</div>
     </div>
     <div fxLayout="row" fxLayout.xs="column">
