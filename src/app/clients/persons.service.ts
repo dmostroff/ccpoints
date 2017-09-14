@@ -6,7 +6,7 @@ import {Observable} from 'rxjs/Observable';
 import {ClientPerson} from './clientperson';
 import 'rxjs/add/operator/map';
 
-import { CcapiResult } from './../ccapi';
+import {CcapiResult} from './../ccapiresult';
 
 @Injectable()
 export class PersonsService {

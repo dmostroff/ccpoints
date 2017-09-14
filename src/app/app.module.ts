@@ -8,7 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppMaterialModule } from './utils/app-material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ClientsModule } from './clients/clients.module';
-
+import { AdmUsersService } from './adm/adm-users.service';
 /* components */
 
 export interface LiveComponents {
@@ -78,7 +78,7 @@ export const MY_COMPONENTS_LIST = [
     FlexLayoutModule,
     ClientsModule
   ],
-  providers: [],
+  providers: [AdmUsersService],
   bootstrap: [AppComponent]
 })
 
