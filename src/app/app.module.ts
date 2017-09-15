@@ -9,6 +9,8 @@ import { AppMaterialModule } from './utils/app-material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ClientsModule } from './clients/clients.module';
 import { AdmUsersService } from './adm/adm-users.service';
+import { CcCompanyService } from './cc/cc-company.service';
+
 /* components */
 
 export interface LiveComponents {
@@ -23,6 +25,8 @@ import { AboutusComponent } from './aboutus.component';
 import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ContextMenuComponent } from './utils/context-menu.component';
+import { CcCompanyComponent } from './cc/cc-company.component';
+
 
 export const MY_COMPONENTS = {
   'app-component': {
@@ -50,6 +54,12 @@ export const MY_COMPONENTS = {
     selectorName: null
   },
   'page-not-found': {
+    title: 'CcCompany',
+    component: CcCompanyComponent,
+    additionalFiles: null,
+    selectorName: null
+  },
+  'cc-company-component': {
     title: 'Page Not Found',
     component: PageNotFoundComponent,
     additionalFiles: null,
@@ -62,6 +72,7 @@ export const MY_COMPONENTS_LIST = [
   ContextMenuComponent,
   AboutusComponent,
   LoginComponent,
+  CcCompanyComponent,
   PageNotFoundComponent
 ]
 @NgModule({
@@ -78,7 +89,7 @@ export const MY_COMPONENTS_LIST = [
     FlexLayoutModule,
     ClientsModule
   ],
-  providers: [AdmUsersService],
+  providers: [AdmUsersService, CcCompanyService ],
   bootstrap: [AppComponent]
 })
 

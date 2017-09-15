@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { LoginComponent } from './login/login.component';
 import { AboutusComponent } from './aboutus.component';
+import { CcCompanyComponent } from './cc/cc-company.component';
 
 
 export const appRoutes: Routes = [
@@ -11,6 +12,7 @@ export const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'aboutus', component: AboutusComponent },
   { path: 'clients', loadChildren: 'app/clients/clients.module#ClientsModule' },
+  { path: 'cccompany', component: CcCompanyComponent },
   { path: '**', redirectTo: 'pageNotFound', pathMatch: 'full' }
 ];
 
