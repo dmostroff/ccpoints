@@ -14,7 +14,7 @@ export class CcCompany {
 	phone_2: string;
 	phone_cell: string;
 	phone_fax: string;
-	recorded_on: string;
+  recorded_on: Date;
 
 	constructor() {
 		console.log( CcCompany);

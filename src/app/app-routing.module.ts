@@ -11,8 +11,8 @@ export const appRoutes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'aboutus', component: AboutusComponent },
-  { path: 'clients', loadChildren: 'app/clients/clients.module#ClientsModule' },
-  { path: 'cccompany', component: CcCompanyComponent },
+  { path: 'clients', loadChildren: './clients/clients.module#ClientsModule' },
+  { path: 'cc', loadChildren: './cc/cc.module#CcModule' },
   { path: '**', redirectTo: 'pageNotFound', pathMatch: 'full' }
 ];
 

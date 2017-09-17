@@ -1,0 +1,6 @@
+<h2>{{title}}</h2>
+<ul>
+  <li *ngFor="let company of ccCompanyList; let ii = index">
+    {{ii+1}}] <a (click)="onClick(company.cc_company_id)">{{company.cc_name}} {{company.url}}</a>
+  </li>
+</ul>

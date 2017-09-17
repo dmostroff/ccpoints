@@ -1,16 +1,15 @@
 export class CcAction {
-
 	ccaction_id: number;
 	clicc_id: number;
 	ccaction: string;
 	action_type: string;
 	action_status: string;
-	due_date: date;
+	due_date: Date;
 	details: string;
-	recorded_on: date;
+	recorded_on: Date;
 
 	constructor() {
-		console.log( 'CcAction');
+		console.log( 'CcAction -class');
 	}
 
 	set(newCc_action:CcAction) {
