@@ -1,83 +1,108 @@
-<h2 class="md-title">Company</h2>
-<form [formGroup]="ccCompanyForm" (ngSubmit)="onSubmit()" novalidate flxLayout="column" style="border: 1px solid blueviolet; margin: 20px">
-  <div flxLayout="row">
-      <div fxFlex></div><div fxFlex>1{{cc_company_id}}</div>
-      <md-form-field fxFlex>
-        <input mdInput type="text" formControlName="cc_name" placeholder="cc_name">
-        <md-error *ngIf="ccCompanyForm.hasError('required')">cc_name is <strong>required</strong>
-        </md-error>
-      </md-form-field>
-    </div>
-    <div flxLayout="row">
-      <md-form-field fxFlex fxFlexFill>
-        <input mdInput type="text" formControlName="url" placeholder="url">
-        <md-error *ngIf="ccCompanyForm.hasError('required')">url is <strong>required</strong>
-        </md-error>
-      </md-form-field>
-    </div>
-  <div flxLayout="row">
-      <md-form-field class="form-group" fxFlex fxFlexFill>
-        <input mdInput type="text" formControlName="contact" placeholder="contact">
-        <md-error *ngIf="ccCompanyForm.hasError('required')">contact is <strong>required</strong>
-        </md-error>
-      </md-form-field>
+<div *ngIf="ccCompanyService.ccCompany.cc_name" fxLayout="row">
+  <h2 class="md-title" fxFlex="50%">{{ccCompanyService.ccCompany.cc_name}}</h2>
+  <div fxFlex></div>
+  <div fxFlex="5%"  fxFlexAlign="end" class="id">{{ccCompanyService.ccCompany.cc_company_id}}</div>
+  <div fxFlex="16%" fxFlexAlign="end" class="recorded-on">{{ccCompanyService.ccCompany.recorded_on}}</div>
+</div>
+<div *ngIf="!isEdit">
+  {{ccCompany.cc_name}}
+  {{ccCompany.address_1}}
+  {{ccCompany.address_2}}
+  {{ccCompany.city}}
+  {{ccCompany.state}}
+  {{ccCompany.zip}}
   </div>
-  <div flxLayout="row">
-      <md-form-field class="form-group" fxFlex fxFlexFill >
-        <input mdInput type="text" formControlName="address_1" placeholder="address_1">
-        <md-error *ngIf="ccCompanyForm.hasError('required')">address_1 is <strong>required</strong>
-        </md-error>
-      </md-form-field>
-      <md-form-field class="form-group" fxFlex fxFlexFill >
-        <input mdInput type="text" formControlName="address_2" placeholder="address_2">
-        <md-error *ngIf="ccCompanyForm.hasError('required')">address_2 is <strong>required</strong>
-        </md-error>
-      </md-form-field>
+<div *ngIf="isEdit">
+<form [formGroup]="ccCompanyForm" (ngSubmit)="onSubmit()" novalidate fxLayout="column" class="form-class">
+  <div fxLayout="row">
+    <md-form-field fxFlex fxFlexFill>
+      <div [hidden]="true">
+        <md-input-container>
+          <input mdInput type="text" formControlName="cc_company_id">
+        </md-input-container>
+      </div>
+      <input mdInput type="text" formControlName="cc_name" placeholder="cc_name">
+      <md-error *ngIf="ccCompanyForm.hasError('required')">cc_name is <strong>required</strong>
+      </md-error>
+    </md-form-field>
   </div>
-  <div flxLayout="row">
-      <md-form-field class="form-group" fxFlex >
-        <input mdInput type="text" formControlName="city" placeholder="city">
-        <md-error *ngIf="ccCompanyForm.hasError('required')">city is <strong>required</strong>
-        </md-error>
-      </md-form-field>
-      <md-form-field class="form-group" fxFlex >
-        <input mdInput type="text" formControlName="state" placeholder="state">
-        <md-error *ngIf="ccCompanyForm.hasError('required')">state is <strong>required</strong>
-        </md-error>
-      </md-form-field>
-      <md-form-field class="form-group" fxFlex="10%" >
-        <input mdInput type="text" formControlName="zip" placeholder="zip">
-        <md-error *ngIf="ccCompanyForm.hasError('required')">zip is <strong>required</strong>
-        </md-error>
-      </md-form-field>
-      <md-form-field class="form-group" fxFlex >
-        <input mdInput type="text" formControlName="country" placeholder="country">
-        <md-error *ngIf="ccCompanyForm.hasError('required')">country is <strong>required</strong>
-        </md-error>
-      </md-form-field>
+  <div fxLayout="row">
+    <md-form-field fxFlex fxFlexFill>
+      <input mdInput type="text" formControlName="url" placeholder="url">
+      <md-error *ngIf="ccCompanyForm.hasError('required')">url is <strong>required</strong>
+      </md-error>
+    </md-form-field>
   </div>
-  <div flxLayout="row">
-      <md-form-field class="form-group" fxFlex="20%" >
-        <input mdInput type="text" formControlName="phone" placeholder="phone">
-        <md-error *ngIf="ccCompanyForm.hasError('required')">phone is <strong>required</strong>
-        </md-error>
-      </md-form-field>
-      <md-form-field class="form-group" fxFlex >
-        <input mdInput type="text" formControlName="phone_2" placeholder="phone_2">
-        <md-error *ngIf="ccCompanyForm.hasError('required')">phone_2 is <strong>required</strong>
-        </md-error>
-      </md-form-field>
-      <md-form-field class="form-group" fxFlex >
-        <input mdInput type="text" formControlName="phone_cell" placeholder="phone_cell">
-        <md-error *ngIf="ccCompanyForm.hasError('required')">phone_cell is <strong>required</strong>
-        </md-error>
-      </md-form-field>
-      <md-form-field class="form-group" fxFlex >
-        <input mdInput type="text" formControlName="phone_fax" placeholder="phone_fax">
-        <md-error *ngIf="ccCompanyForm.hasError('required')">phone_fax is <strong>required</strong>
-        </md-error>
-      </md-form-field>
+  <div fxLayout="row">
+    <md-form-field class="form-group" fxFlex fxFlexFill>
+      <input mdInput type="text" formControlName="contact" placeholder="contact">
+      <md-error *ngIf="ccCompanyForm.hasError('required')">contact is <strong>required</strong>
+      </md-error>
+    </md-form-field>
+  </div>
+  <div fxLayout="row">
+    <md-form-field class="form-group" fxFlex fxFlexFill>
+      <input mdInput type="text" formControlName="address_1" placeholder="address_1">
+      <md-error *ngIf="ccCompanyForm.hasError('required')">address_1 is <strong>required</strong>
+      </md-error>
+    </md-form-field>
+    <md-form-field class="form-group" fxFlex fxFlexFill>
+      <input mdInput type="text" formControlName="address_2" placeholder="address_2">
+      <md-error *ngIf="ccCompanyForm.hasError('required')">address_2 is <strong>required</strong>
+      </md-error>
+    </md-form-field>
+  </div>
+  <div fxLayout="row" fxLayoutGap="15px">
+    <md-form-field class="form-group" fxFlex="" >
+      <input mdInput type="text" formControlName="city" placeholder="city">
+      <md-error *ngIf="ccCompanyForm.hasError('required')">city is <strong>required</strong>
+      </md-error>
+    </md-form-field>
+
+    <md-form-field class="form-group" fxFlex="10%">
+      <input mdInput type="text" formControlName="state" placeholder="state">
+      <md-error *ngIf="ccCompanyForm.hasError('required')">state is <strong>required</strong>
+      </md-error>
+    </md-form-field>
+    <md-form-field class="form-group" fxFlex="15%">
+      <input mdInput type="text" formControlName="zip" placeholder="zip">
+      <md-error *ngIf="ccCompanyForm.hasError('required')">zip is <strong>required</strong>
+      </md-error>
+    </md-form-field>
+    <div [hidden]="true">
+    <md-form-field class="form-group" fxFlex>
+      <input mdInput type="text" formControlName="country" placeholder="country">
+      <md-error *ngIf="ccCompanyForm.hasError('required')">country is <strong>required</strong>
+      </md-error>
+    </md-form-field>
     </div>
+  </div>
+  <div fxLayout="row" fxLayoutGap="15px">
+    <md-form-field class="form-group">
+      <input mdInput type="text" formControlName="phone" placeholder="phone" (blur)="formatPhoneNumber()">
+      <md-error *ngIf="ccCompanyForm.hasError('required')">phone is <strong>required</strong>
+      </md-error>
+    </md-form-field>
+    <md-form-field class="form-group" fxFlex>
+      <input mdInput type="text" formControlName="phone_2" placeholder="phone_2">
+      <md-error *ngIf="ccCompanyForm.hasError('required')">phone_2 is <strong>required</strong>
+      </md-error>
+    </md-form-field>
+    <md-form-field class="form-group" fxFlex>
+      <input mdInput type="text" formControlName="phone_cell" placeholder="phone_cell">
+      <md-error *ngIf="ccCompanyForm.hasError('required')">phone_cell is <strong>required</strong>
+      </md-error>
+    </md-form-field>
+    <md-form-field class="form-group" fxFlex>
+      <input mdInput type="text" formControlName="phone_fax" placeholder="phone_fax">
+      <md-error *ngIf="ccCompanyForm.hasError('required')">phone_fax is <strong>required</strong>
+      </md-error>
+    </md-form-field>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="end end">
+    <button fxFlex="18%" md-raised-button type="submit" (click)="onSubmit()" class="loginButton">Submit</button>
+  </div>
 </form>
-<button md-raised-button type="submit" (click)="onSubmit()" class="loginButton">Login</button>
+
 <p>Form value: {{ccCompanyForm.value | json }}</p>);
+</div>

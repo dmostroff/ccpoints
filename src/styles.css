@@ -22,5 +22,20 @@ body {
 
 .form-class {
   margin: 12px;
+  padding: 12px;
   border: 1px solid plum;
+}
+
+.id {
+  font-size: small;
+  font-family: Georgia;
+  vertical-align: bottom;
+  text-align: end;
+}
+
+.recorded-on {
+  font-size: small;
+  font-family: Georgia;
+  vertical-align: bottom;
+  text-align: end;
 }

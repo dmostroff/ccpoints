@@ -1,6 +1,21 @@
-<h2>{{title}}</h2>
-<ul>
-  <li *ngFor="let company of ccCompanyList; let ii = index">
-    {{ii+1}}] <a (click)="onClick(company.cc_company_id)">{{company.cc_name}} {{company.url}}</a>
-  </li>
-</ul>
+<div fxLayout="row" fxLayoutAlign="start start" >
+  <div fxFlex="20%">
+    <nav>
+      <h2>{{title}}</h2>
+      <div fxLayout="row" fxLayoutAlign="start start" *ngFor="let company of ccCompanyList; let ii = index">
+        <div fxFlex><a (click)="onClick(company.cc_company_id)">{{company.cc_name}}</a></div>
+        <div fxFlex="20px"> <md-icon (click)="onEdit(company.cc_company_id)">mode edit</md-icon></div>
+        </div>
+      <button (click)="getCompanyList()" md-button>Refresh</button>
+    </nav>
+  </div>
+  <div fxFlex fxFlexAlign="end center" >
+    <div *ngIf="ccCompany">
+      <hr>
+      <cc-company [ccCompany]="ccCompany" [isEdit]="false"></cc-company>
+      <hr>
+      <cc-companycards [ccCompany]="ccCompany"></cc-companycards>
+    </div>
+  </div>
+</div>
+

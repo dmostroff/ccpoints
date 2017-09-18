@@ -13,23 +13,40 @@ import {Router} from "@angular/router";
 })
 export class CcCompanyListComponent implements OnInit {
   ccCompanyList: CcCompany[];
+  ccCompany: CcCompany;
+  isEdit: boolean;
 
-  constructor(private ccCompanyService: CcCompanyService
+  constructor(
+    private ccCompanyService: CcCompanyService
     , private router: Router
   ) {
     this.ccCompanyList = ccCompanyService.ccCompanyList;
+    this.ccCompanyService.ccCompanySubject.subscribe(company => {
+      console.log(["companyList ccCompanySubject", company])
+      if(company) {  this.ccCompany = company; console.log(this.ccCompany); }
+    });
   }
 
 
   ngOnInit() {
-    this.ccCompanyService.loadCompanyList();
-    this.ccCompanyService.bDone.subscribe(isDone => { if(isDone) {  this.ccCompanyList = this.ccCompanyService.ccCompanyList; console.log(this.ccCompanyList); }});
+    this.getCompanyList();
   }
 
+  getCompanyList() {
+    this.ccCompanyService.loadCompanyList();
+    this.ccCompanyService.ccCompanyListSubject.subscribe(list => { if(list) {  this.ccCompanyList = list; console.log(this.ccCompanyList); }});
+
+  }
   onClick( id) {
     this.ccCompanyService.ccCompanyId = id;
     console.log(id);
-    this.router.navigate( ['cc', 'company', id]);
+    this.ccCompanyService.getCompany(id);
+    this.ccCompanyService.getCompanyCards(id);
+    //this.router.navigate( ['cc', 'company', id]);
+  }
+
+  onEdit(id) {
+    this.isEdit = true;
   }
 
 }

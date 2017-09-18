@@ -1,3 +1,55 @@
-<p>
-  cc-card works!
-</p>
+<div *ngIf="ccCardsService.ccCards.name" fxLayout="row">
+  <h2 class="md-title" fxFlex="50%">{{ccCardsService.ccCards.name}}</h2>
+  <div fxFlex></div>
+  <div fxFlex="5%"  fxFlexAlign="end" class="id">{{ccCardsService.ccCards.id}}</div>
+  <div fxFlex="16%" fxFlexAlign="end" class="recorded-on">{{ccCardsService.ccCards.recorded_on}}</div>
+</div>
+<form [formGroup]="ccCardsForm" (ngSubmit)="onSubmit()" class="form-class" fxLayout="column" fxLayoutAlign="center center" novalidate>
+
+  <div fxLayout="row" fxLayoutGap="15px">
+    <md-form-field class="form-group" fxFlex fxFlexAlign="start center">
+      <input mdInput type="text" formControlName="cc_card_id" placeholder="cc_card_id">
+      <md-error *ngIf="ccCardsForm.hasError('required')">cc_card_id is <strong>required</strong>
+      </md-error>
+    </md-form-field>
+  </div>
+  <div fxLayout="row" fxLayoutGap="15px">
+    <md-form-field class="form-group" fxFlex fxFlexAlign="start center">
+      <input mdInput type="text" formControlName="cc_company_id" placeholder="cc_company_id">
+      <md-error *ngIf="ccCardsForm.hasError('required')">cc_company_id is <strong>required</strong>
+      </md-error>
+    </md-form-field>
+  </div>
+  <div fxLayout="row" fxLayoutGap="15px">
+    <md-form-field class="form-group" fxFlex fxFlexAlign="start center">
+      <input mdInput type="text" formControlName="card_name" placeholder="card_name">
+      <md-error *ngIf="ccCardsForm.hasError('required')">card_name is <strong>required</strong>
+      </md-error>
+    </md-form-field>
+  </div>
+  <div fxLayout="row" fxLayoutGap="15px">
+    <md-form-field class="form-group" fxFlex fxFlexAlign="start center">
+      <input mdInput type="text" formControlName="version" placeholder="version">
+      <md-error *ngIf="ccCardsForm.hasError('required')">version is <strong>required</strong>
+      </md-error>
+    </md-form-field>
+  </div>
+  <div fxLayout="row" fxLayoutGap="15px">
+    <md-form-field class="form-group" fxFlex fxFlexAlign="start center">
+      <input mdInput type="text" formControlName="annual_fee" placeholder="annual_fee">
+      <md-error *ngIf="ccCardsForm.hasError('required')">annual_fee is <strong>required</strong>
+      </md-error>
+    </md-form-field>
+    <md-form-field class="form-group" fxFlex fxFlexAlign="start center">
+      <input mdInput type="text" formControlName="first_year_free" placeholder="first_year_free">
+      <md-error *ngIf="ccCardsForm.hasError('required')">first_year_free is <strong>required</strong>
+      </md-error>
+    </md-form-field>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="end end">
+    <button fxFlex="18%" md-raised-button type="submit" (click)="onSubmit()" class="submitButton">Submit</button>
+  </div>
+</form>
+
+<p>Form value: {{ ccCardsForm.value | json }}</p>);
+

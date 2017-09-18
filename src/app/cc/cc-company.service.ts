@@ -17,20 +17,22 @@ export class CcCompanyService {
   ccCompanyList:CcCompany[];
   ccCompanyId: number;
 
-  ccCards: CcCards[];
-
-  public CcCompanysListChange:BehaviorSubject<CcCompany[]> = new BehaviorSubject<CcCompany[]>([]);
+  public ccCompanyListSubject:BehaviorSubject<CcCompany[]> = new BehaviorSubject<CcCompany[]>([]);
   public bDone: Subject<boolean> = new Subject();
 
   ccCompany:CcCompany;
-  public CcCompanySubject:BehaviorSubject<CcCompany> = new BehaviorSubject<CcCompany>(new CcCompany());
+  public ccCompanySubject:BehaviorSubject<CcCompany> = new BehaviorSubject<CcCompany>(null);
+
+  ccCompanyCards: CcCards[];
+  ccCard: CcCards;
+  public ccCompanyCardsSubject:BehaviorSubject<CcCards[]> = new BehaviorSubject<CcCards[]>([]);
 
   constructor(private http:HttpClient) {
     this.apiUrl = 'http://ccapi.com/cc/company';
     this.ccCompany = new CcCompany();
     this.ccCompanyList = <CcCompany[]>[];
     this.bDone = new Subject<boolean>();
-    this.ccCards = <CcCards[]>[];
+    this.ccCompanyCards = <CcCards[]>[];
     this.ccCompanyId = -1;
   }
 
@@ -42,14 +44,14 @@ export class CcCompanyService {
   }
 
   public loadCompanyList( ) {
-    this.bDone.next(false);
+    this.ccCompanyListSubject.next(null);
     return this.http.get<CcapiResult>(this.apiUrl)
       .subscribe(
         resdata => {
           this.ccCompanyList = resdata.data;
           this.ccCompanyListCount = this.ccCompanyList.length;
           console.log( [this.ccCompanyList, this.ccCompanyList.length] );
-          this.bDone.next(true);
+          this.ccCompanyListSubject.next(this.ccCompanyList);
         }
         , err => {
           console.log(err);
@@ -58,7 +60,7 @@ export class CcCompanyService {
   }
 
   public getCompany( cc_company_id) {
-    this.bDone.next(false);
+    this.ccCompanySubject.next(null);
     let url = this.apiUrl + '/'+cc_company_id;
     return this.http.get<CcapiResult>(url)
       .subscribe(
@@ -66,7 +68,7 @@ export class CcCompanyService {
           console.log(resdata.data);
           this.ccCompany.set(resdata.data);
           //console.log( this.ccCompany);
-          this.bDone.next(true);
+          this.ccCompanySubject.next(this.ccCompany);
         }
         , err => {
           console.log(err);
@@ -74,14 +76,30 @@ export class CcCompanyService {
       );
   }
 
-  public getCards( cc_company_id) {
-    this.bDone.next(false);
+  public getCompanyCards( cc_company_id) {
+    this.ccCompanyCardsSubject.next(null);
     let url = this.apiUrl + '/cards/'+cc_company_id;
     return this.http.get<CcapiResult>(url)
       .subscribe(
         resdata => {
-          this.ccCards  = resdata.data;
-          console.log( this.ccCards);
+          this.ccCompanyCards  = resdata.data;
+          console.log( ['service getCompanyCards', this.ccCompanyCards]);
+          this.ccCompanyCardsSubject.next(this.ccCompanyCards);
+        }
+        , err => {
+          console.log(err);
+        }
+      );
+  }
+
+  public getCcCard( cc_card_id) {
+    this.bDone.next(false);
+    let url = 'http://ccapi.com/cc/cards/'+cc_card_id;
+    return this.http.get<CcapiResult>(url)
+      .subscribe(
+        resdata => {
+          this.ccCard  = resdata.data;
+          console.log( this.ccCard);
           this.bDone.next(true);
         }
         , err => {
@@ -91,13 +109,12 @@ export class CcCompanyService {
   }
 
   public postCompany(input ) {
-    this.bDone.next(false);
     return this.http.post<CcapiResult>(this.apiUrl, input)
       .subscribe(
         resdata => {
           this.ccCompany = resdata.data;
           console.log( this.ccCompany);
-          this.bDone.next(true);
+          this.ccCompanySubject.next(this.ccCompany);
         }
         , err => {
           console.log(err);
