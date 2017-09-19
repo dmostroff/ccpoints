@@ -15,11 +15,13 @@ export class PersonsService {
   personListCount: Number;
 
   personList:ClientPerson[];
-  public personsListChange:BehaviorSubject<ClientPerson[]> = new BehaviorSubject<ClientPerson[]>([]);
-  public plDone: Subject<boolean> = new Subject();
+  public personsListSubject:BehaviorSubject<ClientPerson[]> = new BehaviorSubject<ClientPerson[]>([]);
+  public personsPageSubject:BehaviorSubject<ClientPerson[]> = new BehaviorSubject<ClientPerson[]>([]);
 
   person:ClientPerson;
   public personSubject:BehaviorSubject<ClientPerson> = new BehaviorSubject<ClientPerson>(new ClientPerson());
+
+  public personShowModeSubject:BehaviorSubject<boolean[]> = new BehaviorSubject<boolean[]>([]);
 
   constructor(private http:HttpClient) {
     this.apiUrl = 'http://ccapi.com/client/person';
@@ -27,7 +29,6 @@ export class PersonsService {
     this.personList = <ClientPerson[]>[];
     this.person.last_name = "Ostroff";
     this.person.first_name = "Dan";
-    this.plDone = new Subject<boolean>();
   }
 
   ngOnInit() {
@@ -42,15 +43,15 @@ export class PersonsService {
     return this.http.get(url)
   }
 
-  public loadPersonList( ) {
-    this.plDone.next(false);
+  public getPersonList( ) {
+    this.personsListSubject.next([]);
     return this.http.get<CcapiResult>(this.apiUrl)
       .subscribe(
         resdata => {
           this.personList = resdata.data;
           this.personListCount = this.personList.length;
-          console.log( [this.personList, this.personList.length] );
-          this.plDone.next(true);
+          console.log( ["personService.getPersonList", this.personList, this.personList.length] );
+          this.personsListSubject.next(this.personList);
         }
         , err => {
           console.log(err);
@@ -58,22 +59,15 @@ export class PersonsService {
       );
   }
 
-  public retrievePersonList( startIndex, pageLength) {
+  public getPersonListPage(startIndex, pageLength) {
+    this.personsPageSubject.next([]); // 9,2,5
     let p = this.personList.slice(startIndex, startIndex + pageLength)
-    console.log([startIndex, startIndex + pageLength, p]);
-    this.personsListChange.next(p); // 9,2,5
+    console.log(["getPersonListPage", startIndex, startIndex + pageLength, p]);
+    this.personsPageSubject.next(p); // 9,2,5
   }
 
   public clearPersonList() {
-    this.personsListChange.next([]);
-  }
-
-  public getPersonList():Observable < ClientPerson[] > {
-    return this.personsListChange.asObservable();
-  }
-
-  public isPersonListDone():Observable <boolean> {
-    return this.plDone.asObservable();
+    this.personsListSubject.next([]);
   }
 
   /* Single Person */
@@ -81,7 +75,7 @@ export class PersonsService {
     return this.personList.find(person => person.client_id === id);
   }
 
-  public loadPerson(client_id) {
+  public getPerson(client_id) {
     let apiUrl1 = this.apiUrl + '/' + client_id;
     return this.http.get(apiUrl1)
       .subscribe(
@@ -103,46 +97,12 @@ export class PersonsService {
       );
   }
 
-  public clearPerson() {
-    let cp = new ClientPerson();
-    this.personSubject.next(cp);
+  public setPersonMode() {
+    this.personShowModeSubject.next([false, true]);
   }
 
-  public getPerson():Observable < ClientPerson > {
-    return this.personSubject.asObservable();
+  public setPersonListMode() {
+    this.personShowModeSubject.next([true, false]);
   }
-
-  //xgetPersonsList() {
-  //  let apiUrl = 'http://ccapi.com/client/person';
-  //  return this.http.get(apiUrl)
-  //    .subscribe(
-  //      resdata => {
-  //        console.log(resdata);
-  //        if (resdata['data']) {
-  //          for (let person of resdata['data']) {
-  //            const cData = this.myPersonsData.slice();
-  //            cData.push(person);
-  //            //console.log( person);
-  //            this.personsChange.next(cData);
-  //          }
-  //          //console.log( "~~~~~~~~~~~~~~~~~~~");
-  //          //console.log( this.persons);
-  //          //console.log( this.persons[3]);
-  //        }
-  //      },
-  //      (err:HttpErrorResponse) => {
-  //        if (err.error instanceof Error) {
-  //          console.log("Client Side Error.");
-  //        } else {
-  //          console.log('wrong');
-  //        }
-  //      }
-  //    );
-  //}
-
-  handleError(x) {
-    console.log(x);
-  }
-
 
 }

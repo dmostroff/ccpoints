@@ -25,6 +25,13 @@ body {
   padding: 12px;
   border: 1px solid plum;
 }
+.left-main-panel {
+  padding-left: 8px;
+  padding-right: 8px;
+  border-left: 1px solid slategray;
+  border-right: 1px solid slategray;
+  width: 14%;
+}
 
 .id {
   font-size: small;

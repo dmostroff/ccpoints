@@ -1,21 +1,23 @@
-<div fxLayout="row" fxLayoutAlign="start start" >
-  <div fxFlex="20%">
+<div fxLayout="row" fxLayoutAlign="start start"  fxLayoutGap="10px" >
+  <div fxFlex="15%"  class="left-main-panel">
+    <h2 >c{{title}}</h2>
     <nav>
-      <h2>{{title}}</h2>
-      <div fxLayout="row" fxLayoutAlign="start start" *ngFor="let company of ccCompanyList; let ii = index">
-        <div fxFlex><a (click)="onClick(company.cc_company_id)">{{company.cc_name}}</a></div>
-        <div fxFlex="20px"> <md-icon (click)="onEdit(company.cc_company_id)">mode edit</md-icon></div>
+      <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px" *ngFor="let company of ccCompanyList; let ii = index">
+        <div fxFlex fxFlexAlign="start" >
+          <md-icon (click)="onEdit(company.cc_company_id)">mode edit</md-icon>
+          <a (click)="onClick(company.cc_company_id)">{{company.cc_name}}</a>
         </div>
-      <button (click)="getCompanyList()" md-button>Refresh</button>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="start start">
+        <button (click)="getCompanyList()" md-button>Refresh</button>
+      </div>
     </nav>
   </div>
-  <div fxFlex fxFlexAlign="end center" >
-    <div *ngIf="ccCompany">
+  <div *ngIf="ccCompany" fxFlex fxFlexAlign="end" >
       <hr>
       <cc-company [ccCompany]="ccCompany" [isEdit]="false"></cc-company>
       <hr>
       <cc-companycards [ccCompany]="ccCompany"></cc-companycards>
-    </div>
   </div>
 </div>
 

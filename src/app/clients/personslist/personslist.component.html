@@ -10,30 +10,39 @@
               (page)="pageEvent = getServerData($event)"
 >
 </md-paginator>
-<div class="example-container mat-elevation-z8">
+<div class="example-container mat-elevation-z8" fxLayout="row" fxLayoutGap="8px" fxLayoutAling="start stretch" style="margin: 8px; border: 2px solid crimson">
   <md-table #table [dataSource]="dataSource"
             selectable-rows="true"
             multi-selection="false"
             select-on-rowclick="true"
             clicked-row-callback="showit(x);"
-            mdSort>
+            mdSort
+            style="border: 2px solid saddlebrown"
+            fxFlexFill
+
+  >
     <ng-container cdkColumnDef="client_id">
-      <md-header-cell *cdkHeaderCellDef>Id</md-header-cell>
-      <md-cell *cdkCellDef="let row">{{row.client_id}}
-        <button md-raised-button (click)="openDialog(row)">Gerry</button>
+      <md-header-cell *cdkHeaderCellDef fxFlex="5%">Id</md-header-cell>
+      <md-cell *cdkCellDef="let row" fxFlex="5%">{{row.client_id}}
       </md-cell>
     </ng-container>
     <ng-container cdkColumnDef="last_name">
-      <md-header-cell *cdkHeaderCellDef>Last Name</md-header-cell>
-      <md-cell *cdkCellDef="let row">{{row.last_name}}</md-cell>
+      <md-header-cell *cdkHeaderCellDef fxFlex>Last Name</md-header-cell>
+      <md-cell *cdkCellDef="let row" fxFlex="grow">{{row.last_name}}</md-cell>
     </ng-container>
     <ng-container cdkColumnDef="first_name">
-      <md-header-cell *cdkHeaderCellDef>First Name</md-header-cell>
-      <md-cell *cdkCellDef="let row">{{row.first_name}}</md-cell>
+      <md-header-cell *cdkHeaderCellDef fxFlex>First Name</md-header-cell>
+      <md-cell *cdkCellDef="let row" fxFlex="grow">{{row.first_name}}</md-cell>
     </ng-container>
     <ng-container cdkColumnDef="recorded_on">
-      <md-header-cell *cdkHeaderCellDef>Recorded On</md-header-cell>
-      <md-cell *cdkCellDef="let row">{{row.recorded_on}}</md-cell>
+      <md-header-cell *cdkHeaderCellDef fxFlex="15%">Recorded On</md-header-cell>
+      <md-cell *cdkCellDef="let row" fxFlex="15%">{{row.recorded_on}}</md-cell>
+    </ng-container>
+    <ng-container cdkColumnDef="edit">
+      <md-header-cell *cdkHeaderCellDef fxFlex="15%"  style="border: 2px solid green;" fxFlexAlign="end">Edit</md-header-cell>
+      <md-cell *cdkCellDef="let row" (click)="onClick(row)" fxFlex="15%" fxFlexAlign="end" fxFlexFill  style="border: 2px solid orange;">
+        <button md-icon-button ><md-icon fxFlexAlign="start">edit</md-icon></button>
+      </md-cell>
     </ng-container>
     <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
     <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
@@ -45,4 +54,7 @@
     No users found matching filter.
   </div>
 </div>
+</div>
+<div [style.display]="(showPerson) ? 'block' : 'none' " fxLayout="row" fxLayoutAlign="start stretch" style="border: 3px solid gold;">
+  <app-persons [person]="clientPerson"></app-persons>
 </div>

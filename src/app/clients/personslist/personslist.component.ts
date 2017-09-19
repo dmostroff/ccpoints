@@ -24,12 +24,12 @@ import { PersonDlgComponent } from './../persons/person-dlg.component';
   styleUrls: ['./personslist.component.css']
 })
 export class PersonslistComponent implements OnInit {
-  displayedColumns = ['client_id', 'last_name', 'first_name', 'recorded_on'];
+  displayedColumns = ['client_id', 'last_name', 'first_name', 'recorded_on', 'edit'];
   //persons: ClientPerson[];
-  myPersonService: PersonsService;
   dataSource: ClientPersonDataSource;
-  dataLength: Number;
-  showTable: Boolean;
+  dataLength: number;
+  showTable: boolean;
+  showPerson: boolean;
 
   personList: ClientPerson[];
   personListSubscription: Subscription;
@@ -42,29 +42,37 @@ export class PersonslistComponent implements OnInit {
   @ViewChild('filter') filter: ElementRef;
 
   constructor(public dialog: MdDialog, private personService: PersonsService) {
-    this.myPersonService = personService;
     this.dataLength = 0;
     this.showTable = false;
+    this.showPerson = false;
 
     // this.personSubscription = this.personService.getPerson().subscribe( aperson => { this.person = aperson; });
     //this.persons = personService.persons;
   }
 
   ngOnInit() {
-    //const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
-    this.myPersonService.loadPersonList();
     this.dataSource = new ClientPersonDataSource(this.personService, this.paginator); // , this.paginator, this.sort);
-    this.personService.plDone.subscribe( isDone => {
-      if( isDone) {
+    this.personService.personsListSubject.subscribe( personList => {
+      console.log(["1.personsListSubject", personList, this.paginator.pageIndex, this.paginator.pageSize]);
+      if( 0 < personList.length) {
+        this.personList = personList;
         this.showTable = true;
-        this.dataSource.readData();
+        if(0 < this.paginator.pageSize) {
+          this.personService.getPersonListPage(this.paginator.pageIndex, this.paginator.pageSize);
+        }
       }
+    });
+    this.personService.personSubject.subscribe( person => {
+      this.person = person;
+    });
+    this.personService.personShowModeSubject.subscribe( showMode => { this.showTable = showMode[0]; this.showPerson = showMode[1]; });
+    this.personService.getPersonList();
 
-    })
+//    this.personService.getPersonListPage(this.paginator.pageIndex, this.paginator.pageSize);
   }
 
   ngOnDestroy() {
-    this.personService.plDone.unsubscribe();
+    this.personService.personsListSubject.unsubscribe();
   }
 
   getServerData($event) {
@@ -82,10 +90,10 @@ export class PersonslistComponent implements OnInit {
     return r;
   }
 
-  getPerson(p) {
+  onClick(p) {
     console.log(p);
-    let x = this.myPersonService.loadPerson(p.client_id);
-    console.log(['getPerson', x]);
+    this.personService.getPerson(p.client_id);
+    this.personService.setPersonMode();
   }
 
   openDialog(p): void {
@@ -93,7 +101,7 @@ export class PersonslistComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      this.myPersonService.person = result;
+      this.personService.person = result;
     });
   }
 }
@@ -123,37 +131,36 @@ export class ClientPersonDataSource extends DataSource<any> {
   ) {
     super();
     console.log( 'cons');
+    this.dataLength = this._pService.personList.length;
     //this._filterChange.subscribe(() => this._paginator.pageIndex = 0);
   }
 
   /** Connect function called by the table to retrieve one stream containing the data to render. */
   connect(): Observable<ClientPerson[]> {
     console.log( 'connect');
-    //const displayDataChanges = [
-    //    this._pService.getPersonList(),
-    //    this._paginator.page
-    //  ];
+    //this._pService.getPersonListPage(1, this._paginator.pageSize);
     //Observable.combineLatest(displayDataChanges);
-    return this._pService.personsListChange;
+    this._pService.personsPageSubject.subscribe(personslist => {
+      console.log( ["personsPageSubject", personslist])
+      this.renderedData = personslist;
+      this.dataLength = this._pService.personList.length;
+    });
+    return this._pService.personsPageSubject;
   }
 
   disconnect() {
-    this._pService.personsListChange.unsubscribe( );
+    this._pService.personsPageSubject.unsubscribe( );
 
   }
 
   readData() {
     console.log( 'readData');
-    const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
-    console.log(['mamas', startIndex, this._paginator.pageIndex, this._paginator.pageSize]);
-    this._pService.retrievePersonList(startIndex, this._paginator.pageSize);
-    this._pService.personsListChange.subscribe( personslist => { this.renderedData = personslist;});
-    //const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
-    //this._pService.retrievePersonList(startIndex, this._paginator.pageSize);
-    //console.log(['papas', this._pService.personList]);
-    this.dataLength = this._pService.personList.length;
-    //this._pService.getPersonList().subscribe( personslist => { this.renderedData = personslist;});
+    if(0 < this._paginator.pageSize ) {
+      const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
+      console.log(['mamas', startIndex, this._paginator.pageIndex, this._paginator.pageSize]);
+      this._pService.getPersonListPage(startIndex, this._paginator.pageSize);
 
+    }
   }
 
   /** Returns a sorted copy of the database data. */

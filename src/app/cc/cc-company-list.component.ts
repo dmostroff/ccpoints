@@ -23,18 +23,23 @@ export class CcCompanyListComponent implements OnInit {
     this.ccCompanyList = ccCompanyService.ccCompanyList;
     this.ccCompanyService.ccCompanySubject.subscribe(company => {
       console.log(["companyList ccCompanySubject", company])
-      if(company) {  this.ccCompany = company; console.log(this.ccCompany); }
+      this.ccCompany = company;
+      console.log(this.ccCompany);
     });
   }
 
 
   ngOnInit() {
+    this.ccCompanyService.ccCompanyListSubject.subscribe(list => { this.ccCompanyList = list; console.log(this.ccCompanyList); });
     this.getCompanyList();
+  }
+
+  ngOnDestroy() {
+    this.ccCompanyService.ccCompanySubject.unsubscribe();
   }
 
   getCompanyList() {
     this.ccCompanyService.loadCompanyList();
-    this.ccCompanyService.ccCompanyListSubject.subscribe(list => { if(list) {  this.ccCompanyList = list; console.log(this.ccCompanyList); }});
 
   }
   onClick( id) {
