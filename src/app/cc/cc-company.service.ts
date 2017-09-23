@@ -109,11 +109,13 @@ export class CcCompanyService {
   }
 
   public postCompany(input ) {
+    console.log( ["0-postCompany", input]);
     return this.http.post<CcapiResult>(this.apiUrl, input)
       .subscribe(
         resdata => {
           this.ccCompany = resdata.data;
-          console.log( this.ccCompany);
+          console.log( ["1-postCompany", this.ccCompany]);
+          this.ccCompanySubject.next(null);
           this.ccCompanySubject.next(this.ccCompany);
         }
         , err => {

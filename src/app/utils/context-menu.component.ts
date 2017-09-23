@@ -25,9 +25,8 @@ export class ContextMenuComponent implements OnInit {
 
   constructor() {
     this.menuitems = [
-      { href: "login", label: "Login"}
-      , { href: "clients/person/16", label: "Person"}
-      , { href: "clients/personslist", label: "Clients"}
+      { href: "clients/personslist", label: "Clients"}
+      , { href: "cc/companylist", label: "CCard Companies"}
     ]
 
   }

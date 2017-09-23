@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { FormArray, FormBuilder} from '@angular/forms';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Routes, RouterModule, Router, ActivatedRoute } from "@angular/router";
@@ -8,6 +8,8 @@ import { CcRoutingModule } from './cc-routing.module'
 import { CcCompany } from './cc-company';
 import { CcCompanyService } from './cc-company.service';
 
+import { PhoneFmtPipe} from './../utils/phonefmt.pipe';
+import { ZipCodePipe} from './../utils/zipcode.pipe';
 
 const PWD_REGEX = '/^[a-zA-Z0-9.!#$%&�*+/=?^_`{|}~-]{8,}$/';
 
@@ -18,9 +20,10 @@ const PWD_REGEX = '/^[a-zA-Z0-9.!#$%&�*+/=?^_`{|}~-]{8,}$/';
 })
 
 export class CcCompanyComponent implements OnChanges {
-  @Input() ccCompany: CcCompany;
+  //@Input() ccCompany: CcCompany;
   @Input() isEdit: boolean;
 
+  ccCompany: CcCompany;
   ccCompanyForm: FormGroup;
   ccCompanyFormControl: FormControl;
   ccCompanyId: number;
@@ -33,6 +36,7 @@ export class CcCompanyComponent implements OnChanges {
     this.isEdit = false;
     this.ccCompanyFormControl = new FormControl([Validators.required, Validators.pattern(PWD_REGEX)]);
     this.ccCompany = ccCompanyService.ccCompany;
+    this.createForm();
     this.route.params.subscribe( params => {
       this.ccCompanyId = +params['company_id']; console.log(["Today I staretd Loving You again", params, this.ccCompanyId])
       this.onLoad(this.ccCompanyId);
@@ -40,11 +44,11 @@ export class CcCompanyComponent implements OnChanges {
     this.ccCompanyService.ccCompanySubject.subscribe(company => {
       console.log(["ccCompanySubject", company]);
       if(company) {
-        this.ccCompany = company;
+        this.ccCompany.set(company);
+        console.log( this.ccCompany);
         this.setValues();
       }
     });
-    this.createForm();
   }
 
 
@@ -72,14 +76,8 @@ export class CcCompanyComponent implements OnChanges {
     this.ccCompanyForm.controls['phone'].setValue(x);
   }
 
-  ngOnChanges() {
-    this.ccCompanyForm.reset({
-    });
-  }
-
   setValues() {
-    let phone = this.ccCompany.phone.replace( /(\d{3})(\d{3})(\d+)/, "$1-$2-$3");
-    this.ccCompanyForm.setValue({
+    let x = {
       cc_company_id: this.ccCompany.cc_company_id
       , cc_name: this.ccCompany.cc_name
       , url: this.ccCompany.url
@@ -90,19 +88,27 @@ export class CcCompanyComponent implements OnChanges {
       , state: this.ccCompany.state
       , zip: this.ccCompany.zip
       , country: this.ccCompany.country
-      , phone: phone // this.ccCompanyService.ccCompany.phone
+      , phone: this.ccCompany.phone
       , phone_2: this.ccCompany.phone_2
       , phone_cell: this.ccCompany.phone_cell
       , phone_fax: this.ccCompany.phone_fax
-    });
+    };
+    this.ccCompanyForm.setValue(x);
+    return;
+  }
+
+  ngOnChanges() {
+    console.log( 'ngOnChanges - cc-company');
+    this.ccCompanyForm.reset({});
+    this.setValues();
   }
 
   onLoad( company_id) {
-    this.ccCompanyService.getCompany(company_id);
+    // this.ccCompanyService.getCompany(company_id);
   }
 
-  onSubmit() {
-    console.log(this.ccCompanyForm.value);
+  onCompanySubmit() {
+    console.log(["onCompanySubmit", this.ccCompanyForm.value]);
     this.ccCompanyService.postCompany(this.ccCompanyForm.value);
   }
   revert() { this.ngOnChanges(); }

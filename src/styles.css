@@ -16,8 +16,10 @@ body {
   margin-right: 50px;
 }
 
-.label {
-
+label {
+  font-weight: bold;
+  text-align: left;
+  margin-right: 4px;
 }
 
 .form-class {

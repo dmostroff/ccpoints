@@ -34,7 +34,7 @@ export class CcCompanycardsComponent implements OnChanges {
 
   ngOnChanges() {
     console.log('ngOnChanges');
-    this.getCompanyCards( this.ccCompany.cc_company_id);
+    // this.getCompanyCards( this.ccCompany.cc_company_id);
   }
 
   //ngOnInit() {
@@ -48,7 +48,7 @@ export class CcCompanycardsComponent implements OnChanges {
   }
 
   onClick( cc_card_id) {
-    console.log(cc_card_id);
+    console.log(["cc cards", cc_card_id]);
     this.ccCompanyService.getCcCard(cc_card_id);
     //this.router.navigate( ['cc', 'company', id]);
   }

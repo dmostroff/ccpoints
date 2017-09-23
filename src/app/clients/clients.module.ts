@@ -11,7 +11,7 @@ import { AddressComponent }    from './address/address.component';
 
 import { ClientsRoutingModule } from './clients-routing.module';
 import { PersonDlgComponent } from './persons/person-dlg.component';
-
+import { PhoneFmtPipe } from './../utils/phonefmt.pipe';
 
 @NgModule({
   imports: [
