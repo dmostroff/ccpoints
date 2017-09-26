@@ -21,8 +21,10 @@ export class CcCompany {
 	}
 
 	set(newCcCompany:CcCompany) {
-		for( let ii in newCcCompany) {
-			this[ii] = newCcCompany[ii];
-		}
+    if( newCcCompany) {
+      for( let ii in newCcCompany) {
+        this[ii] = newCcCompany[ii];
+      }
+    }
 	}
 }

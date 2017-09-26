@@ -1,6 +1,8 @@
-<h3>Cards {{ccCompany.cc_company_id}}</h3>
-<ul>
-  <li *ngFor="let card of ccCompanyCards; let ii = index">
-    {{ii+1}}] <a (click)="onClick(card.cc_card_id)">{{card.card_name}}</a> {{card.version}} {{card.annual_fee}} {{card.first_year_fee}} <span class="recorded_on"> {{card.recorded_on}}</span>
-  </li>
-</ul>
+<div *ngIf="ccCompany">
+  <h5>Cards {{ccCompany.cc_name}}!!</h5>
+  <div *ngIf="!isDetail" fxLayout="column" fxLayoutAlign="start space-between" fxLayoutGap="8px" >
+    <div fxFlex *ngFor="let card of ccCompanyCards; let ii = index">
+      {{ii+1}}] <a (click)="onClickCard(card.cc_card_id)">{{card.card_name}}</a> {{card.version}} {{card.annual_fee}} {{card.first_year_fee}} <span class="recorded_on"> {{card.recorded_on}}</span>
+    </div>
+  </div>
+</div>

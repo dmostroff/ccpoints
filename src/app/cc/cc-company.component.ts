@@ -20,10 +20,10 @@ const PWD_REGEX = '/^[a-zA-Z0-9.!#$%&�*+/=?^_`{|}~-]{8,}$/';
 })
 
 export class CcCompanyComponent implements OnChanges {
-  //@Input() ccCompany: CcCompany;
+  @Input('ccCompany') ccCompany: CcCompany;
   @Input() isEdit: boolean;
 
-  ccCompany: CcCompany;
+  // ccCompany: CcCompany;
   ccCompanyForm: FormGroup;
   ccCompanyFormControl: FormControl;
   ccCompanyId: number;
@@ -37,70 +37,103 @@ export class CcCompanyComponent implements OnChanges {
     this.ccCompanyFormControl = new FormControl([Validators.required, Validators.pattern(PWD_REGEX)]);
     this.ccCompany = ccCompanyService.ccCompany;
     this.createForm();
-    this.route.params.subscribe( params => {
-      this.ccCompanyId = +params['company_id']; console.log(["Today I staretd Loving You again", params, this.ccCompanyId])
-      this.onLoad(this.ccCompanyId);
-    } );
-    this.ccCompanyService.ccCompanySubject.subscribe(company => {
-      console.log(["ccCompanySubject", company]);
-      if(company) {
-        this.ccCompany.set(company);
-        console.log( this.ccCompany);
-        this.setValues();
-      }
-    });
+    //this.route.params.subscribe( params => {
+    //  this.ccCompanyId = +params['company_id']; console.log(["Today I staretd Loving You again", params, this.ccCompanyId])
+    //  this.onLoad(this.ccCompanyId);
+    //} );
+    //this.ccCompanyService.ccCompanySubject.subscribe(company => {
+    //  console.log(["ccCompanySubject", company]);
+    //  if(company) {
+    //    this.ccCompany.set(company);
+    //    console.log( this.ccCompany);
+    //    this.setValues();
+    //  }
+    //});
   }
 
+  //ngOnChanges() {
+  //  console.log( 'ngOnChanges - cc-company');
+  //  this.ccCompanyForm.reset({});
+  //  this.setValues();
+  //}
+  //
+  //ngOnDestroy() {
+  //  console.log( 'ngOnDestroy - cc_company');
+  //}
+  //
+  ngOnChanges() {
+    console.log(['ngOnChanges - cc-company data is ',this.ccCompany]);
+  }
+
+  ngOnInit() {
+    console.log(['ngOnInit  - cc-company data is ',this.ccCompany]);
+  }
+
+  ngDoCheck() {
+    console.log(['ngDoCheck  - cc-company data is ',this.ccCompany, this.ccCompanyForm.pristine, this.ccCompanyForm.touched]);
+    if(this.isEdit && this.ccCompanyForm.pristine) {
+      this.setValues();
+    }
+  }
+
+  ngAfterContentInit() {
+    console.log("ngAfterContentInit cc-company");
+  }
+
+  ngAfterContentChecked() {
+    console.log("ngAfterContentChecked cc-company");
+  }
+
+  ngAfterViewInit() {
+    console.log("ngAfterViewInit cc-company");
+  }
+
+  ngAfterViewChecked() {
+    console.log("ngAfterViewChecked cc-company");
+  }
+
+  ngOnDestroy() {
+    console.log("ngOnDestroy cc-company");
+  }
+
+  editForm() {
+    this.setValues();
+    this.isEdit = true;
+  }
+
+  getValues() {
+    if( this.ccCompany) {
+      console.log(["getValues", this.ccCompany]);
+      let x = {
+        cc_company_id: this.ccCompany.cc_company_id
+        , cc_name: this.ccCompany.cc_name
+        , url: this.ccCompany.url
+        , contact: this.ccCompany.contact
+        , address_1: this.ccCompany.address_1
+        , address_2: this.ccCompany.address_2
+        , city: this.ccCompany.city
+        , state: this.ccCompany.state
+        , zip: this.ccCompany.zip
+        , country: this.ccCompany.country
+        , phone: this.ccCompany.phone
+        , phone_2: this.ccCompany.phone_2
+        , phone_cell: this.ccCompany.phone_cell
+        , phone_fax: this.ccCompany.phone_fax
+      };
+      return x;
+    } else {
+      return {};
+    }
+  }
 
   createForm() {
-    this.ccCompanyForm = this.fb.group({
-        cc_company_id: this.ccCompany.cc_company_id
-      , cc_name: this.ccCompany.cc_name
-      , url: this.ccCompany.url
-      , contact: this.ccCompany.contact
-      , address_1: this.ccCompany.address_1
-      , address_2: this.ccCompany.address_2
-      , city: this.ccCompany.city
-      , state: this.ccCompany.state
-      , zip: this.ccCompany.zip
-      , country: this.ccCompany.country
-      , phone: this.ccCompany.phone
-      , phone_2: this.ccCompany.phone_2
-      , phone_cell: this.ccCompany.phone_cell
-      , phone_fax: this.ccCompany.phone_fax
-    });
-  }
-
-  formatPhoneNumber() {
-    let x = this.ccCompanyService.ccCompany.phone.substring(0,3)+' '+this.ccCompanyService.ccCompany.phone.substring(3,3)+'-'+this.ccCompanyService.ccCompany.phone.substring(5);
-    this.ccCompanyForm.controls['phone'].setValue(x);
+    let vals = this.getValues();
+    this.ccCompanyForm = this.fb.group(vals);
   }
 
   setValues() {
-    let x = {
-      cc_company_id: this.ccCompany.cc_company_id
-      , cc_name: this.ccCompany.cc_name
-      , url: this.ccCompany.url
-      , contact: this.ccCompany.contact
-      , address_1: this.ccCompany.address_1
-      , address_2: this.ccCompany.address_2
-      , city: this.ccCompany.city
-      , state: this.ccCompany.state
-      , zip: this.ccCompany.zip
-      , country: this.ccCompany.country
-      , phone: this.ccCompany.phone
-      , phone_2: this.ccCompany.phone_2
-      , phone_cell: this.ccCompany.phone_cell
-      , phone_fax: this.ccCompany.phone_fax
-    };
-    this.ccCompanyForm.setValue(x);
-    return;
-  }
-
-  ngOnChanges() {
-    console.log( 'ngOnChanges - cc-company');
-    this.ccCompanyForm.reset({});
-    this.setValues();
+    let vals = this.getValues();
+    this.ccCompanyForm.setValue(vals);
   }
 
   onLoad( company_id) {
@@ -110,6 +143,8 @@ export class CcCompanyComponent implements OnChanges {
   onCompanySubmit() {
     console.log(["onCompanySubmit", this.ccCompanyForm.value]);
     this.ccCompanyService.postCompany(this.ccCompanyForm.value);
+    this.ccCompanyService.getCompanyList();
+    this.isEdit = false;
   }
   revert() { this.ngOnChanges(); }
 }

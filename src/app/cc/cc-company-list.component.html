@@ -2,7 +2,7 @@
   <div fxFlex="15%" class="left-main-panel">
     <h2>c{{title}}</h2>
     <nav>
-      <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="10px">
+      <div *ngIf="ccCompanyList" fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="10px">
         <div fxFlex fxFlexAlign="start" *ngFor="let company of ccCompanyList; let ii = index">
           <a (click)="onClick(company.cc_company_id)">{{company.cc_name}}</a>
         </div>
@@ -13,11 +13,17 @@
 
     </nav>
   </div>
-  <div *ngIf="ccCompany" fxFlex fxFlexAlign="end">
-    <hr>
-    <cc-company [isEdit]="false"></cc-company>
-    <hr>
-    <cc-companycards [ccCompany]="ccCompany"></cc-companycards>
+  <div *ngIf="ccCompany && ccCompany.cc_company_id > 0" fxFlex fxFlexAlign="start start" style="border: 10px solid darkkhaki;">
+    <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
+      <div fxFlex="stretch" >
+        <cc-company [ccCompany]="ccCompany" [isEdit]="false"></cc-company>
+      </div>
+      <!--<div fxFlex style="border: 10px solid darkorange;">-->
+        <!--<cc_card></cc_card>-->
+      <!--</div>-->
+      <div fxFlex>
+        <cc-companycards [ccCompany]="ccCompany"></cc-companycards>
+      </div>
   </div>
 </div>
 

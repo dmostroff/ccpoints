@@ -1,10 +1,29 @@
-<div *ngIf="ccCardsService.ccCards.name" fxLayout="row">
-  <h2 class="md-title" fxFlex="50%">{{ccCardsService.ccCards.name}}</h2>
+<div *ngIf="ccCard.cc_card_id" fxLayout="row">
+  <h2 class="md-title" fxFlex="50%">{{ccCard.card_name}}</h2>
   <div fxFlex></div>
-  <div fxFlex="5%"  fxFlexAlign="end" class="id">{{ccCardsService.ccCards.id}}</div>
-  <div fxFlex="16%" fxFlexAlign="end" class="recorded-on">{{ccCardsService.ccCards.recorded_on}}</div>
+  <div fxFlex="5%" fxFlexAlign="end" class="id">{{ccCard.cc_card_id}}</div>
+  <div fxFlex="16%" fxFlexAlign="end" class="recorded-on">{{ccCard.recorded_on}}</div>
+  <div fxFlex="16%" fxFlexAlign="end" class="recorded-on">{{ccCard.recorded_on}}</div>
 </div>
-<form [formGroup]="ccCardsForm" (ngSubmit)="onSubmit()" class="form-class" fxLayout="column" fxLayoutAlign="center center" novalidate>
+<div *ngIf="!isEdit && ccCard.cc_card_id" >
+  <div fxLayout="row">
+    <div fxFlex>{{ccCard.version}}</div>
+    <div fxFlex [hidden]="!ccCard.version"><label>Version:</label>{{ccCard.version}}</div>
+  </div>
+  <div fxLayout="row">
+    <div fxFlex>{{ccCard.annual_fee}}</div>
+    <div fxFlex [hidden]="!ccCard.annual_fee"><label>Annual Fee:</label>{{ccCard.annual_fee}}</div>
+    <div fxFlex [hidden]="!ccCard.first_year_free"><label>First Year Free:</label>{{ccCard.first_year_free}}</div>
+  </div>
+  <div *ngIf="ccCard.cc_card_id" fxLayout="row" fxLayoutAlign="center end">
+    <button md-raised-button fxFlex="90px;" fxFlexAlign="baseline" (click)="editForm()">Edit
+      <md-icon>edit</md-icon>
+    </button>
+    <button md-button (click)="onDlgClose()">Close <md-icon>done</md-icon></button>
+  </div>
+</div>
+<form *ngIf="isEdit" [formGroup]="ccCardsForm" (ngSubmit)="onCardSubmit()" class="form-class" fxLayout="column"
+      fxLayoutAlign="center center" novalidate>
 
   <div fxLayout="row" fxLayoutGap="15px">
     <md-form-field class="form-group" fxFlex fxFlexAlign="start center">
@@ -13,16 +32,14 @@
       </md-error>
     </md-form-field>
   </div>
-  <div fxLayout="row" fxLayoutGap="15px">
-    <md-form-field class="form-group" fxFlex fxFlexAlign="start center">
+  <div fxLayout="row" [hidden]="isEdit" fxLayoutGap="15px">
+    <md-form-field [hidden]="isEdit" class="form-group" fxFlex fxFlexAlign="start center">
       <input mdInput type="text" formControlName="cc_company_id" placeholder="cc_company_id">
-      <md-error *ngIf="ccCardsForm.hasError('required')">cc_company_id is <strong>required</strong>
-      </md-error>
     </md-form-field>
   </div>
   <div fxLayout="row" fxLayoutGap="15px">
     <md-form-field class="form-group" fxFlex fxFlexAlign="start center">
-      <input mdInput type="text" formControlName="card_name" placeholder="card_name">
+      <input mdInput type="text" formControlName="card_name" placeholder="Card Name">
       <md-error *ngIf="ccCardsForm.hasError('required')">card_name is <strong>required</strong>
       </md-error>
     </md-form-field>
@@ -47,9 +64,9 @@
     </md-form-field>
   </div>
   <div fxLayout="row" fxLayoutAlign="end end">
-    <button fxFlex="18%" md-raised-button type="submit" (click)="onSubmit()" class="submitButton">Submit</button>
+    <button fxFlex="18%" md-raised-button type="submit" class="submitButton">Submit</button>
   </div>
+  <p>Form value: {{ ccCardsForm.value | json }}</p>
 </form>
 
-<p>Form value: {{ ccCardsForm.value | json }}</p>);
 

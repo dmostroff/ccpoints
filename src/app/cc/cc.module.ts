@@ -14,6 +14,15 @@ import { CcCompanycardsComponent } from './cc-companycards.component';
 import { PhoneFmtPipe } from './../utils/phonefmt.pipe';
 import { ZipCodePipe } from './../utils/zipcode.pipe'
 
+const componentList = [
+  CcCompanyListComponent
+  , CcCompanyComponent
+  , CcCompanycardsComponent
+  , CcCardComponent
+  , PhoneFmtPipe
+  , ZipCodePipe
+];
+
 @NgModule({
   imports: [
     CommonModule,
@@ -23,13 +32,7 @@ import { ZipCodePipe } from './../utils/zipcode.pipe'
     ReactiveFormsModule,
     CcRoutingModule
   ],
-  declarations: [CcCompanyListComponent
-    , CcCompanyComponent
-    , CcCardComponent
-    , CcCompanycardsComponent
-    , PhoneFmtPipe
-    , ZipCodePipe
-  ],
+  declarations: componentList,
   providers: [CcCompanyService ]
 })
 export class CcModule {

@@ -1,32 +1,39 @@
-<div *ngIf="ccCompanyService.ccCompany.cc_name" fxLayout="row">
-  <h2 class="md-title" fxFlex="50%">{{ccCompanyService.ccCompany.cc_name}}</h2>
+<div *ngIf="ccCompany.cc_name" fxLayout="row">
+  <h2 class="md-title" fxFlex="50%">{{ccCompany.cc_name}}</h2>
   <div fxFlex></div>
-  <div fxFlex="5%" fxFlexAlign="end" class="id">{{ccCompanyService.ccCompany.cc_company_id}}</div>
-  <div fxFlex="16%" fxFlexAlign="end" class="recorded-on">{{ccCompanyService.ccCompany.recorded_on}}</div>
+  <div fxFlex="6%" fxFlexAlign="end" class="id">{{ccCompany.cc_company_id}}</div>
+  <div fxFlex="16%" fxFlexAlign="end" class="recorded-on">{{ccCompany.recorded_on}}</div>
 </div>
-<div *ngIf="isEdit == false">
-    <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="8px">
+<div *ngIf="!isEdit">
+  <div fxLayout="row">
+    <div fxFlex="6%" fxFlexAlign="end" [hidden]="!ccCompany.url"><label>Url: </label></div>
+    <div fxFlex fxFlexFill>{{ccCompany.url}}</div>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="8px">
+    <div fxFlex="6%" [hidden]="!ccCompany.address_1"><label>Address: </label></div>
     <div fxFlex fxFlexFill>{{ccCompany.address_1}}</div>
-    </div>
-  <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="8px">
+  </div>
+  <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="8px">
+    <div fxFlex="6%" [hidden]="!ccCompany.address_2"></div>
     <div fxFlex fxFlexFill>{{ccCompany.address_2}}</div>
   </div>
-  <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="8px">
-    <div fxFlex>{{ccCompany.city}}</div>
-    <div fxFlex>{{ccCompany.state}}</div>
-    <div fxFlex>{{ccCompany.zip | zipcode }}</div>
+  <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="8px">
+    <div fxFlex="6%"></div>
+    <div fxFlex>{{ccCompany.city}}<span *ngIf="ccCompany.city && ccCompany.state">, </span>{{ccCompany.state}} {{ccCompany.zip | zipcode }}</div>
   </div>
-  <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="8px">
-    <div fxFlex><label>Phone</label>{{ccCompany.phone | phone_fmt}}</div>
-    <div fxFlex><label>Phone 2</label>{{ccCompany.phone_2 | phone_fmt}}</div>
-    <div fxFlex><label>Cell</label>{{ccCompany.phone_cell | phone_fmt}}</div>
-    <div fxFlex><label>Fax</label>{{ccCompany.phone_fax | phone_fmt}}</div>
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
+    <div [hidden]="!ccCompany.phone" fxFlex="6%"><label>Phone</label></div><div fxFlex>{{ccCompany.phone | phone_fmt}}</div>
+    <div *ngIf="ccCompany.phone_2" fxFlex><label>Phone 2</label>{{ccCompany.phone_2 | phone_fmt}}</div>
+    <div *ngIf="ccCompany.phone_cell" fxFlex><label>Cell</label>{{ccCompany.phone_cell | phone_fmt}}</div>
+    <div *ngIf="ccCompany.phone_fax" fxFlex><label>Fax</label>{{ccCompany.phone_fax | phone_fmt}}</div>
   </div>
-  <div fxLayout="row" fxLayoutAlign="center center">
-    <button fxFlex (click)="isEdit=true;"><md-icon>edit</md-icon></button>
+  <div fxLayout="row" fxLayoutAlign="center end">
+    <button fxFlex="90px;" fxFlexAlign="baseline" (click)="editForm()">Edit
+      <md-icon>edit</md-icon>
+    </button>
   </div>
 </div>
-<div *ngIf="isEdit">
+<div *ngIf="isEdit && ccCompany.cc_company_id">
   <form [formGroup]="ccCompanyForm" (ngSubmit)="onCompanySubmit()" novalidate fxLayout="column" class="form-class">
     <div fxLayout="row">
       <md-form-field fxFlex fxFlexFill>
@@ -41,7 +48,7 @@
       </md-form-field>
     </div>
     <div fxLayout="row">
-      <md-form-field fxFlex fxFlexFill>
+      <md-form-field fxFlex fxFlexFill [color]="accent">
         <input mdInput type="text" formControlName="url" placeholder="url">
         <md-error *ngIf="ccCompanyForm.hasError('required')">url is <strong>required</strong>
         </md-error>
@@ -85,7 +92,7 @@
       </md-form-field>
       <div [hidden]="true">
         <md-form-field class="form-group" fxFlex>
-          <input mdInput type="text" formControlName="country" placeholder="country">
+          <input mdInput type="text" formControlName="country" placeholder="country" value="Israel">
           <md-error *ngIf="ccCompanyForm.hasError('required')">country is <strong>required</strong>
           </md-error>
         </md-form-field>
@@ -93,12 +100,12 @@
     </div>
     <div fxLayout="row" fxLayoutGap="15px">
       <md-form-field class="form-group">
-        <input mdInput type="text" formControlName="phone" placeholder="phone" (blur)="formatPhoneNumber()">
+        <input mdInput type="text" formControlName="phone" placeholder="phone">
         <md-error *ngIf="ccCompanyForm.hasError('required')">phone is <strong>required</strong>
         </md-error>
       </md-form-field>
       <md-form-field class="form-group" fxFlex>
-        <input mdInput type="text" formControlName="phone_2" placeholder="phone_2">
+        <input mdInput type="text" formControlName="phone_2" placeholder="phone_2" value="56">
         <md-error *ngIf="ccCompanyForm.hasError('required')">phone_2 is <strong>required</strong>
         </md-error>
       </md-form-field>
@@ -116,7 +123,9 @@
     <div fxLayout="row" fxLayoutAlign="end end">
       <div fxFlex fxFlexAlign="start"></div>
       <button fxFlex="8%" md-raised-button type="submit" class="loginButton">Submit</button>
-      <button (click)="isEdit=false;"><md-icon>done</md-icon></button>
+      <button (click)="isEdit=false;">
+        <md-icon>done</md-icon>
+      </button>
     </div>
   </form>
 
