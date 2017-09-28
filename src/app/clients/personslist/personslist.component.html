@@ -15,7 +15,7 @@
             selectable-rows="true"
             multi-selection="false"
             select-on-rowclick="true"
-            clicked-row-callback="showit(x);"
+            clicked-row-callback="showPerson(x);"
             mdSort
             style="border: 2px solid saddlebrown"
             fxFlexFill
@@ -28,7 +28,7 @@
     </ng-container>
     <ng-container cdkColumnDef="last_name">
       <md-header-cell *cdkHeaderCellDef fxFlex>Last Name</md-header-cell>
-      <md-cell *cdkCellDef="let row" fxFlex="grow">{{row.last_name}}</md-cell>
+      <md-cell *cdkCellDef="let row" (click)="showPerson(row)" fxFlex="grow">{{row.last_name}}</md-cell>
     </ng-container>
     <ng-container cdkColumnDef="first_name">
       <md-header-cell *cdkHeaderCellDef fxFlex>First Name</md-header-cell>
@@ -40,7 +40,7 @@
     </ng-container>
     <ng-container cdkColumnDef="edit">
       <md-header-cell *cdkHeaderCellDef fxFlex="15%"  style="border: 2px solid green;" fxFlexAlign="end">Edit</md-header-cell>
-      <md-cell *cdkCellDef="let row" (click)="onClick(row)" fxFlex="15%" fxFlexAlign="end" fxFlexFill  style="border: 2px solid orange;">
+      <md-cell *cdkCellDef="let row" (click)="openDialog(row)" fxFlex="15%" fxFlexAlign="end" fxFlexFill  style="border: 2px solid orange;">
         <button md-icon-button ><md-icon fxFlexAlign="start">edit</md-icon></button>
       </md-cell>
     </ng-container>
@@ -55,6 +55,9 @@
   </div>
 </div>
 </div>
-<div [style.display]="(showPerson) ? 'block' : 'none' " fxLayout="row" fxLayoutAlign="start stretch" style="border: 3px solid gold;">
-  <app-persons [person]="clientPerson"></app-persons>
+<div [style.display]="(showPersonDisplay) ? 'block' : 'none' " fxLayout="row" fxLayoutAlign="start stretch" style="background-color: tan; border: 3px solid gold;">
+  <client-person [clientPerson]="clientPerson"></client-person>
 </div>
+<!--<div [style.display]="(showPersonEdit) ? 'block' : 'none' " fxLayout="row" fxLayoutAlign="start stretch" style="border: 3px solid gold;">-->
+  <!--<app-persons [person]="clientPerson"></app-persons>-->
+<!--</div>-->

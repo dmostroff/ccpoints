@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddressComponent } from './address.component';
+import { ClientAddressDlgComponent } from './client-address-dlg.component';
 
-describe('AddressComponent', () => {
-  let component: AddressComponent;
-  let fixture: ComponentFixture<AddressComponent>;
+describe('ClientAddressDlgComponent', () => {
+  let component: ClientAddressDlgComponent;
+  let fixture: ComponentFixture<ClientAddressDlgComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddressComponent ]
+      declarations: [ ClientAddressDlgComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AddressComponent);
+    fixture = TestBed.createComponent(ClientAddressDlgComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

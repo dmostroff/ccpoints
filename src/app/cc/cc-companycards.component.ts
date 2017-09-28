@@ -7,10 +7,11 @@ import {MdDialog, MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 import { CcCards } from './cc-cards';
+import { CcCardsExt } from './cc-cards';
 import { CcCompany } from './cc-company';
 import { CcCompanyService } from './cc-company.service';
-import { CcRoutingModule} from "./cc-routing.module";
-import {CcCardComponent} from "./cc-card.component";
+import { CcRoutingModule } from "./cc-routing.module";
+import { CcCardComponent } from "./cc-card.component";
 
 
 @Component({
@@ -23,16 +24,18 @@ export class CcCompanycardsComponent implements OnChanges {
   @Input('ccCompany') ccCompany:CcCompany;
 
   ccCompanyCards:CcCards[];
-  ccCard:CcCards;
+  public ccCard:CcCards;
   isEdit: boolean;
   isReady: boolean;
-  dlgRef: MdDialogRef<any>;
+  dlgRef: MdDialogRef<CcCardsExt>;
   bDlgReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  ccCardsExt: CcCardsExt;
 
   constructor(private ccCompanyService:CcCompanyService
-    , public dialog: MdDialog
+    , public mdDialog: MdDialog
     , private router:Router) {
     this.ccCard = new CcCards();
+    this.ccCardsExt = new CcCardsExt();
     this.isEdit = false;
     this.isReady = false;
 
@@ -87,8 +90,21 @@ export class CcCompanycardsComponent implements OnChanges {
   }
 
   showDlg(): void {
+    this.ccCardsExt.ccCard = this.ccCard;
+    this.ccCardsExt.ccCompanyList = this.ccCompanyService.ccCompanyList;
+    if( this.ccCard.cc_company_id) {
+      for( let ii in this.ccCardsExt.ccCompanyList) {
+        if( this.ccCardsExt.ccCompanyList[ii].cc_company_id == this.ccCardsExt.ccCard.cc_company_id) {
+          this.ccCardsExt.cc_company_name = this.ccCardsExt.ccCompanyList[ii].cc_name;
+        }
+      }
+    }
     console.log(["cc cards showDlg", this.ccCard]);
-    let dialogRef = this.dialog.open(CcCardComponent,{ width: '750px', data: { ccCard: this.ccCard }});
+    let dialogRef = this.mdDialog.open(CcCardComponent, {
+      disableClose: false,
+      data: { ccCardsExt: this.ccCardsExt },
+      width: "750px"
+    });
     dialogRef.afterClosed().subscribe(result => {
       console.log(['The card dialog was closed', result]);
       // this.ccCard.set(result);

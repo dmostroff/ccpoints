@@ -1,0 +1,81 @@
+<h1 md-dialog-title class="primary-color">{{title}}</h1>
+<form [formGroup]="clientAddressForm" (ngSubmit)="onSubmit()" class="form-class" fxLayout="column" fxLayoutAlign="center center" novalidate>
+  <div fxFlex fxFlexFill>
+    <md-dialog-content class="accent-color">
+    <div [hidden]="true" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <md-form-field class="form-group" fxFlex>
+        <input mdInput type="text" formControlName="address_id" placeholder="address_id">
+      </md-form-field>
+      <md-form-field class="form-group" fxFlex>
+        <input mdInput type="text" formControlName="client_id" placeholder="client_id">
+        <md-error *ngIf="clientAddressForm.hasError('required')">client_id is <strong>required</strong>
+        </md-error>
+      </md-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <md-form-field class="form-group" fxFlex>
+        <input mdInput type="text" formControlName="address_type" placeholder="address_type">
+        <md-error *ngIf="clientAddressForm.hasError('required')">address_type is <strong>required</strong>
+        </md-error>
+      </md-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <md-form-field class="form-group" fxFlex>
+        <input mdInput type="text" formControlName="address_1" placeholder="address_1">
+        <md-error *ngIf="clientAddressForm.hasError('required')">address_1 is <strong>required</strong>
+        </md-error>
+      </md-form-field>
+      <md-form-field class="form-group" fxFlex>
+        <input mdInput type="text" formControlName="address_2" placeholder="address_2">
+        <md-error *ngIf="clientAddressForm.hasError('required')">address_2 is <strong>required</strong>
+        </md-error>
+      </md-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <md-form-field class="form-group" fxFlex>
+        <input mdInput type="text" formControlName="city" placeholder="city">
+        <md-error *ngIf="clientAddressForm.hasError('required')">city is <strong>required</strong>
+        </md-error>
+      </md-form-field>
+      <md-form-field class="form-group" fxFlex>
+        <input mdInput type="text" formControlName="state" placeholder="state">
+        <md-error *ngIf="clientAddressForm.hasError('required')">state is <strong>required</strong>
+        </md-error>
+      </md-form-field>
+      <md-form-field class="form-group" fxFlex>
+        <input mdInput type="text" formControlName="zip" placeholder="zip">
+        <md-error *ngIf="clientAddressForm.hasError('required')">zip is <strong>required</strong>
+        </md-error>
+      </md-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <md-form-field class="form-group" fxFlex>
+        <input mdInput type="text" formControlName="country" placeholder="country">
+        <md-error *ngIf="clientAddressForm.hasError('required')">country is <strong>required</strong>
+        </md-error>
+      </md-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <md-form-field class="form-group" fxFlex>
+        <input mdInput type="text" formControlName="valid_from" placeholder="valid_from">
+        <md-error *ngIf="clientAddressForm.hasError('required')">valid_from is <strong>required</strong>
+        </md-error>
+      </md-form-field>
+      <md-form-field class="form-group" fxFlex>
+        <input mdInput type="text" formControlName="valid_to" placeholder="valid_to">
+        <md-error *ngIf="clientAddressForm.hasError('required')">valid_to is <strong>required</strong>
+        </md-error>
+      </md-form-field>
+    </div>
+    </md-dialog-content>
+  </div>
+  <div fxFlex fxFlexFill>
+    <md-dialog-actions>
+      <div fxLayout="row" fxLayoutAlign="center stretch" fxLayoutGap="20px">
+        <button fxFlex="18%" md-raised-button type="submit" color="primary" class="submitButton"><md-icon>done</md-icon>Submit</button>
+        <button fxFlex="18%" md-raised-button (click)="onClickCancel()"><md-icon>cancel</md-icon> Cancel</button>
+      </div>
+    </md-dialog-actions>
+  </div>
+  <p>Form value: {{clientAddressForm.value | json }}</p>
+</form>

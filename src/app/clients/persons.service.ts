@@ -27,8 +27,6 @@ export class PersonsService {
     this.apiUrl = 'http://ccapi.com/client/person';
     this.person = new ClientPerson();
     this.personList = <ClientPerson[]>[];
-    this.person.last_name = "Ostroff";
-    this.person.first_name = "Dan";
   }
 
   ngOnInit() {
@@ -97,12 +95,28 @@ export class PersonsService {
       );
   }
 
-  public setPersonMode() {
-    this.personShowModeSubject.next([false, true]);
+
+  public postPerson(input ) {
+    return this.http.post<CcapiResult>(this.apiUrl, input)
+      .subscribe(
+        resdata => {
+          this.person.set(resdata.data);
+          console.log( ["1-postCcCard", this.person]);
+          this.personSubject.next(this.person);
+        }
+        , err => {
+          console.log(err);
+        }
+      );
+  }
+
+  public setPersonMode(ahowPersonMode: string) {
+    let bFlag = ( ahowPersonMode === 'edit');
+    this.personShowModeSubject.next([false, !bFlag, bFlag]);
   }
 
   public setPersonListMode() {
-    this.personShowModeSubject.next([true, false]);
+    this.personShowModeSubject.next([true, false, false]);
   }
 
 }

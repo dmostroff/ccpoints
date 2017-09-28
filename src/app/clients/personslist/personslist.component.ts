@@ -19,7 +19,7 @@ import { PersonDlgComponent } from './../persons/person-dlg.component';
 
 
 @Component({
-  selector: 'app-personslist',
+  selector: 'client-personslist',
   templateUrl: './personslist.component.html',
   styleUrls: ['./personslist.component.css']
 })
@@ -29,7 +29,8 @@ export class PersonslistComponent implements OnInit {
   dataSource: ClientPersonDataSource;
   dataLength: number;
   showTable: boolean;
-  showPerson: boolean;
+  showPersonDisplay: boolean;
+  showPersonEdit: boolean;
 
   personList: ClientPerson[];
   personListSubscription: Subscription;
@@ -44,7 +45,8 @@ export class PersonslistComponent implements OnInit {
   constructor(public dialog: MdDialog, private personService: PersonsService) {
     this.dataLength = 0;
     this.showTable = false;
-    this.showPerson = false;
+    this.showPersonDisplay = false;
+    this.showPersonEdit = false;
 
     // this.personSubscription = this.personService.getPerson().subscribe( aperson => { this.person = aperson; });
     //this.persons = personService.persons;
@@ -65,8 +67,13 @@ export class PersonslistComponent implements OnInit {
     this.personService.personSubject.subscribe( person => {
       this.person = person;
     });
-    this.personService.personShowModeSubject.subscribe( showMode => { this.showTable = showMode[0]; this.showPerson = showMode[1]; });
+    this.personService.personShowModeSubject.subscribe( showMode => {
+      this.showTable = showMode[0];
+      this.showPersonDisplay = showMode[1];
+      this.showPersonEdit = showMode[2];
+    });
     this.personService.getPersonList();
+    this.personService.setPersonListMode();
 
 //    this.personService.getPersonListPage(this.paginator.pageIndex, this.paginator.pageSize);
   }
@@ -85,19 +92,19 @@ export class PersonslistComponent implements OnInit {
     this.dataSource.readData();
   }
 
-  showit(r) {
-    console.log(['showit', r]);
-    return r;
+  showPerson(p) {
+    this.personService.getPerson(p.client_id);
+    this.personService.setPersonMode('show');
   }
 
   onClick(p) {
     console.log(p);
     this.personService.getPerson(p.client_id);
-    this.personService.setPersonMode();
+    this.personService.setPersonMode('edit');
   }
 
   openDialog(p): void {
-    let dialogRef = this.dialog.open(PersonDlgComponent,{ width: '250px', data: { person: p }});
+    let dialogRef = this.dialog.open(PersonDlgComponent,{ width: '80%', data: { clientPerson: p }});
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
@@ -162,6 +169,7 @@ export class ClientPersonDataSource extends DataSource<any> {
 
     }
   }
+
 
   /** Returns a sorted copy of the database data. */
   //sortData(data: ClientPerson[]): ClientPerson[] {

@@ -41,14 +41,15 @@ export class CcCompanyComponent implements OnChanges {
     //  this.ccCompanyId = +params['company_id']; console.log(["Today I staretd Loving You again", params, this.ccCompanyId])
     //  this.onLoad(this.ccCompanyId);
     //} );
-    //this.ccCompanyService.ccCompanySubject.subscribe(company => {
-    //  console.log(["ccCompanySubject", company]);
-    //  if(company) {
-    //    this.ccCompany.set(company);
-    //    console.log( this.ccCompany);
-    //    this.setValues();
-    //  }
-    //});
+    this.ccCompanyService.ccCompanySubject.subscribe(company => {
+      console.log(["ccCompanySubject", company]);
+      if(company) {
+        this.ccCompany.set(company);
+        console.log( this.ccCompany);
+        this.isEdit = false;
+        //this.setValues();
+      }
+    });
   }
 
   //ngOnChanges() {
@@ -62,38 +63,38 @@ export class CcCompanyComponent implements OnChanges {
   //}
   //
   ngOnChanges() {
-    console.log(['ngOnChanges - cc-company data is ',this.ccCompany]);
+    //console.log(['ngOnChanges - cc-company data is ',this.ccCompany]);
   }
 
   ngOnInit() {
-    console.log(['ngOnInit  - cc-company data is ',this.ccCompany]);
+    //console.log(['ngOnInit  - cc-company data is ',this.ccCompany]);
   }
 
   ngDoCheck() {
-    console.log(['ngDoCheck  - cc-company data is ',this.ccCompany, this.ccCompanyForm.pristine, this.ccCompanyForm.touched]);
+    //console.log(['ngDoCheck  - cc-company data is ',this.ccCompany, this.ccCompanyForm.pristine, this.ccCompanyForm.touched]);
     if(this.isEdit && this.ccCompanyForm.pristine) {
       this.setValues();
     }
   }
 
   ngAfterContentInit() {
-    console.log("ngAfterContentInit cc-company");
+    //console.log("ngAfterContentInit cc-company");
   }
 
   ngAfterContentChecked() {
-    console.log("ngAfterContentChecked cc-company");
+    //console.log("ngAfterContentChecked cc-company");
   }
 
   ngAfterViewInit() {
-    console.log("ngAfterViewInit cc-company");
+    //console.log("ngAfterViewInit cc-company");
   }
 
   ngAfterViewChecked() {
-    console.log("ngAfterViewChecked cc-company");
+    //console.log("ngAfterViewChecked cc-company");
   }
 
   ngOnDestroy() {
-    console.log("ngOnDestroy cc-company");
+    //console.log("ngOnDestroy cc-company");
   }
 
   editForm() {

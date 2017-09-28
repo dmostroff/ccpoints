@@ -1,5 +1,108 @@
-<p>
-  person-dlg works! {{person.last_name}} @@@ {{person}} !
-</p>
-<hr color="gold"/>
-<button md-button (click)="onNoClick()">Close</button>
+<h1 md-dialog-title class="primary-color">{{title}}</h1>
+<form [formGroup]="clientPersonForm" (ngSubmit)="onSubmit()" class="form-class" fxLayout="column"
+      fxLayoutAlign="start start" novalidate>
+  <div fxFlex fxFlexFill>
+    <md-dialog-content class="accent-color" style="background-color: #9e9e9e;">
+      <div fxLayout="row" fxLayoutGap="15px">
+        <md-form-field class="form-group" fxFlex fxFlexAlign="start center">
+          <input mdInput type="text" formControlName="client_id" placeholder="client_id">
+          <md-error *ngIf="clientPersonForm.hasError('required')">client_id is <strong>required</strong>
+          </md-error>
+        </md-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutGap="15px">
+        <md-form-field class="form-group" fxFlex fxFlexAlign="start center">
+          <input mdInput type="text" formControlName="last_name" placeholder="last_name">
+          <md-error *ngIf="clientPersonForm.hasError('required')">last_name is <strong>required</strong>
+          </md-error>
+        </md-form-field>
+        <md-form-field class="form-group" fxFlex fxFlexAlign="start center">
+          <input mdInput type="text" formControlName="first_name" placeholder="first_name">
+          <md-error *ngIf="clientPersonForm.hasError('required')">first_name is <strong>required</strong>
+          </md-error>
+        </md-form-field>
+        <md-form-field class="form-group" fxFlex fxFlexAlign="start center">
+          <input mdInput type="text" formControlName="middle_name" placeholder="middle_name">
+          <md-error *ngIf="clientPersonForm.hasError('required')">middle_name is <strong>required</strong>
+          </md-error>
+        </md-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutGap="15px">
+        <md-form-field class="form-group" fxFlex fxFlexAlign="start center">
+          <input mdInput type="text" formControlName="dob" placeholder="dob">
+          <md-error *ngIf="clientPersonForm.hasError('required')">dob is <strong>required</strong>
+          </md-error>
+        </md-form-field>
+        <md-form-field class="form-group" fxFlex fxFlexAlign="start center">
+          <input mdInput type="text" formControlName="gender" placeholder="gender">
+          <md-error *ngIf="clientPersonForm.hasError('required')">gender is <strong>required</strong>
+          </md-error>
+        </md-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutGap="15px">
+        <md-form-field class="form-group" fxFlex fxFlexAlign="start center">
+          <input mdInput type="text" formControlName="ssn" placeholder="ssn">
+          <md-error *ngIf="clientPersonForm.hasError('required')">ssn is <strong>required</strong>
+          </md-error>
+        </md-form-field>
+        <md-form-field class="form-group" fxFlex fxFlexAlign="start center">
+          <input mdInput type="text" formControlName="mmn" placeholder="mmn">
+          <md-error *ngIf="clientPersonForm.hasError('required')">mmn is <strong>required</strong>
+          </md-error>
+        </md-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutGap="15px">
+        <md-form-field class="form-group" fxFlex fxFlexAlign="start center">
+          <input mdInput type="text" formControlName="email" placeholder="email">
+          <md-error *ngIf="clientPersonForm.hasError('required')">email is <strong>required</strong>
+          </md-error>
+        </md-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutGap="15px">
+        <md-form-field class="form-group" fxFlex fxFlexAlign="start center">
+          <input mdInput type="text" formControlName="pwd" placeholder="pwd">
+          <md-error *ngIf="clientPersonForm.hasError('required')">pwd is <strong>required</strong>
+          </md-error>
+        </md-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutGap="15px">
+        <md-form-field class="form-group" fxFlex fxFlexAlign="start center">
+          <input mdInput type="text" formControlName="phone" placeholder="phone">
+          <md-error *ngIf="clientPersonForm.hasError('required')">phone is <strong>required</strong>
+          </md-error>
+        </md-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutGap="15px">
+        <md-form-field class="form-group" fxFlex fxFlexAlign="start center">
+          <input mdInput type="text" formControlName="phone_2" placeholder="phone_2">
+          <md-error *ngIf="clientPersonForm.hasError('required')">phone_2 is <strong>required</strong>
+          </md-error>
+        </md-form-field>
+        <md-form-field class="form-group" fxFlex fxFlexAlign="start center">
+          <input mdInput type="text" formControlName="phone_cell" placeholder="phone_cell">
+          <md-error *ngIf="clientPersonForm.hasError('required')">phone_cell is <strong>required</strong>
+          </md-error>
+        </md-form-field>
+        <md-form-field class="form-group" fxFlex fxFlexAlign="start center">
+          <input mdInput type="text" formControlName="phone_fax" placeholder="phone_fax">
+          <md-error *ngIf="clientPersonForm.hasError('required')">phone_fax is <strong>required</strong>
+          </md-error>
+        </md-form-field>
+        <md-form-field class="form-group" fxFlex fxFlexAlign="start center">
+          <input mdInput type="text" formControlName="phone_official" placeholder="phone_official">
+          <md-error *ngIf="clientPersonForm.hasError('required')">phone_official is <strong>required</strong>
+          </md-error>
+        </md-form-field>
+      </div>
+    </md-dialog-content>
+  </div>
+  <div fxFlex fxFlexFill>
+    <md-dialog-actions style="background-color: lightblue">
+      <div fxLayout="row" fxLayoutAlign="center stretch" fxLayoutGap="20px">
+        <button fxFlex="18%" md-raised-button type="submit" color="primary" class="submitButton"><md-icon>done</md-icon>Submit</button>
+        <button fxFlex="18%" md-raised-button type="button" (click)="onClickCancel()"><md-icon>cancel</md-icon> Cancel</button>
+      </div>
+    </md-dialog-actions>
+  </div>
+</form>
+<p>Form value: {{ clientPersonForm.value | json }}</p>

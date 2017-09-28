@@ -1,36 +1,51 @@
-<md-card *ngIf="person" class="container" fxLayout="column" fxLayoutAlign="center stretch" tabindex="0">
+<md-card *ngIf="clientPerson" class="container" fxLayout="column" fxLayoutAlign="center stretch" tabindex="0">
   <md-card-title-group>
-    <md-card-title fxFlex fxFlexAlign="center">{{person.first_name}} {{person.last_name}}</md-card-title>
+    <md-card-title fxFlex fxFlexAlign="center">{{clientPerson.first_name}} {{clientPerson.last_name}}</md-card-title>
     <md-card-subtitle fxFlex fxFlexAlign="center">Client</md-card-subtitle>
   </md-card-title-group>
   <md-card-content fxFlex="100%" fxFlexAlign="center stretch">
-    <div fxLayout="row">
-      <div fxFlex fxFlexFill class="idClass">{{person.client_id}}</div>
-    </div>
-    <div fxLayout="row" fxLayoutAlign="center stretch">
-      <div fxFlex="33%" class="nameClass">{{person.first_name}}</div>
-      <div fxFlex="33%">{{person.middle_name}}</div>
-      <div fxFlexFill fxFlex="33.33%">{{person.last_name}}</div>
-    </div>
-    <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center stretch">
+    <div fxLayout="column">
       <div fxFlex>
-        <button md-button (click)="newClient()">New</button>
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+          <div fxFlex><label>Client_id:</label>{{clientPerson.client_id}}</div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+          <div fxFlex><label>Last_name:</label>{{clientPerson.last_name}}</div>
+          <div fxFlex><label>First_name:</label>{{clientPerson.first_name}}</div>
+          <div fxFlex><label>Middle_name:</label>{{clientPerson.middle_name}}</div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+          <div fxFlex><label>Dob:</label>{{clientPerson.dob}}</div>
+          <div fxFlex><label>Gender:</label>{{clientPerson.gender}}</div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+          <div fxFlex><label>Ssn:</label>{{clientPerson.ssn}}</div>
+          <div fxFlex><label>Mmn:</label>{{clientPerson.mmn}}</div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+          <div fxFlex><label>Email:</label>{{clientPerson.email}}</div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+          <div fxFlex><label>Pwd:</label>{{clientPerson.pwd}}</div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+          <div fxFlex><label>Phone:</label>{{clientPerson.phone}}</div>
+          <div fxFlex><label>Phone_2:</label>{{clientPerson.phone_2}}</div>
+          <div fxFlex><label>Phone_cell:</label>{{clientPerson.phone_cell}}</div>
+          <div fxFlex><label>Phone_fax:</label>{{clientPerson.phone_fax}}</div>
+          <div fxFlex><label>Phone_official:</label>{{clientPerson.phone_official}}</div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+          <div fxFlex fxFlexAlign="end" class="recorded_on"><label>Recorded_on:</label>{{clientPerson.recorded_on}}</div>
+        </div>
       </div>
     </div>
   </md-card-content>
-  <md-card-actions fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="12px">
-    <span fxFlex></span>
-    <button md-raised-button (click)="onEdit()">
-      <md-icon>edit</md-icon>
-    </button>
-    <span fxFlex></span>
-    <button md-raised-button (click)="onClose()" fxFlexAlign="end">
-      <md-icon>close</md-icon>
-    </button>
-
+  <md-card-actions fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="12px">
+    <button md-raised-button (click)="onPersonEdit()"><md-icon>edit</md-icon> Edit</button>
+    <button md-raised-button (click)="onClose()" fxFlexAlign="end"><md-icon>close</md-icon> Close</button>
   </md-card-actions>
-  <md-card-footer fxFlexAlign="center">
-  </md-card-footer>
+  <md-card-footer fxFlexAlign="center">Client Person</md-card-footer>
 </md-card>
 
 

@@ -3,13 +3,13 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { PersonslistComponent }    from './personslist/personslist.component';
 import { PersonsComponent }    from './persons/persons.component';
-import { AddressComponent }    from './address/address.component';
+import { ClientAddressComponent }    from './persons/client-address.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'list', pathMatch: 'full'},
   { path: 'personslist', component: PersonslistComponent },
   { path: 'person/:client_id', component: PersonsComponent },
-  { path: 'address', component: AddressComponent }
+  { path: 'address', component: ClientAddressComponent }
 ];
 
 @NgModule({

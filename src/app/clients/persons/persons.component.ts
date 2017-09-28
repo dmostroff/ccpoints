@@ -3,22 +3,26 @@ import { ActivatedRoute }       from '@angular/router';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { PersonsService} from './../persons.service';
 import { ClientPerson} from './../clientperson';
-import {MD_DIALOG_DATA} from '@angular/material';
+import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
+import { PersonDlgComponent } from './person-dlg.component';
 
 
 @Component({
-  selector: 'app-persons',
+  selector: 'client-person',
   templateUrl: './persons.component.html',
   styleUrls: ['./persons.component.css'],
 })
 
 export class PersonsComponent implements OnChanges {
-  @Input() person: ClientPerson;
+  @Input() clientPerson: ClientPerson;
   client_id: number;
 
 
-  constructor( private personService: PersonsService, private route: ActivatedRoute) {
-    this.personService.personSubject.subscribe( person => { this.person = person; })
+  constructor( private personService: PersonsService
+    , public mdDialog: MdDialog
+    , private route: ActivatedRoute) {
+    this.clientPerson = new ClientPerson();
+    this.personService.personSubject.subscribe( person => { this.clientPerson = person; })
   }
 
 
@@ -37,7 +41,7 @@ export class PersonsComponent implements OnChanges {
 
   newClient() {
     let id = Math.floor(Math.random() * 45);
-    this.person = this.personService.getPersonById(id);
+    this.personService.getPersonById(id);
     // let x = this.personService.getPerson(id);
   }
 
@@ -46,8 +50,16 @@ export class PersonsComponent implements OnChanges {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  onEdit() {
-    // TBD
+  onPersonEdit() {
+    let dialogRef = this.mdDialog.open(PersonDlgComponent, {
+      disableClose: false,
+      data: { person: this.clientPerson },
+      width: "750px"
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(['The card dialog was closed', result]);
+      // this.ccCard.set(result);
+    });
   }
   onClose() {
     this.personService.setPersonListMode();

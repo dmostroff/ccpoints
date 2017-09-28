@@ -1,3 +1,5 @@
+import { CcCompany } from './cc-company';
+
 export class CcCards {
 	cc_card_id: number;
 	cc_company_id: number;
@@ -16,4 +18,14 @@ export class CcCards {
 			this[ii] = newCcCards[ii];
 		}
 	}
+}
+
+export class CcCardsExt {
+  ccCard: CcCards;
+  cc_company_name: string;
+  ccCompanyList: CcCompany[];
+
+  constructor() {
+    console.log( 'CcCardsExt');
+  }
 }

@@ -5,9 +5,9 @@ import { Routes, RouterModule, Router, ActivatedRoute } from "@angular/router";
 import { MdDialog, MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
 
 import { CcCards } from './cc-cards';
+import { CcCardsExt } from './cc-cards';
 import { CcCompany } from './cc-company';
 import { CcCompanyService } from './cc-company.service';
-
 
 @Component({
   selector: 'cc_card',
@@ -18,28 +18,52 @@ export class CcCardComponent implements OnChanges {
 
   ccCardsForm:FormGroup;
   ccCardsFormControl:FormControl;
-  ccCard: CcCards;
-  isEdit: boolean;
+  ccCard:CcCards;
+  ccCompanyName: string;
+  ccCompanyList:CcCompany[];
+  title: string;
+  isEdit:boolean;
+  isAdd:boolean;
 
 
-
-  constructor(
-    public dialogRef: MdDialogRef<CcCardComponent>,
-    private fb:FormBuilder,
-    private ccCompanyService:CcCompanyService,
-    @Inject(MD_DIALOG_DATA) public data: any
-  ) {
+  constructor(public dialogRef:MdDialogRef<CcCardComponent>,
+              private fb:FormBuilder,
+              private ccCompanyService:CcCompanyService,
+              @Inject(MD_DIALOG_DATA) public data:any) {
     this.ccCardsFormControl = new FormControl([Validators.required]);
     this.ccCard = new CcCards();
-    if( data.ccCard) {
-      this.ccCard.set(data.ccCard);
+    console.log(["cc-card constr", data]);
+    if (data.ccCardsExt) {
+      this.ccCard = data.ccCardsExt.ccCard;
+      this.ccCompanyName = data.ccCardsExt.cc_company_name;
+      console.log(["0createForm", this.ccCard]);
+      console.log(["0]]]]createForm", this.ccCard.cc_card_id]);
+      this.isAdd = false;
+      this.title = "Edit "+ this.ccCompanyName + ": " + this.ccCard.card_name;
+    } else {
+      this.isAdd = true;
+      this.title = "Add card to "+ this.ccCompanyName;
+    }
+    if (data.ccCardsExt.ccCompanyList) {
+      this.ccCompanyList = data.ccCardsExt.ccCompanyList;
     }
     this.isEdit = false;
+    console.log(["1createForm", this.ccCard]);
     this.createForm();
   }
 
   createForm() {
-    this.ccCardsForm = this.fb.group(this.getValues());
+    console.log(["createForm", this.ccCard]);
+    this.ccCardsForm = this.fb.group(
+      {
+        cc_card_id: this.ccCard.cc_card_id
+        , cc_company_id: this.ccCard.cc_company_id
+        , card_name: this.ccCard.card_name
+        , version: this.ccCard.version
+        , annual_fee: this.ccCard.annual_fee
+        , first_year_free: this.ccCard.first_year_free
+      }
+    );
   }
 
   ngOnChanges() {
@@ -47,7 +71,7 @@ export class CcCardComponent implements OnChanges {
   }
 
   ngOnInit() {
-    console.log( 'on init');
+    console.log('on init');
     //this.ccCompanyService.ccCardSubject.subscribe(
     //  card => {
     //    this.ccCard.set(card);
@@ -57,15 +81,21 @@ export class CcCardComponent implements OnChanges {
   }
 
   ngOnDestroy() {
-    console.log( 'on destroy');
+    console.log('on destroy');
     //this.ccCompanyService.ccCardSubject.unsubscribe();
   }
 
-onDlgClose(): void {
-  this.dialogRef.close();
-}
+  onDlgClose():void {
+    this.dialogRef.close();
+  }
+
+  onClickCancel() {
+    console.log( this.dialogRef);
+    this.dialogRef.close();
+  }
+
   getValues() {
-    return {
+    let x = {
       cc_card_id: this.ccCard.cc_card_id
       , cc_company_id: this.ccCard.cc_company_id
       , card_name: this.ccCard.card_name
@@ -73,6 +103,9 @@ onDlgClose(): void {
       , annual_fee: this.ccCard.annual_fee
       , first_year_free: this.ccCard.first_year_free
     };
+    x['cc_card_id'] = this.ccCard.cc_card_id;
+    console.log( ["getValues", x, this.ccCard]);
+    return x;
   }
 
   setValues() {
@@ -96,8 +129,8 @@ onDlgClose(): void {
   onCardSubmit() {
     this.isEdit = false;
     console.log(this.ccCardsForm.value);
-    this.ccCompanyService.postCcCard (this.ccCardsForm.value);
-    this.dialogRef.data.close();
+    this.ccCompanyService.postCcCard(this.ccCardsForm.value);
+    this.dialogRef.close();
   }
 
   revert() {

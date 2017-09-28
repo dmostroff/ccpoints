@@ -120,12 +120,9 @@
         </md-error>
       </md-form-field>
     </div>
-    <div fxLayout="row" fxLayoutAlign="end end">
-      <div fxFlex fxFlexAlign="start"></div>
-      <button fxFlex="8%" md-raised-button type="submit" class="loginButton">Submit</button>
-      <button (click)="isEdit=false;">
-        <md-icon>done</md-icon>
-      </button>
+    <div fxLayout="row" fxLayoutAlign="center stretch" fxLayoutGap="20px">
+      <button fxFlex="18%" md-raised-button type="submit" color="primary" class="submitButton"><md-icon>done</md-icon>Submit</button>
+      <button fxFlex="18%" md-raised-button (click)="onClickCancel()"><md-icon>cancel</md-icon> Cancel</button>
     </div>
   </form>
 

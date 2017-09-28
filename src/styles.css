@@ -17,9 +17,10 @@ body {
 }
 
 label {
+  font-size: 8pt;
   font-weight: bold;
-  text-align: left;
-  margin-right: 4px;
+  text-align: right;
+  margin-right: 8px;
 }
 
 .form-class {
@@ -42,8 +43,9 @@ label {
   text-align: end;
 }
 
-.recorded-on {
-  font-size: small;
+.recorded_on {
+  font-size: 6pt;
+  color: darkgray;
   font-family: Georgia;
   vertical-align: bottom;
   text-align: end;

@@ -53,13 +53,14 @@ export class CcCompanyListComponent implements OnInit {
 
   getCompanyList() {
     this.ccCompanyService.getCompanyList();
-
   }
+
   onClick( id) {
     this.ccCompanyService.ccCompanyId = id;
     console.log(id);
     this.ccCompanyService.getCompany(id);
     this.ccCompanyService.getCompanyCards(id);
+    this.isEdit = false;
     //this.router.navigate( ['cc', 'company', id]);
   }
 
