@@ -7,9 +7,10 @@ import { ClientAddressComponent }    from './persons/client-address.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'list', pathMatch: 'full'},
-  { path: 'personslist', component: PersonslistComponent },
-  { path: 'person/:client_id', component: PersonsComponent },
-  { path: 'address', component: ClientAddressComponent }
+  { path: 'persons', component: PersonslistComponent, children: [
+    { path: ':client_id', component: PersonsComponent, outlet: "clients" },
+    { path: ':client_id/address/:address_id', component: ClientAddressComponent }
+  ] },
 ];
 
 @NgModule({
@@ -21,6 +22,6 @@ const routes: Routes = [
 })
 export class ClientsRoutingModule {
   constructor() {
-    console.log('Kennedy');
+    console.log('ClientsRoutingModule');
   }
 }

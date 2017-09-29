@@ -1,5 +1,9 @@
 <h2>Client List {{dataSource.dataLength}}</h2>
 <button md-button (click)="testButton()">Test</button>
+<div style="border: 1px solid red">
+  <router-outlet name="client"></router-outlet>
+</div>
+
 <div [style.display]="(showTable) ? 'block' : 'none' ">
 
 <md-paginator #paginator
@@ -28,7 +32,8 @@
     </ng-container>
     <ng-container cdkColumnDef="last_name">
       <md-header-cell *cdkHeaderCellDef fxFlex>Last Name</md-header-cell>
-      <md-cell *cdkCellDef="let row" (click)="showPerson(row)" fxFlex="grow">{{row.last_name}}</md-cell>
+      <!--<md-cell *cdkCellDef="let row" fxFlex="grow"><a [routerLink]="['/clients/person/'+row.client_id]">{{row.last_name}}</a></md-cell>-->
+      <md-cell *cdkCellDef="let row" fxFlex="grow"><a [routerLink]="row.client_id">{{row.last_name}}</a></md-cell>
     </ng-container>
     <ng-container cdkColumnDef="first_name">
       <md-header-cell *cdkHeaderCellDef fxFlex>First Name</md-header-cell>
@@ -55,9 +60,9 @@
   </div>
 </div>
 </div>
-<div [style.display]="(showPersonDisplay) ? 'block' : 'none' " fxLayout="row" fxLayoutAlign="start stretch" style="background-color: tan; border: 3px solid gold;">
-  <client-person [clientPerson]="clientPerson"></client-person>
-</div>
+<!--<div [style.display]="(showPersonDisplay) ? 'block' : 'none' " fxLayout="row" fxLayoutAlign="start stretch" style="background-color: tan; border: 3px solid gold;">-->
+  <!--<client-person [clientPerson]="clientPerson"></client-person>-->
+<!--</div>-->
 <!--<div [style.display]="(showPersonEdit) ? 'block' : 'none' " fxLayout="row" fxLayoutAlign="start stretch" style="border: 3px solid gold;">-->
   <!--<app-persons [person]="clientPerson"></app-persons>-->
 <!--</div>-->

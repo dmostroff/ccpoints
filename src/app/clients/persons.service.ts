@@ -100,9 +100,13 @@ export class PersonsService {
     return this.http.post<CcapiResult>(this.apiUrl, input)
       .subscribe(
         resdata => {
-          this.person.set(resdata.data);
-          console.log( ["1-postCcCard", this.person]);
-          this.personSubject.next(this.person);
+          if( resdata.data) {
+            this.person.set(resdata.data);
+            console.log( ["1-postCcCard", this.person]);
+            this.personSubject.next(this.person);
+          } else {
+            console.log( ["resdata is null for ", resdata, input]);
+          }
         }
         , err => {
           console.log(err);

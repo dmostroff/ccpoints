@@ -23,7 +23,7 @@ import { ClientAddressDlgComponent } from './persons/client-address-dlg.componen
     ClientsRoutingModule,
     AppMaterialModule,
     FlexLayoutModule,
-    FormsModule, ReactiveFormsModule
+    FormsModule, ReactiveFormsModule,
   ],
   entryComponents: [PersonDlgComponent],
   declarations: [ PersonslistComponent, PersonsComponent, PersonDlgComponent, ClientAddressComponent, ClientAddressDlgComponent],

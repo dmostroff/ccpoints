@@ -1,7 +1,7 @@
 <nav>
 <div fxLayout="column">
   <div fxFlex *ngFor="let item of menuitems" class="context-menu-item">
-    <a routerLink="{{item.href}}" routerLinkActive="active">{{item.label}}</a>
+    <a class="context-menu-item" routerLink="{{item.href}}">{{item.label}}</a>
   </div>
 </div>
 </nav>

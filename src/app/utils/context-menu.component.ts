@@ -5,11 +5,13 @@ import { NgForOf } from '@angular/common';
 export interface IMenuItem {
   href: string;
   label: string;
+  outlet: string;
 }
 
 export class menuItem implements IMenuItem {
   href: string;
   label: string;
+  outlet: string;
 };
 
 
@@ -25,8 +27,8 @@ export class ContextMenuComponent implements OnInit {
 
   constructor() {
     this.menuitems = [
-      { href: "clients/personslist", label: "Clients"}
-      , { href: "cc/companylist", label: "CCard Companies"}
+      { href: "clients/persons", label: "Clients", outlet: "clients"}
+      , { href: "cc/companylist", label: "CCard Companies", outlet: "company"}
     ]
 
   }

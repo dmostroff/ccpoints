@@ -39,7 +39,9 @@
     <span *ngIf="sidenav._opened"><md-icon>remove</md-icon></span>
     <span *ngIf="!sidenav._opened"><md-icon>add</md-icon></span>
   </button>
-  <router-outlet></router-outlet>
+<div style="border: 1px solid blue">
+  <router-outlet name="primary" style="background-color: #00bcd4;"></router-outlet>
+  </div>
 </md-sidenav-container>
 <md-toolbar>
   <md-toolbar-row>

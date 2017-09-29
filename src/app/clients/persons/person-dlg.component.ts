@@ -71,7 +71,7 @@ export class PersonDlgComponent implements OnChanges {
   }
 
   onSubmit() {
-    this.personsService.postPerson( this.clientPerson);
+    this.personsService.postPerson(this.clientPersonForm.value);
     this.dialogRef.close();
   }
 

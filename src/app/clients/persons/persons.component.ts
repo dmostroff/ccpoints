@@ -1,5 +1,8 @@
-import { Component, Input, OnChanges, OnDestroy } from '@angular/core';
-import { ActivatedRoute }       from '@angular/router';
+import { Component, OnChanges, OnDestroy, HostBinding } from '@angular/core';
+// , Input
+import { Router, ActivatedRoute }       from '@angular/router';
+
+
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { PersonsService} from './../persons.service';
 import { ClientPerson} from './../clientperson';
@@ -13,27 +16,66 @@ import { PersonDlgComponent } from './person-dlg.component';
   styleUrls: ['./persons.component.css'],
 })
 
-export class PersonsComponent implements OnChanges {
-  @Input() clientPerson: ClientPerson;
-  client_id: number;
 
+export class PersonsComponent { // implements OnChanges {
+  @HostBinding('style.display')   display = 'block';
+  @HostBinding('style.position')  position = 'absolute';  //@Input() clientPerson: ClientPerson;
+  @HostBinding('style.width')  width = "90%";
+  @HostBinding('style.height')  height = "90%";
+
+  clientPerson: ClientPerson;
 
   constructor( private personService: PersonsService
     , public mdDialog: MdDialog
-    , private route: ActivatedRoute) {
+    , private router: Router
+    , private activeroute: ActivatedRoute
+  ) {
     this.clientPerson = new ClientPerson();
     this.personService.personSubject.subscribe( person => { this.clientPerson = person; })
   }
 
 
+  closePopup() {
+    // Providing a `null` value to the named outlet
+    // clears the contents of the named outlet
+    this.router.navigate([{ outlets: { persondetail: null }}]);
+  }
+
   ngOnChanges() {
-    let x = this.route.snapshot.paramMap.get('client_id');
-    if( x == '')  { x = "11"; }
-    this.client_id = +x;
-    console.log( this.client_id);
-    //this.person = this.personService.person;
-    this.personService.getPerson(this.client_id);
+    //let client_id = this.activeroute..snapshot.paramMap.get('client_id');
+    //if( client_id == '')  { client_id = "11"; }
+    //console.log( client_id);
+    ////this.person = this.personService.person;
+    //this.personService.getPerson(client_id);
     }
+
+  ngOnInit() {
+    let client_id = this.activeroute.snapshot.paramMap.get('client_id');
+    if( client_id == '')  { client_id = "11"; }
+    console.log( client_id);
+    //this.person = this.personService.person;
+    this.personService.getPerson(client_id);
+  }
+
+  ngDoCheck() {
+    console.log(['ngDoCheck  - clientPerson data is ',this.clientPerson]);
+  }
+
+  ngAfterContentInit() {
+    console.log("ngAfterContentInit clientPerson");
+  }
+
+  ngAfterContentChecked() {
+    console.log("ngAfterContentChecked clientPerson");
+  }
+
+  ngAfterViewInit() {
+    console.log("ngAfterViewInit clientPerson");
+  }
+
+  ngAfterViewChecked() {
+    console.log("ngAfterViewChecked clientPerson");
+  }
 
   ngOnDestroy() {
     // this.personService.personSubject.unsubscribe();
@@ -62,7 +104,7 @@ export class PersonsComponent implements OnChanges {
     });
   }
   onClose() {
-    this.personService.setPersonListMode();
+    this.router.navigate([{ outlets: { popup: null }}]);
   }
 
 }
