@@ -67,24 +67,40 @@
       </div>
       <div fxLayout="row" fxLayoutGap="15px">
         <md-form-field class="form-group" fxFlex fxFlexAlign="start center">
-          <input mdInput formControlName="phone" placeholder="phone" [maxlength]="12" type="tel">
+          <input mdInput formControlName="phone" placeholder="phone" type="tel"
+                 pattern="[0-9]*"
+                 minlength="10"
+                 maxlength="12"
+          >
           <md-error *ngIf="clientPersonForm.hasError('required')">phone is <strong>required</strong>
           </md-error>
         </md-form-field>
       </div>
       <div fxLayout="row" fxLayoutGap="15px">
         <md-form-field class="form-group" fxFlex fxFlexAlign="start center">
-          <input mdInput type="text" formControlName="phone_2" placeholder="phone_2">
+          <input mdInput type="text" formControlName="phone_2" placeholder="phone_2"
+                 pattern="[0-9]*"
+                 minlength="10"
+                 maxlength="12"
+          >
           <md-error *ngIf="clientPersonForm.hasError('required')">phone_2 is <strong>required</strong>
           </md-error>
         </md-form-field>
         <md-form-field class="form-group" fxFlex fxFlexAlign="start center">
-          <input mdInput type="text" formControlName="phone_cell" placeholder="phone_cell">
+          <input mdInput type="text" formControlName="phone_cell" placeholder="phone_cell"
+                 pattern="[0-9]*"
+                 minlength="10"
+                 maxlength="10"
+          >
           <md-error *ngIf="clientPersonForm.hasError('required')">phone_cell is <strong>required</strong>
           </md-error>
         </md-form-field>
         <md-form-field class="form-group" fxFlex fxFlexAlign="start center">
-          <input mdInput type="text" formControlName="phone_fax" placeholder="phone_fax">
+          <input mdInput type="text" formControlName="phone_fax" placeholder="phone_fax"
+                 pattern="[0-9]*"
+                 minlength="10"
+                 maxlength="12"
+          >
           <md-error *ngIf="clientPersonForm.hasError('required')">phone_fax is <strong>required</strong>
           </md-error>
         </md-form-field>

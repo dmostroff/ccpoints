@@ -1,0 +1,8 @@
+<div *ngIf="clientAccount">
+  <h5>Account for {{clientAccount.client_id}}!!</h5>
+  <div *ngIf="!isDetail" fxLayout="column" fxLayoutAlign="start space-between" fxLayoutGap="8px" >
+    <div fxFlex *ngFor="let account of clientAccounts; let ii = index">
+      {{ii+1}}] <a (click)="onClickAccount(account.account_id)">{{account.account}}</a> {{account.version}} {{account.annual_fee}} {{account.first_year_fee}} <span class="recorded_on"> {{account.recorded_on}}</span>
+    </div>
+  </div>
+</div>

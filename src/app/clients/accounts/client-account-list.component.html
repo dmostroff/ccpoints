@@ -1,0 +1,15 @@
+  <h5>Accounts</h5>
+  <div fxLayout="row" fxLayoutAlign="start space-between" fxLayoutGap="8px"
+       *ngFor="let account of clientAccounts; let ii = index"
+  >
+    <div fxFlex >{{ii+1}}</div>
+    <div fxFlex><a (click)="onClickAccount(account)">{{account.account}}</a></div>
+    <div fxFlex>{{account.version}}</div>
+    <div fxFlex>{{account.annual_fee}}</div>
+    <div fxFlex>{{account.first_year_fee}}</div>
+    <div fxFlex><span class="recorded_on"> {{account.recorded_on}}</span>
+    </div>
+    <div fxFlex fxFlexAlign="center center">
+      <button md-button-raised (click)="onAddClick()"><md-icon>add</md-icon></button>
+    </div>
+  </div>

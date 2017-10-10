@@ -32,7 +32,9 @@
 <md-sidenav-container class="example-sidenav-fab-container">
   <md-sidenav #sidenav mode="side" opened="true">
     <div class="example-scrolling-content">
-      <app-context-menu></app-context-menu>
+      <nav>
+        <app-context-menu></app-context-menu>
+      </nav>
     </div>
     </md-sidenav>
   <button md-mini-fab class="example-fab" (click)="sidenav.toggle();">
@@ -40,7 +42,7 @@
     <span *ngIf="!sidenav._opened"><md-icon>add</md-icon></span>
   </button>
 <div style="border: 1px solid blue">
-  <router-outlet name="primary" style="background-color: #00bcd4;"></router-outlet>
+  <router-outlet style="background-color: #00bcd4;"></router-outlet>
   </div>
 </md-sidenav-container>
 <md-toolbar>

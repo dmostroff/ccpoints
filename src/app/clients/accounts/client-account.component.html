@@ -1,0 +1,56 @@
+<h2 class="md-title" fxFlex="50%">{{title}}</h2>
+<div *ngIf="!isEdit && clientAccount.address_id" fxLayout="column">
+  <div fxFlex>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <div fxFlex><label>Id:</label>{{clientAccount.account_id}}</div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <div fxFlex><label>Client_id:</label>{{clientAccount.client_id}}</div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <div fxFlex><label>Name:</label>{{clientAccount.name}}</div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <div fxFlex><label>Accountr:</label>{{clientAccount.account}}</div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <div fxFlex><label>Account Info:</label>{{clientAccount.account_info}}</div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <div fxFlex><label>Ccnumber:</label>{{clientAccount.cc_number}}</div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <div fxFlex><label>Expdate:</label>{{clientAccount.expdate}}</div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <div fxFlex><label>Expdate:</label>{{clientAccount.expdate}}</div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <div fxFlex><label>Ccv:</label>{{clientAccount.ccv}}</div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <div fxFlex><label>Cc_login:</label>{{clientAccount.cc_login}}</div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <div fxFlex><label>Cc_password:</label>{{clientAccount.cc_password}}</div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <div fxFlex><label>Cc_company_id:</label>{{clientAccount.cc_company_id}}</div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <div fxFlex><label>Cc_status:</label>{{clientAccount.cc_status}}</div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <div fxFlex><label>Annual_fee:</label>{{clientAccount.annual_fee}}</div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <div fxFlex><label>Credit_limit:</label>{{clientAccount.credit_limit}}</div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <div fxFlex><label>Addtional_card:</label>{{clientAccount.addtional_card}}</div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <div fxFlex fxFlexAlign="end" class="recorded_on"><label>Recorded_on:</label>{{clientAccount.recorded_on}}</div>
+    </div>
+  </div>
+</div>

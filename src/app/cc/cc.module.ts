@@ -10,6 +10,7 @@ import { CcCompanyListComponent } from './cc-company-list.component';
 import { CcCompanyComponent } from './cc-company.component';
 import { CcCardComponent } from './cc-card.component';
 import { CcCompanycardsComponent } from './cc-companycards.component';
+import { CcCompanyDlgComponent } from './cc-company-dlg.component';
 
 import { PhoneFmtPipe } from './../utils/phonefmt.pipe';
 import { ZipCodePipe } from './../utils/zipcode.pipe'
@@ -17,6 +18,7 @@ import { ZipCodePipe } from './../utils/zipcode.pipe'
 const componentList = [
   CcCompanyListComponent
   , CcCompanyComponent
+  , CcCompanyDlgComponent
   , CcCompanycardsComponent
   , CcCardComponent
   , PhoneFmtPipe
@@ -32,6 +34,7 @@ const componentList = [
     ReactiveFormsModule,
     CcRoutingModule
   ],
+  entryComponents: [CcCompanyDlgComponent],
   declarations: componentList,
   providers: [CcCompanyService ]
 })

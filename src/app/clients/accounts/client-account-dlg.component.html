@@ -1,0 +1,121 @@
+<h1 md-dialog-title class="primary-color">{{title}}</h1>
+<form [formGroup]="clientAccountForm" (ngSubmit)="onSubmit()" class="form-class" fxLayout="column" fxLayoutAlign="center center" novalidate>
+  <div fxFlex fxFlexFill>
+    <md-dialog-content class="accent-color">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <md-form-field class="form-group" fxFlex>
+        <input mdInput type="text" formControlName="account_id" placeholder="account_id">
+        <md-error *ngIf="clientAccountForm.hasError('required')">clicc_id is <strong>required</strong>
+        </md-error>
+      </md-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <md-form-field class="form-group" fxFlex>
+        <input mdInput type="text" formControlName="client_id" placeholder="client_id">
+        <md-error *ngIf="clientAccountForm.hasError('required')">client_id is <strong>required</strong>
+        </md-error>
+      </md-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <md-form-field class="form-group" fxFlex>
+        <input mdInput type="text" formControlName="name" placeholder="name">
+        <md-error *ngIf="clientAccountForm.hasError('required')">name is <strong>required</strong>
+        </md-error>
+      </md-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <md-form-field class="form-group" fxFlex>
+        <input mdInput type="text" formControlName="account" placeholder="Account">
+        <md-error *ngIf="clientAccountForm.hasError('required')">Account is <strong>required</strong>
+        </md-error>
+      </md-form-field>
+    </div>
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+        <md-form-field class="form-group" fxFlex>
+          <input mdInput type="text" formControlName="account_info" placeholder="Info">
+          <md-error *ngIf="clientAccountForm.hasError('required')">ccnumber is <strong>required</strong>
+          </md-error>
+        </md-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+        <md-form-field class="form-group" fxFlex>
+          <input mdInput type="text" formControlName="cc_number" placeholder="CC Number">
+          <md-error *ngIf="clientAccountForm.hasError('required')">ccnumber is <strong>required</strong>
+          </md-error>
+        </md-form-field>
+      </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <md-form-field class="form-group" fxFlex>
+        <input mdInput type="text" formControlName="expdate" placeholder="Expiration Date">
+        <md-error *ngIf="clientAccountForm.hasError('required')">expdate is <strong>required</strong>
+        </md-error>
+      </md-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <md-form-field class="form-group" fxFlex>
+        <input mdInput type="text" formControlName="ccv" placeholder="CCV">
+        <md-error *ngIf="clientAccountForm.hasError('required')">ccv is <strong>required</strong>
+        </md-error>
+      </md-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <md-form-field class="form-group" fxFlex>
+        <input mdInput type="text" formControlName="cc_login" placeholder="Login">
+        <md-error *ngIf="clientAccountForm.hasError('required')">cc_login is <strong>required</strong>
+        </md-error>
+      </md-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <md-form-field class="form-group" fxFlex>
+        <input mdInput type="text" formControlName="cc_password" placeholder="Password">
+        <md-error *ngIf="clientAccountForm.hasError('required')">cc_password is <strong>required</strong>
+        </md-error>
+      </md-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <md-form-field class="form-group" fxFlex>
+        <input mdInput type="text" formControlName="cc_company_id" placeholder="cc_company_id">
+        <md-error *ngIf="clientAccountForm.hasError('required')">cc_company_id is <strong>required</strong>
+        </md-error>
+      </md-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <md-form-field class="form-group" fxFlex>
+        <input mdInput type="text" formControlName="cc_status" placeholder="Card status">
+        <md-error *ngIf="clientAccountForm.hasError('required')">cc_status is <strong>required</strong>
+        </md-error>
+      </md-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <md-form-field class="form-group" fxFlex>
+        <input mdInput type="text" formControlName="annual_fee" placeholder="Annual fee">
+        <md-error *ngIf="clientAccountForm.hasError('required')">annual_fee is <strong>required</strong>
+        </md-error>
+      </md-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <md-form-field class="form-group" fxFlex>
+        <input mdInput type="text" formControlName="credit_limit" placeholder="Credit limit">
+        <md-error *ngIf="clientAccountForm.hasError('required')">credit_limit is <strong>required</strong>
+        </md-error>
+      </md-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <md-form-field class="form-group" fxFlex>
+        <input mdInput type="text" formControlName="addtional_card" placeholder="Addtional Card Holder">
+        <md-error *ngIf="clientAccountForm.hasError('required')">addtional_card is <strong>required</strong>
+        </md-error>
+      </md-form-field>
+    </div>
+    </md-dialog-content>
+  </div>
+  <div fxFlex fxFlexFill>
+    <md-dialog-actions>
+      <div fxLayout="row" fxLayoutAlign="center stretch" fxLayoutGap="20px">
+        <button fxFlex="18%" md-raised-button type="submit" color="primary" class="submitButton"><md-icon>done</md-icon>Submit</button>
+        <button fxFlex="18%" md-raised-button (click)="onClickCancel()"><md-icon>cancel</md-icon> Cancel</button>
+      </div>
+    </md-dialog-actions>
+  </div>
+  <p>Form value: {{clientAccountForm.value | json }}</p>
+</form>

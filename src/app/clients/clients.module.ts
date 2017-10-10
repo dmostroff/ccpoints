@@ -10,23 +10,43 @@ import { PersonsService } from './persons.service';
 
 import { ClientsRoutingModule } from './clients-routing.module';
 
-import { PersonslistComponent }    from './personslist/personslist.component';
+import { PersonslistComponent }    from './persons/personslist.component';
 import { PersonsComponent }    from './persons/persons.component';
 import { PersonDlgComponent } from './persons/person-dlg.component';
 
 import { ClientAddressComponent }    from './persons/client-address.component';
 import { ClientAddressDlgComponent } from './persons/client-address-dlg.component';
 
+import { ClientAccountService } from './client-account.service';
+
+import { ClientAccountComponent } from './accounts/client-account.component';
+import { ClientAccountDlgComponent } from './accounts/client-account-dlg.component';
+import { ClientAccountPersonComponent } from './accounts/client-account-person.component';
+import { ClientAccountListComponent } from './accounts/client-account-list.component';
+
 @NgModule({
   imports: [
-    CommonModule,
-    ClientsRoutingModule,
-    AppMaterialModule,
-    FlexLayoutModule,
-    FormsModule, ReactiveFormsModule,
+    CommonModule
+    , ClientsRoutingModule
+    , AppMaterialModule
+    , FlexLayoutModule
+    , FormsModule
+    , ReactiveFormsModule
   ],
-  entryComponents: [PersonDlgComponent],
-  declarations: [ PersonslistComponent, PersonsComponent, PersonDlgComponent, ClientAddressComponent, ClientAddressDlgComponent],
-  providers: [ PersonsService]
+  entryComponents: [PersonDlgComponent
+    , ClientAddressDlgComponent
+    , ClientAccountDlgComponent
+  ],
+  declarations: [ PersonslistComponent
+    , PersonsComponent
+    , PersonDlgComponent
+    , ClientAddressComponent
+    , ClientAddressDlgComponent
+    , ClientAccountComponent
+    , ClientAccountDlgComponent
+    , ClientAccountPersonComponent
+    , ClientAccountListComponent
+  ],
+  providers: [ PersonsService, ClientAccountService]
 })
 export class ClientsModule { }

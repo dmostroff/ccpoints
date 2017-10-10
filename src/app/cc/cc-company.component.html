@@ -4,127 +4,32 @@
   <div fxFlex="6%" fxFlexAlign="end" class="id">{{ccCompany.cc_company_id}}</div>
   <div fxFlex="16%" fxFlexAlign="end" class="recorded-on">{{ccCompany.recorded_on}}</div>
 </div>
-<div *ngIf="!isEdit">
-  <div fxLayout="row">
-    <div fxFlex="6%" fxFlexAlign="end" [hidden]="!ccCompany.url"><label>Url: </label></div>
-    <div fxFlex fxFlexFill>{{ccCompany.url}}</div>
-  </div>
-  <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="8px">
-    <div fxFlex="6%" [hidden]="!ccCompany.address_1"><label>Address: </label></div>
-    <div fxFlex fxFlexFill>{{ccCompany.address_1}}</div>
-  </div>
-  <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="8px">
-    <div fxFlex="6%" [hidden]="!ccCompany.address_2"></div>
-    <div fxFlex fxFlexFill>{{ccCompany.address_2}}</div>
-  </div>
-  <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="8px">
-    <div fxFlex="6%"></div>
-    <div fxFlex>{{ccCompany.city}}<span *ngIf="ccCompany.city && ccCompany.state">, </span>{{ccCompany.state}} {{ccCompany.zip | zipcode }}</div>
-  </div>
-  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
-    <div [hidden]="!ccCompany.phone" fxFlex="6%"><label>Phone</label></div><div fxFlex>{{ccCompany.phone | phone_fmt}}</div>
-    <div *ngIf="ccCompany.phone_2" fxFlex><label>Phone 2</label>{{ccCompany.phone_2 | phone_fmt}}</div>
-    <div *ngIf="ccCompany.phone_cell" fxFlex><label>Cell</label>{{ccCompany.phone_cell | phone_fmt}}</div>
-    <div *ngIf="ccCompany.phone_fax" fxFlex><label>Fax</label>{{ccCompany.phone_fax | phone_fmt}}</div>
-  </div>
-  <div fxLayout="row" fxLayoutAlign="center end">
-    <button fxFlex="90px;" fxFlexAlign="baseline" (click)="editForm()">Edit
-      <md-icon>edit</md-icon>
-    </button>
+<div fxLayout="row">
+  <div fxFlex="6%" fxFlexAlign="end" [hidden]="!ccCompany.url"><label>Url: </label></div>
+  <div fxFlex fxFlexFill>{{ccCompany.url}}</div>
+</div>
+<div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="8px">
+  <div fxFlex="6%" [hidden]="!ccCompany.address_1"><label>Address: </label></div>
+  <div fxFlex fxFlexFill>{{ccCompany.address_1}}</div>
+</div>
+<div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="8px">
+  <div fxFlex="6%" [hidden]="!ccCompany.address_2"></div>
+  <div fxFlex fxFlexFill>{{ccCompany.address_2}}</div>
+</div>
+<div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="8px">
+  <div fxFlex="6%"></div>
+  <div fxFlex>{{ccCompany.city}}<span *ngIf="ccCompany.city && ccCompany.state">, </span>{{ccCompany.state}}
+    {{ccCompany.zip | zipcode }}
   </div>
 </div>
-<div *ngIf="isEdit && ccCompany.cc_company_id">
-  <form [formGroup]="ccCompanyForm" (ngSubmit)="onCompanySubmit()" novalidate fxLayout="column" class="form-class">
-    <div fxLayout="row">
-      <md-form-field fxFlex fxFlexFill>
-        <div [hidden]="true">
-          <md-input-container>
-            <input mdInput type="text" formControlName="cc_company_id">
-          </md-input-container>
-        </div>
-        <input mdInput type="text" formControlName="cc_name" placeholder="cc_name">
-        <md-error *ngIf="ccCompanyForm.hasError('required')">cc_name is <strong>required</strong>
-        </md-error>
-      </md-form-field>
-    </div>
-    <div fxLayout="row">
-      <md-form-field fxFlex fxFlexFill [color]="accent">
-        <input mdInput type="text" formControlName="url" placeholder="url">
-        <md-error *ngIf="ccCompanyForm.hasError('required')">url is <strong>required</strong>
-        </md-error>
-      </md-form-field>
-    </div>
-    <div fxLayout="row">
-      <md-form-field class="form-group" fxFlex fxFlexFill>
-        <input mdInput type="text" formControlName="contact" placeholder="contact">
-        <md-error *ngIf="ccCompanyForm.hasError('required')">contact is <strong>required</strong>
-        </md-error>
-      </md-form-field>
-    </div>
-    <div fxLayout="row">
-      <md-form-field class="form-group" fxFlex fxFlexFill>
-        <input mdInput type="text" formControlName="address_1" placeholder="address_1">
-        <md-error *ngIf="ccCompanyForm.hasError('required')">address_1 is <strong>required</strong>
-        </md-error>
-      </md-form-field>
-      <md-form-field class="form-group" fxFlex fxFlexFill>
-        <input mdInput type="text" formControlName="address_2" placeholder="address_2">
-        <md-error *ngIf="ccCompanyForm.hasError('required')">address_2 is <strong>required</strong>
-        </md-error>
-      </md-form-field>
-    </div>
-    <div fxLayout="row" fxLayoutGap="15px">
-      <md-form-field class="form-group" fxFlex="">
-        <input mdInput type="text" formControlName="city" placeholder="city">
-        <md-error *ngIf="ccCompanyForm.hasError('required')">city is <strong>required</strong>
-        </md-error>
-      </md-form-field>
-
-      <md-form-field class="form-group" fxFlex="10%">
-        <input mdInput type="text" formControlName="state" placeholder="state">
-        <md-error *ngIf="ccCompanyForm.hasError('required')">state is <strong>required</strong>
-        </md-error>
-      </md-form-field>
-      <md-form-field class="form-group" fxFlex="15%">
-        <input mdInput type="text" formControlName="zip" placeholder="zip">
-        <md-error *ngIf="ccCompanyForm.hasError('required')">zip is <strong>required</strong>
-        </md-error>
-      </md-form-field>
-      <div [hidden]="true">
-        <md-form-field class="form-group" fxFlex>
-          <input mdInput type="text" formControlName="country" placeholder="country" value="Israel">
-          <md-error *ngIf="ccCompanyForm.hasError('required')">country is <strong>required</strong>
-          </md-error>
-        </md-form-field>
-      </div>
-    </div>
-    <div fxLayout="row" fxLayoutGap="15px">
-      <md-form-field class="form-group">
-        <input mdInput type="text" formControlName="phone" placeholder="phone">
-        <md-error *ngIf="ccCompanyForm.hasError('required')">phone is <strong>required</strong>
-        </md-error>
-      </md-form-field>
-      <md-form-field class="form-group" fxFlex>
-        <input mdInput type="text" formControlName="phone_2" placeholder="phone_2" value="56">
-        <md-error *ngIf="ccCompanyForm.hasError('required')">phone_2 is <strong>required</strong>
-        </md-error>
-      </md-form-field>
-      <md-form-field class="form-group" fxFlex>
-        <input mdInput type="text" formControlName="phone_cell" placeholder="phone_cell">
-        <md-error *ngIf="ccCompanyForm.hasError('required')">phone_cell is <strong>required</strong>
-        </md-error>
-      </md-form-field>
-      <md-form-field class="form-group" fxFlex>
-        <input mdInput type="text" formControlName="phone_fax" placeholder="phone_fax">
-        <md-error *ngIf="ccCompanyForm.hasError('required')">phone_fax is <strong>required</strong>
-        </md-error>
-      </md-form-field>
-    </div>
-    <div fxLayout="row" fxLayoutAlign="center stretch" fxLayoutGap="20px">
-      <button fxFlex="18%" md-raised-button type="submit" color="primary" class="submitButton"><md-icon>done</md-icon>Submit</button>
-      <button fxFlex="18%" md-raised-button (click)="onClickCancel()"><md-icon>cancel</md-icon> Cancel</button>
-    </div>
-  </form>
-
-  <p>Form value: {{ccCompanyForm.value | json }}</p>);
+<div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
+  <div [hidden]="!ccCompany.phone" fxFlex><label>Phone</label>{{ccCompany.phone | phone_fmt}}</div>
+  <div *ngIf="ccCompany.phone_2" fxFlex><label>Phone 2</label>{{ccCompany.phone_2 | phone_fmt}}</div>
+  <div *ngIf="ccCompany.phone_cell" fxFlex><label>Cell</label>{{ccCompany.phone_cell | phone_fmt}}</div>
+  <div *ngIf="ccCompany.phone_fax" fxFlex><label>Fax</label>{{ccCompany.phone_fax | phone_fmt}}</div>
+</div>
+<div fxLayout="row" fxLayoutAlign="end end">
+  <button fxFlex="90px;" (click)="editForm()">Edit
+    <md-icon>edit</md-icon>
+  </button>
 </div>

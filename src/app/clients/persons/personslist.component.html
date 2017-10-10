@@ -1,8 +1,5 @@
-<h2>Client List {{dataSource.dataLength}}</h2>
-<button md-button (click)="testButton()">Test</button>
-<div style="border: 1px solid red">
-  <router-outlet name="client"></router-outlet>
-</div>
+<h2>{{dataSource.dataLength}} Clients</h2>
+ <router-outlet name="person"></router-outlet>
 
 <div [style.display]="(showTable) ? 'block' : 'none' ">
 
@@ -33,7 +30,7 @@
     <ng-container cdkColumnDef="last_name">
       <md-header-cell *cdkHeaderCellDef fxFlex>Last Name</md-header-cell>
       <!--<md-cell *cdkCellDef="let row" fxFlex="grow"><a [routerLink]="['/clients/person/'+row.client_id]">{{row.last_name}}</a></md-cell>-->
-      <md-cell *cdkCellDef="let row" fxFlex="grow"><a [routerLink]="row.client_id">{{row.last_name}}</a></md-cell>
+      <md-cell *cdkCellDef="let row" fxFlex="grow" (click)="showDetail(row)">{{row.last_name}}</md-cell>
     </ng-container>
     <ng-container cdkColumnDef="first_name">
       <md-header-cell *cdkHeaderCellDef fxFlex>First Name</md-header-cell>

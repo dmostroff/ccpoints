@@ -22,7 +22,6 @@ export class CcCardComponent implements OnChanges {
   ccCompanyName: string;
   ccCompanyList:CcCompany[];
   title: string;
-  isEdit:boolean;
   isAdd:boolean;
 
 
@@ -47,13 +46,12 @@ export class CcCardComponent implements OnChanges {
     if (data.ccCardsExt.ccCompanyList) {
       this.ccCompanyList = data.ccCardsExt.ccCompanyList;
     }
-    this.isEdit = false;
     console.log(["1createForm", this.ccCard]);
     this.createForm();
   }
 
   createForm() {
-    console.log(["createForm", this.ccCard]);
+    console.log(["cc card createForm", this.ccCard]);
     this.ccCardsForm = this.fb.group(
       {
         cc_card_id: this.ccCard.cc_card_id
@@ -123,11 +121,9 @@ export class CcCardComponent implements OnChanges {
   //
   editForm() {
     this.setValues();
-    this.isEdit = true;
   }
 
   onCardSubmit() {
-    this.isEdit = false;
     console.log(this.ccCardsForm.value);
     this.ccCompanyService.postCcCard(this.ccCardsForm.value);
     this.dialogRef.close();

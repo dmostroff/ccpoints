@@ -1,8 +1,8 @@
 import { Injectable, OnInit, OnDestroy } from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
+import {Subject} from 'rxjs/Subject';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {ClientPerson} from './clientperson';
 import 'rxjs/add/operator/map';
 
@@ -74,6 +74,9 @@ export class PersonsService {
   }
 
   public getPerson(client_id) {
+    if( !this.person) {
+      this.person = new ClientPerson();
+    }
     let apiUrl1 = this.apiUrl + '/' + client_id;
     return this.http.get(apiUrl1)
       .subscribe(

@@ -1,4 +1,4 @@
-<md-card *ngIf="clientPerson" class="container" fxLayout="column" fxLayoutAlign="center stretch" tabindex="0">
+<md-card *ngIf="clientPerson" class="container" fxLayout="column" fxLayoutAlign="center stretch" tabindex="0" style="background-color: #9e9e9e">
   <md-card-title-group>
     <md-card-title fxFlex fxFlexAlign="center">{{clientPerson.first_name}} {{clientPerson.last_name}}</md-card-title>
     <md-card-subtitle fxFlex fxFlexAlign="center">Client</md-card-subtitle>
@@ -37,6 +37,9 @@
         </div>
         <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
           <div fxFlex fxFlexAlign="end" class="recorded_on"><label>Recorded_on:</label>{{clientPerson.recorded_on}}</div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+          <client-account-person></client-account-person>
         </div>
       </div>
     </div>

@@ -2,11 +2,11 @@ import { Component, OnChanges, OnDestroy, HostBinding } from '@angular/core';
 // , Input
 import { Router, ActivatedRoute }       from '@angular/router';
 
+import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { PersonsService} from './../persons.service';
 import { ClientPerson} from './../clientperson';
-import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 import { PersonDlgComponent } from './person-dlg.component';
 
 
@@ -94,8 +94,7 @@ export class PersonsComponent { // implements OnChanges {
 
   onPersonEdit() {
     let dialogRef = this.mdDialog.open(PersonDlgComponent, {
-      disableClose: false,
-      data: { person: this.clientPerson },
+      data: { clientPerson: this.clientPerson },
       width: "750px"
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -104,7 +103,7 @@ export class PersonsComponent { // implements OnChanges {
     });
   }
   onClose() {
-    this.router.navigate([{ outlets: { popup: null }}]);
+    this.router.navigate(['/clients/persons', {outlets: {'person' : null}}]);
   }
 
 }

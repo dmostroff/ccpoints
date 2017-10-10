@@ -1,21 +1,15 @@
 import {Component, OnInit, OnDestroy, ElementRef, ViewChild, Inject} from '@angular/core';
 import {DataSource} from '@angular/cdk/collections';
 import {MdPaginator, MdSort, MdButton} from '@angular/material';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Observable} from 'rxjs/Observable';
+import { Routes, RouterModule, Router, ActivatedRoute } from "@angular/router";
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/observable/combineLatest'
-import 'rxjs/add/operator/startWith';
-import 'rxjs/add/observable/merge';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/observable/fromEvent';
 import {MdDialog, MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
 
 import { PersonsService} from './../persons.service';
 import { ClientPerson} from './../clientperson';
-import { PersonDlgComponent } from './../persons/person-dlg.component';
+import { PersonDlgComponent } from './person-dlg.component';
 
 
 @Component({
@@ -42,7 +36,9 @@ export class PersonslistComponent implements OnInit {
   @ViewChild(MdSort) sort: MdSort;
   @ViewChild('filter') filter: ElementRef;
 
-  constructor(public dialog: MdDialog, private personService: PersonsService) {
+  constructor(public dialog: MdDialog
+    , private personService: PersonsService
+    , private router:Router) {
     this.dataLength = 0;
     this.showTable = false;
     this.showPersonDisplay = false;
@@ -79,7 +75,7 @@ export class PersonslistComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.personService.personsListSubject.unsubscribe();
+    //this.personService.personsListSubject.unsubscribe();
   }
 
   getServerData($event) {
@@ -95,6 +91,11 @@ export class PersonslistComponent implements OnInit {
   showPerson(p) {
     this.personService.getPerson(p.client_id);
     this.personService.setPersonMode('show');
+  }
+
+  showDetail(rowd) {
+    console.log( ["showDetail", rowd])
+    this.router.navigate(['/clients/persons', {outlets: {'person' : [rowd.client_id]}}]);
   }
 
   onClick(p) {
@@ -156,7 +157,7 @@ export class ClientPersonDataSource extends DataSource<any> {
   }
 
   disconnect() {
-    this._pService.personsPageSubject.unsubscribe( );
+    //this._pService.personsPageSubject.unsubscribe( );
 
   }
 
