@@ -25,7 +25,7 @@ import { AboutusComponent } from './aboutus.component';
 import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ContextMenuComponent } from './utils/context-menu.component';
-
+import { ConfirmDlgComponent } from './utils/confirm-dlg.component';
 
 export const MY_COMPONENTS = {
   'app-component': {
@@ -52,6 +52,12 @@ export const MY_COMPONENTS = {
     additionalFiles: null,
     selectorName: null
   },
+  'confirm-dlg' : {
+    title: 'Login Component',
+    component: ConfirmDlgComponent,
+    additionalFiles: null,
+    selectorName: null
+  },
   'page-not-found': {
     title: 'Page Not Found',
     component: PageNotFoundComponent,
@@ -65,8 +71,10 @@ export const MY_COMPONENTS_LIST = [
   ContextMenuComponent,
   AboutusComponent,
   LoginComponent,
+  ConfirmDlgComponent,
   PageNotFoundComponent
-]
+];
+
 @NgModule({
   declarations: MY_COMPONENTS_LIST,
   entryComponents: MY_COMPONENTS_LIST,

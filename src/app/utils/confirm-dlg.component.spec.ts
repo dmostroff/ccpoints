@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AccountsComponent } from './accounts.component';
+import { ConfirmDlgComponent } from './confirm-dlg.component';
 
-describe('AccountsComponent', () => {
-  let component: AccountsComponent;
-  let fixture: ComponentFixture<AccountsComponent>;
+describe('ConfirmDlgComponent', () => {
+  let component: ConfirmDlgComponent;
+  let fixture: ComponentFixture<ConfirmDlgComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AccountsComponent ]
+      declarations: [ ConfirmDlgComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AccountsComponent);
+    fixture = TestBed.createComponent(ConfirmDlgComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

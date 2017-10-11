@@ -95,4 +95,22 @@ export class ClientAccountService {
       );
   }
 
+  public deleteClientAccount(input ) {
+    return this.http.delete<CcapiResult>(this.apiUrl, input)
+      .subscribe(
+        resdata => {
+          if( resdata['data']) {
+            this.clientAccount.set(resdata['data']);
+            console.log( ["1-deleteClientAccount", this.clientAccount]);
+            this.clientAccountSubject.next(resdata['data']);
+          } else {
+            console.log( ["resdata is null for ", resdata, input]);
+          }
+        }
+        , err => {
+          console.log(err);
+        }
+      );
+  }
+
 }

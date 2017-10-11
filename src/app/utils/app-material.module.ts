@@ -65,6 +65,6 @@ import {
     MdPaginatorModule,
     MdSortModule,
     MdTableModule
-  ],
+  ]
 })
 export class AppMaterialModule { }

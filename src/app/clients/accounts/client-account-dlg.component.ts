@@ -63,12 +63,14 @@ export class ClientAccountDlgComponent implements OnChanges {
   }
 
   onSubmit() {
+    console.log( "submit");
     this.clientAccountService.postClientAccount( this.clientAccountForm.value);
-    this.dialogRef.close();
+    this.dialogRef.close(true);
   }
 
   onClickCancel() {
-    this.dialogRef.close();
+    console.log( "cancel");
+    this.dialogRef.close(false);
   }
 
 }

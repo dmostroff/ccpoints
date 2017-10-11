@@ -1,0 +1,6 @@
+<h1 md-dialog-title>Confirm</h1>
+<div md-dialog-content>{{confirmMsg}}</div>
+<div md-dialog-actions>
+  <button md-button style="color: #fff;background-color: #153961;" (click)="dialogRef.close(true)">{{okMsg}}</button>
+  <button md-button (click)="dialogRef.close(false)">{{cancelMsg}}</button>
+</div>
