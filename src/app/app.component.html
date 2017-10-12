@@ -5,8 +5,12 @@
   <nav>
     <div fxFlex>
       <div fxLayout="row">
-        <div fxFlex>
+        <div *ngIf="!admUser.user_name" fxFlex>
           <a routerLink="login" routerLinkActive="active" class="mat-button-wrapper">Login</a>
+        </div>
+        <div *ngIf="admUser.user_name" fxFlex (click)="logout()" >
+          Welcome {{admUser.user_name}}
+          <a class="mat-button-wrapper">Logout</a>
         </div>
         <div fxFlex="10px;"></div>
         <div fxFlex>

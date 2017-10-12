@@ -10,8 +10,8 @@ import {CcapiResult} from './../ccapiresult';
 export class AdmUsersService {
   apiUrl: string;
   admUserList:AdmUser[];
-  public admUserListChange:BehaviorSubject<AdmUser[]> = new BehaviorSubject<AdmUser[]>([]);
-  public loadDone: Subject<boolean> = new Subject();
+  public admUserListSubject:BehaviorSubject<AdmUser[]> = new BehaviorSubject<AdmUser[]>([]);
+  public admUserSubject:BehaviorSubject<AdmUser> = new BehaviorSubject<AdmUser>(null);
   retVal: CcapiResult
 
   public admUser: AdmUser;
@@ -20,43 +20,89 @@ export class AdmUsersService {
     this.apiUrl = 'http://ccapi.com/admin/users';
     this.admUser = new AdmUser();
     this.admUserList = <AdmUser[]>[];
-    this.loadDone = new Subject<boolean>();
   }
 
-  public login(logininput) {
-    this.loadDone.next(false);
+  public login(input) {
     let myurl = this.apiUrl + '/login';
-    const req = this.http.post( myurl, logininput)
+    const req = this.http.post<CcapiResult>( myurl, input)
       .subscribe(
-      res => {
-        this.retVal = <CcapiResult>res;
-        this.loadDone.next(true);
-      }
-      , err => {
-        console.log( err);
-      }
+        resdata => {
+          if( resdata.data) {
+            this.admUser.set(resdata.data);
+            console.log( ["1-login", this.admUser]);
+            this.admUserSubject.next(this.admUser);
+          } else {
+            console.log( ["resdata is null for ", resdata, input]);
+          }
+        }
+        , err => {
+          console.log(err);
+        }
       );
   }
 
-  public post() {
-    let url = this.apiUrl;
-    const req = this.http.post(this.apiUrl, {
-        user_id: this.admUser.user_id,
-        login: this.admUser.login,
-        pwd: this.admUser.pwd,
-        user_name: this.admUser.user_name,
-        email: this.admUser.email,
-        phone: this.admUser.phone,
-        phone_2: this.admUser.phone_2,
-        phone_cell: this.admUser.phone_cell,
-        phone_fax: this.admUser.phone_fax
-      }
-    ).subscribe(
-        res => {
-          console.log(res);
-        },
-        err => {
-          console.log("Error occured");
+  public logout(input) {
+    let myurl = this.apiUrl + '/logout';
+    const req = this.http.post<CcapiResult>( myurl, input)
+      .subscribe(
+        resdata => {
+          if( resdata.data) {
+            this.admUser.set(resdata.data);
+            console.log( ["1-login", this.admUser]);
+            this.admUserSubject.next(this.admUser);
+          } else {
+            console.log( ["resdata is null for ", resdata, input]);
+          }
+        }
+        , err => {
+          console.log(err);
+        }
+      );
+  }
+
+  public getAdmUserList( ) {
+    this.admUserListSubject.next([]);
+    return this.http.get<CcapiResult>(this.apiUrl)
+      .subscribe(
+        resdata => {
+          this.admUserList = resdata.data;
+          console.log( ["AdmUsersService.getAdmUserList", this.admUserList, this.admUserList.length] );
+          this.admUserListSubject.next(this.admUserList);
+        }
+        , err => {
+          console.log(err);
+        }
+      );
+  }
+
+  public getAdmUser( ) {
+    return this.http.get<CcapiResult>(this.apiUrl)
+      .subscribe(
+        resdata => {
+          this.admUser.set(resdata.data);
+          console.log( ["AdmUsersService.getAdmUser", this.admUser] );
+          this.admUserSubject.next(this.admUser);
+        }
+        , err => {
+          console.log(err);
+        }
+      );
+  }
+
+  public post(input) {
+    const req = this.http.post<CcapiResult>( this.apiUrl, input)
+      .subscribe(
+        resdata => {
+          if( resdata.data) {
+            this.admUser.set(resdata.data);
+            console.log( ["1-post admUser", this.admUser]);
+            this.admUserSubject.next(this.admUser);
+          } else {
+            console.log( ["resdata is null for ", resdata, input]);
+          }
+        }
+        , err => {
+          console.log(err);
         }
       );
     }

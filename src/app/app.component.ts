@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from "@angular/router";
-import { menuItem } from './utils/context-menu.component';
+
+import { AdmUser} from './adm/adm-users';
+import { AdmUsersService} from './adm/adm-users.service';
 
 @Component({
   moduleId: module.id,
@@ -11,25 +13,24 @@ import { menuItem } from './utils/context-menu.component';
 export class AppComponent {
   title = 'CC Points';
   footerInfo: String;
-  menuitems:  menuItem[];
+  admUser: AdmUser;
 
-  constructor( private router: Router) {
-    this.menuitems = [
-      { href: "clients/persons", label: "Clients", outlet: "clients", onClick: "clickClients"}
-      , { href: "cc/companylist", label: "CCard Companies", outlet: "company", onClick: "clickCompanies" }
-    ];
+  constructor( private router: Router
+    , private admUsersService: AdmUsersService) {
+    this.admUser = new AdmUser();
+    admUsersService.admUserSubject.subscribe( result => {
+      if( result) {
+        this.admUser.set(result);
+      } else {
+        this.admUser = new AdmUser();
+      }
+    });
   }
 
   get self() { return this; }
 
-  clickClients() {
-    //this.input.nativeElement.innerHtml('');
-    this.router.navigate(['/clients/personslist', {outlets: {'tree' : null}}]);
-  }
-
-  clickCompanies() {
-    //this.input.nativeElement.innerHtml('');
-    this.router.navigate(['/cc/companylist', {outlets: {'primary' : null}}]);
+  logout() {
+    this.admUsersService.logout( this.admUser);
   }
   aboutUs() {
     this.footerInfo = "Scooby Doo";

@@ -1,6 +1,8 @@
 import { Component, Input, OnChanges }       from '@angular/core';
+import { Router, ActivatedRoute } from "@angular/router";
 import { FormArray, FormBuilder} from '@angular/forms';
-import {FormGroup, FormControl, Validators} from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+
 import { AdmUser } from './../adm/adm-users';
 import { AdmUsersService } from './../adm/adm-users.service'
 
@@ -20,13 +22,33 @@ export class LoginComponent implements OnChanges {
   loginFormControl: FormControl;
   login: string;
   pwd: string;
+  msg: string;
+  bSuccess: boolean;
 
   constructor(
     private fb: FormBuilder
     , private admUserService: AdmUsersService
+    , private router: Router
     ) {
+    this.bSuccess = false;
+    this.msg = "Please Login";
+    this.admUser = new AdmUser();
+    admUserService.admUserSubject.subscribe( result => {
+      if( result) {
+        this.admUser.set( result);
+        this.bSuccess = true;
+        this.msg = this.admUser.user_name + ' successfully logged in';
+        let timeoutId = setTimeout(() => {
+          this.msg = this.admUser.user_name + ' successfully logged in';
+          router.navigate(['clients/accounts']);
+        }, 1000);
+        console.log(timeoutId );
+      } else {
+        this.msg = this.admUser.user_name + ' successfully logged in';
+
+      }
+    });
     this.loginFormControl = new FormControl('', [Validators.required, Validators.pattern(PWD_REGEX)]);
-    this.admUser = admUserService.admUser;
     this.admUser.login = 'dano';
     this.createForm();
   }
@@ -46,9 +68,7 @@ export class LoginComponent implements OnChanges {
   }
 
   onSubmit() {
-    console.log(this.loginForm.value);
     this.admUserService.login( this.loginForm.value);
-    this.admUserService.loadDone.subscribe(isDone => { if(isDone) {  this.admUser = this.admUserService.admUser; console.log(this.admUser); }});
   }
 
   revert() { this.ngOnChanges(); }
