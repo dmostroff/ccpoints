@@ -7,7 +7,12 @@
         <input mdInput type="text" formControlName="address_id" placeholder="address_id">
       </md-form-field>
       <md-form-field class="form-group" fxFlex>
-        <input mdInput type="text" formControlName="client_id" placeholder="client_id">
+        <md-select formControlName="client_id" [(ngModel)]="selectedValue" placeholder="Client">
+          <md-option [value]="" disabled>Select a client</md-option>
+          <md-option *ngFor="let client of clientPersonList" [value]="client.client_id">
+            {{ client.client_id }}] {{ client.first_name }} {{ client.middle_name }} {{ client.last_name }}
+          </md-option>
+        </md-select>
         <md-error *ngIf="clientAddressForm.hasError('required')">client_id is <strong>required</strong>
         </md-error>
       </md-form-field>

@@ -1,8 +1,8 @@
 <h1 md-dialog-title class="primary-color">{{title}}</h1>
 <form [formGroup]="ccCardsForm" (ngSubmit)="onCardSubmit()" class="form-class" fxLayout="column"
       fxLayoutAlign="start start" novalidate>
-  <div fxFlex fxFlexFill>
-    <md-dialog-content class="accent-color" style="background-color: #9e9e9e;">
+  <div fxFlex="100%">
+    <md-dialog-content class="accent-color">
       <div fxLayout="row" *ngIf="!isAdd" fxLayoutGap="15px">
         <div fxFlex>{{ccCompanyName}}</div>
       </div>
@@ -50,8 +50,8 @@
       </div>
     </md-dialog-content>
   </div>
-  <div fxFlex fxFlexFill>
-    <md-dialog-actions style="background-color: lightblue">
+  <div fxFlex="100%">
+    <md-dialog-actions>
       <div fxLayout="row" fxLayoutAlign="center stretch" fxLayoutGap="20px">
         <button fxFlex="18%" md-raised-button type="submit" color="primary" class="submitButton"><md-icon>done</md-icon>Submit</button>
         <button fxFlex="18%" md-raised-button (click)="onClickCancel()"><md-icon>cancel</md-icon> Cancel</button>

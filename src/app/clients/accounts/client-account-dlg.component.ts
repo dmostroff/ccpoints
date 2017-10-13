@@ -7,6 +7,9 @@ import { MdDialog, MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
 import { ClientAccount } from './../client-account';
 import { ClientAccountService } from './../client-account.service';
 
+import { ClientPerson } from './../clientperson';
+import { PersonsService } from './../persons.service';
+
 @Component({
   selector: 'app-client-account-dlg',
   templateUrl: './client-account-dlg.component.html',
@@ -20,9 +23,12 @@ export class ClientAccountDlgComponent implements OnChanges {
   clientAccountForm: FormGroup;
   clientAccountFormControl: FormControl;
 
+  clientPersonList: ClientPerson[];
+
   constructor(
     private fb: FormBuilder
     , private clientAccountService: ClientAccountService
+    , private personsService: PersonsService
     , public dialogRef: MdDialogRef<ClientAccount>
     , @Inject(MD_DIALOG_DATA) public data: any
   ) {
@@ -33,6 +39,11 @@ export class ClientAccountDlgComponent implements OnChanges {
     } else {
       this.title = "Edit Account for " + this.clientAccount.name;
     }
+
+    personsService.personsListSubject.subscribe( data => {
+      this.clientPersonList = data;
+    });
+
     this.createForm();
   }
 

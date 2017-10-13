@@ -30,7 +30,9 @@ import {
   MdTooltipModule,
   MdPaginatorModule,
   MdSortModule,
-  MdTableModule
+  MdTableModule,
+  MdDialogRef,
+  MD_DIALOG_DATA
 } from '@angular/material';
 
 @NgModule({

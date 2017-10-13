@@ -10,15 +10,18 @@
       </md-form-field>
     </div>
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
-      <md-form-field class="form-group" fxFlex>
-        <input mdInput type="text" formControlName="client_id" placeholder="client_id">
-        <md-error *ngIf="clientAccountForm.hasError('required')">client_id is <strong>required</strong>
-        </md-error>
-      </md-form-field>
+        <md-select formControlName="client_id" [(ngModel)]="selectedValue" placeholder="Client" fxFlex="60%">
+          <md-option [value]="" disabled>Select a client</md-option>
+          <md-option *ngFor="let client of clientPersonList" [value]="client.client_id">
+            {{ client.client_id }}] {{ client.first_name }} {{ client.middle_name }} {{ client.last_name }}
+          </md-option>
+        </md-select>
+        <!--<md-error *ngIf="clientAddressForm.hasError('required')">client_id is <strong>required</strong>-->
+        <!--</md-error>-->
     </div>
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
       <md-form-field class="form-group" fxFlex>
-        <input mdInput type="text" formControlName="name" placeholder="name">
+        <input mdInput type="text" formControlName="name" placeholder="Card Holder Name">
         <md-error *ngIf="clientAccountForm.hasError('required')">name is <strong>required</strong>
         </md-error>
       </md-form-field>
@@ -109,7 +112,7 @@
     </div>
     </md-dialog-content>
   </div>
-  <div fxFlex fxFlexFill>
+  <div fxFlex="100%">
     <md-dialog-actions>
       <div fxLayout="row" fxLayoutAlign="center stretch" fxLayoutGap="20px">
         <button fxFlex="18%" md-raised-button type="submit" color="primary" class="submitButton"><md-icon>done</md-icon>Submit</button>
