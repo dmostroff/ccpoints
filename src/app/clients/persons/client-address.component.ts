@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
 
+import { PersonsService } from './../persons.service';
 import { ClientAddress } from './client-address';
 
 @Component({
@@ -11,7 +12,7 @@ export class ClientAddressComponent implements OnChanges {
   @Input('client_id') client_id: number;
 
   clientAddress: ClientAddress
-  constructor() {
+  constructor(personsService: PersonsService) {
     this.clientAddress = new ClientAddress();
   }
 

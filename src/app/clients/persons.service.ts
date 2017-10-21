@@ -4,6 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {ClientPerson} from './clientperson';
+import {ClientAddress} from './persons/client-address';
 import 'rxjs/add/operator/map';
 
 import {CcapiResult} from './../ccapiresult';
@@ -20,6 +21,12 @@ export class PersonsService {
 
   person:ClientPerson;
   public personSubject:BehaviorSubject<ClientPerson> = new BehaviorSubject<ClientPerson>(new ClientPerson());
+
+  clientAddresses:ClientAddress[];
+  public clientAddressesSubject:BehaviorSubject<ClientAddress[]> = new BehaviorSubject<ClientAddress[]>([]);
+
+  clientAddress:ClientAddress;
+  public clientAddressSubject:BehaviorSubject<ClientAddress> = new BehaviorSubject<ClientAddress>(new ClientAddress());
 
   public personShowModeSubject:BehaviorSubject<boolean[]> = new BehaviorSubject<boolean[]>([]);
 
@@ -98,6 +105,29 @@ export class PersonsService {
       );
   }
 
+  public getClientAddresses(client_id) {
+    this.clientAddresses = [];
+    let apiUrl1 = this.apiUrl + '/' + client_id + '/address';
+    return this.http.get(apiUrl1)
+      .subscribe(
+        resp => {
+          //console.log(data);
+          if (resp['data']) {
+            this.clientAddresses = resp['data'];
+            this.clientAddressesSubject.next(this.clientAddresses);
+            //this.personChange.next(resp['data']);
+          }
+        },
+        (err:HttpErrorResponse) => {
+          if (err.error instanceof Error) {
+            console.log("Client Side Error.");
+          } else {
+            console.log('wrong');
+          }
+        }
+      );
+  }
+
 
   public postPerson(input ) {
     return this.http.post<CcapiResult>(this.apiUrl, input)
@@ -107,6 +137,24 @@ export class PersonsService {
             this.person.set(resdata.data);
             console.log( ["1-postCcCard", this.person]);
             this.personSubject.next(this.person);
+          } else {
+            console.log( ["resdata is null for ", resdata, input]);
+          }
+        }
+        , err => {
+          console.log(err);
+        }
+      );
+  }
+
+  public postClientAddress(input ) {
+    return this.http.post<CcapiResult>(this.apiUrl, input)
+      .subscribe(
+        resdata => {
+          if( resdata.data) {
+            this.clientAddress.set(resdata.data);
+            console.log( ["1-postclientAddress", this.clientAddress]);
+            this.clientAddressSubject.next(this.clientAddress);
           } else {
             console.log( ["resdata is null for ", resdata, input]);
           }

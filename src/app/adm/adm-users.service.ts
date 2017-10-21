@@ -16,10 +16,14 @@ export class AdmUsersService {
 
   public admUser: AdmUser;
   public admUserChange:BehaviorSubject<AdmUser> = new BehaviorSubject<AdmUser>(new AdmUser());
+
+  public authToken: string;
+
   constructor(private http:HttpClient) {
     this.apiUrl = 'http://ccapi.com/admin/users';
     this.admUser = new AdmUser();
     this.admUserList = <AdmUser[]>[];
+    this.authToken = null;
   }
 
   public login(input) {
@@ -30,6 +34,7 @@ export class AdmUsersService {
           if( resdata.data) {
             this.admUser.set(resdata.data);
             console.log( ["1-login", this.admUser]);
+            this.authToken = this.admUser.token;
             this.admUserSubject.next(this.admUser);
           } else {
             console.log( ["resdata is null for ", resdata, input]);

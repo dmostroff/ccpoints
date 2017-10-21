@@ -9,6 +9,7 @@ export class AdmUser {
 	phone_2: string;
 	phone_cell: string;
 	phone_fax: string;
+  token: string;
 	recorded_on: string;
 
 	constructor( ) {

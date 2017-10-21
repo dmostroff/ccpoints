@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { PersonsService } from './../persons.service';
+
 @Component({
   selector: 'app-client-address-dlg',
   templateUrl: './client-address-dlg.component.html',
@@ -7,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ClientAddressDlgComponent implements OnInit {
 
-  constructor() { }
+  constructor( personsService: PersonsService) { }
 
   ngOnInit() {
   }

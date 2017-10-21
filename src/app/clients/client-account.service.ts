@@ -1,11 +1,13 @@
 import { Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpResponse, HttpHeaders } from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 import { CcapiResult } from './../ccapiresult';
 import { ClientAccount } from './client-account';
+
+import { AdmUsersService } from './../adm/adm-users.service';
 
 @Injectable()
 export class ClientAccountService {
@@ -20,7 +22,8 @@ export class ClientAccountService {
   clientAccount:ClientAccount;
   public clientAccountSubject:BehaviorSubject<ClientAccount> = new BehaviorSubject<ClientAccount>(new ClientAccount());
 
-  constructor(private http:HttpClient) {
+  constructor(private http:HttpClient
+    , private admUserService: AdmUsersService) {
     this.apiUrl = 'http://ccapi.com//client/accounts';
     this.clientAccount = new ClientAccount();
     this.clientAccountsPerson = <ClientAccount[]>[];
@@ -31,7 +34,9 @@ export class ClientAccountService {
   public getClientAccounts() {
     let url = this.apiUrl;
     this.clientAccountListSubject.next([]);
-    return this.http.get<CcapiResult>(this.apiUrl)
+    return this.http.get<CcapiResult>(this.apiUrl
+      , {headers: new HttpHeaders().set('Authorization', this.admUserService.authToken)}
+      )
       .subscribe(
         resdata => {
           this.clientAccountList = resdata.data;
