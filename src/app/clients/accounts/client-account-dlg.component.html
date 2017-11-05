@@ -1,5 +1,6 @@
-<h1 md-dialog-title class="primary-color">{{title}}</h1>
-<form [formGroup]="clientAccountForm" (ngSubmit)="onSubmit()" class="form-class" fxLayout="column" fxLayoutAlign="center center" novalidate>
+<h1 md-dialog-title class="primary-color">{{title}} :{{client_id}}:</h1>
+<form [formGroup]="clientAccountForm" (ngSubmit)="onSubmit()" class="form-class" fxLayout="column" fxLayoutAlign="center center" novalidate
+      (keydown)="keyDownFunction($event)">
   <div fxFlex fxFlexFill>
     <md-dialog-content class="accent-color">
     <div *ngIf="false" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
@@ -9,8 +10,16 @@
         </md-error>
       </md-form-field>
     </div>
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
-        <md-select formControlName="client_id" [(ngModel)]="selectedValue" placeholder="Client" fxFlex="60%">
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">{{client_id}}
+        <md-select formControlName="cc_card_id" [(ngModel)]="ccCardSelectedValue" placeholder="Credit Card" fxFlex="60%">
+          <md-option [value]="" disabled>Select a credit card</md-option>
+          <md-option *ngFor="let ccCard of ccCards" [value]="ccCard.cc_card_id"> {{ccCard.card_name}}</md-option>
+        </md-select>
+        <!--<md-error *ngIf="clientAddressForm.hasError('required')">client_id is <strong>required</strong>-->
+        <!--</md-error>-->
+      </div>
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">{{client_id}}
+        <md-select formControlName="client_id" [(ngModel)]="selectedValue" placeholder="Client" fxFlex="60%" (ngModelChange)="clientChange()">
           <md-option [value]="" disabled>Select a client</md-option>
           <md-option *ngFor="let client of clientPersonList" [value]="client.client_id">
             {{ client.client_id }}] {{ client.first_name }} {{ client.middle_name }} {{ client.last_name }}
@@ -18,7 +27,7 @@
         </md-select>
         <!--<md-error *ngIf="clientAddressForm.hasError('required')">client_id is <strong>required</strong>-->
         <!--</md-error>-->
-    </div>
+      </div>
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
       <md-form-field class="form-group" fxFlex>
         <input mdInput type="text" formControlName="name" placeholder="Card Holder Name">
@@ -42,7 +51,7 @@
       </div>
       <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
         <md-form-field class="form-group" fxFlex>
-          <input mdInput type="text" formControlName="cc_number" placeholder="CC Number">
+          <input mdInput type="text" formControlName="cc_number" placeholder="CC Number" (keyup.enter)="ccNumberChange()">
           <md-error *ngIf="clientAccountForm.hasError('required')">ccnumber is <strong>required</strong>
           </md-error>
         </md-form-field>
@@ -72,13 +81,6 @@
       <md-form-field class="form-group" fxFlex>
         <input mdInput type="text" formControlName="cc_password" placeholder="Password">
         <md-error *ngIf="clientAccountForm.hasError('required')">cc_password is <strong>required</strong>
-        </md-error>
-      </md-form-field>
-    </div>
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
-      <md-form-field class="form-group" fxFlex>
-        <input mdInput type="text" formControlName="cc_company_id" placeholder="cc_company_id">
-        <md-error *ngIf="clientAccountForm.hasError('required')">cc_company_id is <strong>required</strong>
         </md-error>
       </md-form-field>
     </div>
@@ -121,4 +123,5 @@
     </md-dialog-actions>
   </div>
   <p>Form value: {{clientAccountForm.value | json }}</p>
+  <p>Form status: {{ clientAccountForm.status | json }}</p>
 </form>

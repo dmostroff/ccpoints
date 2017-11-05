@@ -31,9 +31,11 @@ export class AppComponent {
 
   logout() {
     this.admUsersService.logout( this.admUser);
+    this.router.navigate(['/login']);
   }
+
   aboutUs() {
-    this.footerInfo = "Scooby Doo";
+    this.footerInfo = "Ostroff Enterprises";
   }
   trackIt(x) {
     console.log(x);

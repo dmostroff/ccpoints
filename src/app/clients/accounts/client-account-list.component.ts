@@ -29,6 +29,7 @@ export class ClientAccountListComponent implements OnInit {
     });
     console.log(this.route.outlet);
     this.clientAccountService.clientAccountListSubject.subscribe(cal => {
+      console.log( ["Accounts List1Lisa", cal]);
       this.clientAccounts = cal;
     })
     this.clientAccountService.getClientAccounts();
@@ -52,6 +53,7 @@ export class ClientAccountListComponent implements OnInit {
   public onEditClick(account) {
     let dialogRef = this.dialog.open(ClientAccountDlgComponent, {width: '80%', data: {clientAccount: account}});
     dialogRef.afterClosed().subscribe( result => {
+
       if( result) {
         this.clientAccountService.getClientAccounts();
       }

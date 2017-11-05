@@ -1,6 +1,7 @@
 export class ClientAccount {
   account_id: number;
   client_id: number;
+  cc_card_id: number;
   name: string;
   account: string;
   account_info: string;
@@ -9,7 +10,6 @@ export class ClientAccount {
   ccv: string;
   cc_login: string;
   cc_password: string;
-  cc_company_id: number;
   cc_status: string;
   annual_fee: number;
   credit_limit: number;

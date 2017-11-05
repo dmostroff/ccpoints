@@ -1,13 +1,16 @@
 import { Injectable, OnInit, OnDestroy } from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpResponse, HttpHeaders } from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {ClientPerson} from './clientperson';
-import {ClientAddress} from './persons/client-address';
 import 'rxjs/add/operator/map';
 
 import {CcapiResult} from './../ccapiresult';
+
+import {ClientPerson} from './clientperson';
+import {ClientAddress} from './persons/client-address';
+
+import { AdmUsersService } from './../adm/adm-users.service';
 
 @Injectable()
 export class PersonsService {
@@ -30,7 +33,8 @@ export class PersonsService {
 
   public personShowModeSubject:BehaviorSubject<boolean[]> = new BehaviorSubject<boolean[]>([]);
 
-  constructor(private http:HttpClient) {
+  constructor(private http:HttpClient
+    , private admUsersService: AdmUsersService ) {
     this.apiUrl = 'http://ccapi.com/client/person';
     this.person = new ClientPerson();
     this.personList = <ClientPerson[]>[];

@@ -23,7 +23,7 @@ export class ClientAccountService {
   public clientAccountSubject:BehaviorSubject<ClientAccount> = new BehaviorSubject<ClientAccount>(new ClientAccount());
 
   constructor(private http:HttpClient
-    , private admUserService: AdmUsersService) {
+    , private admUsersService: AdmUsersService) {
     this.apiUrl = 'http://ccapi.com//client/accounts';
     this.clientAccount = new ClientAccount();
     this.clientAccountsPerson = <ClientAccount[]>[];
@@ -34,13 +34,11 @@ export class ClientAccountService {
   public getClientAccounts() {
     let url = this.apiUrl;
     this.clientAccountListSubject.next([]);
-    return this.http.get<CcapiResult>(this.apiUrl
-      , {headers: new HttpHeaders().set('Authorization', this.admUserService.authToken)}
-      )
+    return this.http.get<CcapiResult>(this.apiUrl)
       .subscribe(
         resdata => {
           this.clientAccountList = resdata.data;
-          console.log( ["ClientAccountService.getclientAccountList", this.clientAccountList, this.clientAccountList.length] );
+          console.log( ["ClientAccountService.getclientAccountList", this.clientAccountList, 'j'] );
           this.clientAccountListSubject.next(this.clientAccountList);
         }
         , err => {

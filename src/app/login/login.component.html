@@ -1,9 +1,9 @@
-<div *ngIf="bSuccess">
+<div>
   {{msg}}
 </div>
 <div *ngIf="!bSuccess">
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" validate fxLayout="column" fxLayoutAlign="center center"
-        novalidate>
+        novalidate (keydown)="keyDownFunction($event)">
     <div fxFlex class="form-group">
       <div fxLayout="row">
         <md-form-field class="form-group" fxFlex fxFlexAlign="end center">
@@ -16,12 +16,14 @@
     </div>
     <md-form-field class="form-group" fxFlex>
       <input mdInput type="password" formControlName="pwd" placeholder="Password">
-      <md-hint>Must be at lest 8 characters.</md-hint>
+      <md-hint>Must be at lest 6 characters.</md-hint>
       <md-error *ngIf="loginFormControl.hasError('pattern')">
-        Password must be 8 characters long and consist of mixed case, number, and punctuation.
+        Password must be 6 characters long and consist of mixed case, number, and punctuation.
       </md-error>
     </md-form-field>
     <button md-raised-button type="submit" (click)="onSubmit()" class="loginButton">Login</button>
   </form>
   <p>Form value: {{ loginForm.value | json }}</p>
+  <p>Form status: {{ loginForm.status | json }}</p>
+
 </div>

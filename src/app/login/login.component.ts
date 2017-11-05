@@ -5,6 +5,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { AdmUser } from './../adm/adm-users';
 import { AdmUsersService } from './../adm/adm-users.service'
+import {AuthService} from "../utils/auth.service";
 
 
 const PWD_REGEX = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]{8,}$/;
@@ -28,35 +29,46 @@ export class LoginComponent implements OnChanges {
   constructor(
     private fb: FormBuilder
     , private admUserService: AdmUsersService
+    , private authService: AuthService
     , private router: Router
     ) {
     this.bSuccess = false;
     this.msg = "Please Login";
     this.admUser = new AdmUser();
     admUserService.admUserSubject.subscribe( result => {
-      if( result) {
-        this.admUser.set( result);
-        this.bSuccess = true;
-        this.msg = this.admUser.user_name + ' successfully logged in';
-        let timeoutId = setTimeout(() => {
-          this.msg = this.admUser.user_name + ' successfully logged in';
-          router.navigate(['clients/accounts']);
-        }, 1000);
-        console.log(timeoutId );
+      console.log( result);
+      this.admUser.set( result);
+      if( result && result.user_id > 0) {
+          this.admUser.set( result);
+          if( this.authService.getToken()) {
+            this.bSuccess = true;
+            this.msg = this.admUser.user_name + ' successfully logged in';
+            let timeoutId = setTimeout(() => {
+              router.navigate(['clients/accounts']);
+            }, 1000);
+          } else {
+            this.bSuccess = false;
+            this.msg = this.admUser.login + ': invalid user / password';
+          }
       } else {
-        this.msg = this.admUser.user_name + ' successfully logged in';
-
+        if( this.admUser.user_name ) {
+          this.msg = this.admUser.user_name + ' invalid user / password';
+        } else {
+          this.msg = 'Please login';
+        }
       }
     });
+    this.admUser.login = localStorage.getItem('user');
     this.loginFormControl = new FormControl('', [Validators.required, Validators.pattern(PWD_REGEX)]);
-    this.admUser.login = 'dano';
     this.createForm();
   }
 
   createForm() {
     this.loginForm = this.fb.group({
-      login: '',
-      pwd: ''
+      login: this.admUser.login,
+      pwd: new FormControl(this.admUser.pwd
+        , [Validators.required, Validators.minLength(6), Validators.maxLength(64)]
+      )
     });
   }
 
@@ -67,8 +79,16 @@ export class LoginComponent implements OnChanges {
     });
   }
 
+  keyDownFunction(event) {
+    if(event.keyCode == 13) {
+      console.log( [this.loginForm.status, this.loginForm.valid]);
+    }
+  }
+
   onSubmit() {
-    this.admUserService.login( this.loginForm.value);
+    if(  this.loginForm.valid) {
+      this.admUserService.login( this.loginForm.value);
+    }
   }
 
   revert() { this.ngOnChanges(); }

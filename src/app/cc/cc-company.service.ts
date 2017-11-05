@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpResponse, HttpHeaders } from '@angular/common/http';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
-import {CcCompany} from './cc-company';
-import {CcCards} from './cc-cards';
 import 'rxjs/add/operator/map';
 
 import {CcapiResult} from './../ccapiresult';
+
+import {CcCompany} from './cc-company';
+import {CcCards} from './cc-cards';
+
+import { AdmUsersService } from './../adm/adm-users.service';
 
 @Injectable()
 export class CcCompanyService {
@@ -29,7 +32,8 @@ export class CcCompanyService {
   public ccCompanyCardsSubject:BehaviorSubject<CcCards[]> = new BehaviorSubject<CcCards[]>([]);
   public ccCardSubject:BehaviorSubject<CcCards> = new BehaviorSubject<CcCards>(null);
 
-  constructor(private http:HttpClient) {
+  constructor(private http:HttpClient
+  , private admUserService:AdmUsersService ) {
 
     this.apiBaseUrl = 'http://ccapi.com';
     this.apiUrl = this.apiBaseUrl+'/cc/company';
@@ -52,7 +56,9 @@ export class CcCompanyService {
 
   public getCompanyList( ) {
     this.ccCompanyListSubject.next(null);
-    return this.http.get<CcapiResult>(this.apiUrl)
+    return this.http.get<CcapiResult>(this.apiUrl
+      , {headers: new HttpHeaders().set('Authorization', this.admUserService.authToken)}
+      )
       .subscribe(
         resdata => {
           this.ccCompanyList = resdata.data;
@@ -79,6 +85,21 @@ export class CcCompanyService {
           this.ccCompany.set(resdata.data);
           //console.log( this.ccCompany);
           this.ccCompanySubject.next(this.ccCompany);
+        }
+        , err => {
+          console.log(err);
+        }
+      );
+  }
+
+  public getCreditCards( ) {
+    this.ccCompanyCardsSubject.next([]);
+    return this.http.get<CcapiResult>(this.apiCardUrl)
+      .subscribe(
+        resdata => {
+          this.ccCompanyCards  = resdata.data;
+          console.log( ['service getCreditCards', this.ccCompanyCards]);
+          this.ccCompanyCardsSubject.next(resdata.data);
         }
         , err => {
           console.log(err);

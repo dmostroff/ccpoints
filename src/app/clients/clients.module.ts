@@ -4,7 +4,11 @@ import { AppMaterialModule } from './../utils/app-material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+
+import { TokenInterceptor } from './../utils/token-interceptor';
 import { PhoneFmtPipe } from './../utils/phonefmt.pipe';
+import { CcNumberPipe } from './../utils/ccnumber.pipe';
 
 import { PersonsService } from './persons.service';
 
@@ -47,6 +51,11 @@ import { ClientAccountListComponent } from './accounts/client-account-list.compo
     , ClientAccountPersonComponent
     , ClientAccountListComponent
   ],
-  providers: [ PersonsService, ClientAccountService]
+  providers: [ CcNumberPipe, PersonsService, ClientAccountService
+    , {
+  provide: HTTP_INTERCEPTORS,
+  useClass: TokenInterceptor,
+  multi: true
+} ]
 })
 export class ClientsModule { }
