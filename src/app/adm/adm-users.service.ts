@@ -36,7 +36,7 @@ export class AdmUsersService {
           if (resp.data) {
             this.admUser.set(resp.data);
             //  console.log( ["1-login", this.admUser]);
-            this.authService.setToken(this.admUser.token);
+            this.authService.authTokenSubject.next(this.admUser.token);
             this.admUserSubject.next(this.admUser);
             localStorage.setItem('user', this.admUser.login);
           } else {
@@ -54,14 +54,15 @@ export class AdmUsersService {
     const req = this.http.post<CcapiResult>( myurl, input)
       .subscribe(
         resdata => {
-          if( resdata.data) {
+          if( this.authService.getToken()) {
             this.authService.setToken(null);
+          }
+          if( this.admUser.user_id > 0) {
             this.admUser.clear();
             console.log( ["1-logout", this.admUser]);
             this.admUserSubject.next(this.admUser);
-          } else {
-            console.log( ["resdata is null for ", resdata, input]);
           }
+          this.authService.authTokenRCSubject.next(9);
         }
         , err => {
           console.log(err);

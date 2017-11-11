@@ -79,7 +79,7 @@ export class ClientAccountDlgComponent implements OnChanges {
       , account: this.clientAccount.account
       , account_info: this.clientAccount.account_info
       , cc_number: new FormControl(this.clientAccount.cc_number
-        , [Validators.required, Validators.pattern("^\d{4}\d{4}\d{4}\d{4}$"), Validators.minLength(16), Validators.maxLength(16)]
+        , [Validators.required, Validators.pattern("\d+"), Validators.minLength(16), Validators.maxLength(16)]
         )
       , expdate: this.clientAccount.expdate
       , ccv: this.clientAccount.ccv

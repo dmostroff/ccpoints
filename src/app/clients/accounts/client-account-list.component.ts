@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {MdDialog, MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
 
@@ -6,6 +6,9 @@ import { ClientAccount } from './../client-account';
 import { ClientAccountService } from './../client-account.service';
 import { ClientAccountDlgComponent } from './client-account-dlg.component';
 import { ConfirmDlgComponent } from "./../../utils/confirm-dlg.component";
+
+import {AuthService} from './../../utils/auth.service';
+import {ISubscription} from "rxjs/Subscription";
 
 @Component({
   selector: 'app-client-account-list',
@@ -16,11 +19,14 @@ export class ClientAccountListComponent implements OnInit {
   clientAccount:ClientAccount;
   clientAccounts:ClientAccount[];
   dialogRef: MdDialogRef<ConfirmDlgComponent>;
-
+  private clientAccountSubscription : ISubscription;
+  private authTokenRCSubscription : ISubscription;
 
   constructor(public dialog:MdDialog
+    , private router:Router
     , private route:ActivatedRoute
-    , public clientAccountService:ClientAccountService) {
+    , public clientAccountService:ClientAccountService
+    , private authService:AuthService) {
   }
 
   ngOnInit() {
@@ -28,10 +34,17 @@ export class ClientAccountListComponent implements OnInit {
       console.log(data);
     });
     console.log(this.route.outlet);
-    this.clientAccountService.clientAccountListSubject.subscribe(cal => {
-      console.log( ["Accounts List1Lisa", cal]);
+    this.authTokenRCSubscription = this.authService.authTokenRCSubject.subscribe( rc => {
+      console.log(['authtokensub', rc]);
+      if( rc == -1 ) {
+        this.router.navigate(['/login']);
+      }
+    });
+    this.clientAccountSubscription = this.clientAccountService.clientAccountListSubject.subscribe(cal => {
+      console.log( ["Accounts List", cal]);
       this.clientAccounts = cal;
     })
+
     this.clientAccountService.getClientAccounts();
   }
 
@@ -72,6 +85,11 @@ export class ClientAccountListComponent implements OnInit {
       this.dialogRef = null;
       console.log(['The dialog was closed', result]);
     });
+  }
+
+  ngOnDestroy() {
+    this.clientAccountSubscription.unsubscribe();
+    this.authTokenRCSubscription.unsubscribe();
   }
 
 }

@@ -58,10 +58,15 @@
       </div>
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
       <md-form-field class="form-group" fxFlex>
-        <input mdInput type="text" formControlName="expdate" placeholder="Expiration Date">
-        <md-error *ngIf="clientAccountForm.hasError('required')">expdate is <strong>required</strong>
-        </md-error>
-      </md-form-field>
+          <input mdInput [mdDatepicker]="picker" formControlName="expdate" placeholder="Expiration Date">
+          <md-datepicker-toggle mdSuffix [for]="picker"></md-datepicker-toggle>
+          <md-datepicker #picker></md-datepicker>
+        </md-form-field>
+      <md-datepicker ></md-datepicker>
+        <!--<input mdInput type="text" formControlName="expdate" placeholder="Expiration Date">-->
+        <!--<md-error *ngIf="clientAccountForm.hasError('required')">expdate is <strong>required</strong>-->
+        <!--</md-error>-->
+      <!--</md-form-field>-->
     </div>
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
       <md-form-field class="form-group" fxFlex>

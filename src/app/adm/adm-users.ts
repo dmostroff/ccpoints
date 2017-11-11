@@ -13,7 +13,7 @@ export class AdmUser {
 	recorded_on: string;
 
 	constructor( ) {
-		console.log( 'AdmUser');
+		//console.log( 'AdmUser');
 	}
 
 	public set(newAdmUser:AdmUser) {

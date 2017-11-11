@@ -138,8 +138,11 @@ export class ClientPersonDataSource extends DataSource<any> {
     //, private _sort: MdSort
   ) {
     super();
-    console.log( 'cons');
-    this.dataLength = this._pService.personList.length;
+    //console.log( 'cons')    ;
+    this.dataLength = 0;
+    if( this._pService) {
+      this.dataLength = this._pService.personList.length;
+    }
     //this._filterChange.subscribe(() => this._paginator.pageIndex = 0);
   }
 

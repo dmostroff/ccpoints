@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 
 import { AdmUser} from './adm/adm-users';
 import { AdmUsersService} from './adm/adm-users.service';
+import { AuthService} from './utils/auth.service';
 
 @Component({
   moduleId: module.id,
@@ -14,10 +15,14 @@ export class AppComponent {
   title = 'CC Points';
   footerInfo: String;
   admUser: AdmUser;
+  bNavigate: boolean;
 
   constructor( private router: Router
-    , private admUsersService: AdmUsersService) {
+    , private admUsersService: AdmUsersService
+    , private authService: AuthService) {
     this.admUser = new AdmUser();
+    this.bNavigate = false;
+
     admUsersService.admUserSubject.subscribe( result => {
       if( result) {
         this.admUser.set(result);
@@ -25,18 +30,26 @@ export class AppComponent {
         this.admUser = new AdmUser();
       }
     });
+
+    this.authService.authTokenRCSubject.subscribe( rc => {
+      console.log( "logged out? " + rc);
+      if( rc == 9) {
+        this.router.navigate(['/login']);
+        this.bNavigate = true;
+      }
+    })
   }
 
   get self() { return this; }
 
   logout() {
     this.admUsersService.logout( this.admUser);
-    this.router.navigate(['/login']);
   }
 
   aboutUs() {
     this.footerInfo = "Ostroff Enterprises";
   }
+
   trackIt(x) {
     console.log(x);
   }
