@@ -36,13 +36,16 @@ export class ClientAccountListComponent implements OnInit {
     console.log(this.route.outlet);
     this.authTokenRCSubscription = this.authService.authTokenRCSubject.subscribe( rc => {
       console.log(['authtokensub', rc]);
-      if( rc == -1 ) {
+      if( rc == 9 || rc == -1 ) {
+        console.log( "Accounts List go to login");
         this.router.navigate(['/login']);
       }
     });
     this.clientAccountSubscription = this.clientAccountService.clientAccountListSubject.subscribe(cal => {
-      console.log( ["Accounts List", cal]);
-      this.clientAccounts = cal;
+      if( cal) {
+        console.log( ["Accounts List", cal]);
+        this.clientAccounts = cal;
+      }
     })
 
     this.clientAccountService.getClientAccounts();

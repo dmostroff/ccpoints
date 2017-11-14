@@ -36,15 +36,17 @@ export class ClientAccountService {
 
   public getClientAccounts() {
     let url = this.apiUrl;
+    if( !url) { return null; }
     return this.http.get<CcapiResult>(this.apiUrl)
       .subscribe(
         resdata => {
+          console.log(["ClientAccountService.getclientAccountList", resdata]);
           if( resdata.res.rc != 0) {
             this.authService.authTokenRCSubject.next(resdata.res.rc);
           } else {
             if( resdata.data && resdata.data.length > 0) {
               this.clientAccountList = resdata.data;
-              console.log(["ClientAccountService.getclientAccountList", this.clientAccountList, 'j']);
+              console.log(this.clientAccountList);
               this.clientAccountListSubject.next(this.clientAccountList);
             }
           }

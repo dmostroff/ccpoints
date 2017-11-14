@@ -33,7 +33,7 @@ export class AppComponent {
 
     this.authService.authTokenRCSubject.subscribe( rc => {
       console.log( "logged out? " + rc);
-      if( rc == 9) {
+      if( rc == 9 || rc == -1) {
         this.router.navigate(['/login']);
         this.bNavigate = true;
       }

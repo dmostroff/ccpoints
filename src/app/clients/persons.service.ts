@@ -89,12 +89,12 @@ export class PersonsService {
       this.person = new ClientPerson();
     }
     let apiUrl1 = this.apiUrl + '/' + client_id;
-    return this.http.get(apiUrl1)
+    return this.http.get<CcapiResult>(apiUrl1)
       .subscribe(
-        resp => {
+        resdata => {
           //console.log(data);
-          if (resp['data']) {
-            this.person.set(resp['data']);
+          if (resdata && resdata.data) {
+            this.person.set(resdata.data);
             this.personSubject.next(this.person);
             //this.personChange.next(resp['data']);
           }
@@ -112,12 +112,12 @@ export class PersonsService {
   public getClientAddresses(client_id) {
     this.clientAddresses = [];
     let apiUrl1 = this.apiUrl + '/' + client_id + '/address';
-    return this.http.get(apiUrl1)
+    return this.http.get<CcapiResult>(apiUrl1)
       .subscribe(
         resp => {
           //console.log(data);
-          if (resp['data']) {
-            this.clientAddresses = resp['data'];
+          if (resp.data) {
+            this.clientAddresses = resp.data;
             this.clientAddressesSubject.next(this.clientAddresses);
             //this.personChange.next(resp['data']);
           }
@@ -137,7 +137,7 @@ export class PersonsService {
     return this.http.post<CcapiResult>(this.apiUrl, input)
       .subscribe(
         resdata => {
-          if( resdata.data) {
+          if( resdata && resdata.data) {
             this.person.set(resdata.data);
             console.log( ["1-postCcCard", this.person]);
             this.personSubject.next(this.person);

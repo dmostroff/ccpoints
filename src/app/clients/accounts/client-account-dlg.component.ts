@@ -78,7 +78,7 @@ export class ClientAccountDlgComponent implements OnChanges {
       , name: this.clientAccount.name
       , account: this.clientAccount.account
       , account_info: this.clientAccount.account_info
-      , cc_number: new FormControl(this.clientAccount.cc_number
+      , accnumber: new FormControl(this.clientAccount.cc_number
         , [Validators.required, Validators.pattern("\d+"), Validators.minLength(16), Validators.maxLength(16)]
         )
       , expdate: this.clientAccount.expdate
@@ -97,7 +97,7 @@ export class ClientAccountDlgComponent implements OnChanges {
 
   ngOnInit() {
     this.companyService.getCreditCards();
-    let ccNumber = this.ccNumberPipe.transform(this.clientAccountForm.controls['cc_number'].value);
+    let ccNumber = this.ccNumberPipe.transform(this.clientAccountForm.controls['accnumber'].value);
     this.clientAccountForm.patchValue({ccNumber: ccNumber});
   }
 
@@ -106,18 +106,6 @@ export class ClientAccountDlgComponent implements OnChanges {
       alert('you just clicked enter');
       // rest of your code
     }
-  }
-
-  @HostListener("focus", ["$event.target.value"])
-  onFocus(value) {
-    let ccNumber = this.ccNumberPipe.transform(this.clientAccountForm.controls['cc_number'].value);
-    this.clientAccountForm.patchValue({ccNumber: ccNumber});
-  }
-
-  @HostListener("blur", ["$event.target.value"])
-  onBlur(value) {
-    let ccNumber = this.ccNumberPipe.transform(this.clientAccountForm.controls['cc_number'].value);
-    this.clientAccountForm.patchValue({ccNumber: ccNumber});
   }
 
   getName( ) {
@@ -131,11 +119,11 @@ export class ClientAccountDlgComponent implements OnChanges {
     return null;
   }
 
-  ccNumberChange() {
-    console.log('ccNumberChange');
-    let ccNumber = this.ccNumberPipe.transform(this.clientAccountForm.controls['cc_number'].value);
+  accountNumberChange() {
+    console.log('accountNumberChange');
+    let ccNumber = this.ccNumberPipe.transform(this.clientAccountForm.controls['accountnumber'].value);
     console.log( ccNumber);
-    this.clientAccountForm.patchValue({ccNumber: ccNumber});
+    this.clientAccountForm.patchValue({accnumber: ccNumber});
   }
 
   clientChange() {

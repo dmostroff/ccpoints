@@ -13,23 +13,19 @@ import 'rxjs/add/operator/do';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
-  skipIntercept: Boolean;
+  //skipIntercept: Boolean;
 
   constructor(public auth: AuthService) {}
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     console.log(request.url);
-    console.log( this.skipIntercept);
-    if( !this.skipIntercept) {
-      if (request.url.indexOf('admin/users/login') == -1) {
-        //request = request.clone({ headers: request.headers.set( 'Token' ,this.auth.getToken()) });
-        this.skipIntercept = true;
-        request = request.clone({
-          setHeaders: {
-            Authorization: `Bearer ${this.auth.getToken()}`
-          }
-        });
-        //request.withCredentials = true;
-      }
+    if (request.url.indexOf('admin/users/login') == -1) {
+      //request = request.clone({ headers: request.headers.set( 'Token' ,this.auth.getToken()) });
+      request = request.clone({
+        setHeaders: {
+          Authorization: `Bearer ${this.auth.getToken()}`
+        }
+      });
+      //request.withCredentials = true;
     }
     return next.handle(request);
     //  .do(event => {
@@ -38,6 +34,6 @@ export class TokenInterceptor implements HttpInterceptor {
     //    console.log(event.headers.keys());
     //  }
     //});
-  //  });
+    //  });
   }
 }

@@ -51,7 +51,7 @@
       </div>
       <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
         <md-form-field class="form-group" fxFlex>
-          <input mdInput type="text" formControlName="cc_number" placeholder="CC Number" (keyup.enter)="ccNumberChange()">
+          <input mdInput type="text" formControlName="accnumber" placeholder="Account Number" (keyup.enter)="accountNumberChange()">
           <md-error *ngIf="clientAccountForm.hasError('required')">ccnumber is <strong>required</strong>
           </md-error>
         </md-form-field>
