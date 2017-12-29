@@ -47,7 +47,7 @@ export class ClientAccountDlgComponent implements OnChanges {
     , @Inject(MD_DIALOG_DATA) public data: any
   ) {
     this.clientAccount = data.clientAccount;
-    this.clientAccountFormControl = new FormControl([Validators.required]);
+    this.clientAccountFormControl = new FormControl(); // [Validators.required]
     if( !(this.clientAccount.account_id > 0)) {
       this.title = "Add Account";
     } else {
@@ -79,7 +79,7 @@ export class ClientAccountDlgComponent implements OnChanges {
       , account: this.clientAccount.account
       , account_info: this.clientAccount.account_info
       , accnumber: new FormControl(this.clientAccount.cc_number
-        , [Validators.required, Validators.pattern("\d+"), Validators.minLength(16), Validators.maxLength(16)]
+      //  , [Validators.required, Validators.pattern("\d+"), Validators.minLength(16), Validators.maxLength(16)]
         )
       , expdate: this.clientAccount.expdate
       , ccv: this.clientAccount.ccv

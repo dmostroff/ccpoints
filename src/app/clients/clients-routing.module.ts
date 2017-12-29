@@ -10,7 +10,6 @@ import { ClientAccountComponent }    from './accounts/client-account.component';
 import { ClientAccountPersonComponent }    from './accounts/client-account-person.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'list', pathMatch: 'full'},
   { path: 'personslist', component: PersonslistComponent},
   { path: 'persons', component: PersonslistComponent, children: [
     { path: ':client_id', component: PersonsComponent, outlet: "person" },
@@ -20,6 +19,7 @@ const routes: Routes = [
   { path: 'accounts', component: ClientAccountListComponent },
   { path: 'accounts/person/:client_id', component: ClientAccountPersonComponent },
   { path: 'account/:account_id', component: ClientAccountComponent }
+  //, { path: '', redirectTo: 'login', pathMatch: 'full'}
 ];
 
 @NgModule({

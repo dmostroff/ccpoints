@@ -60,8 +60,9 @@ export class LoginComponent implements OnChanges {
         if (this.authService.getToken()) {
           this.bSuccess = true;
           this.msg = this.admUser.user_name + ' successfully logged in';
-          //let timeoutId = setTimeout(() => {
-          //}, 1000);
+          let timeoutId = setTimeout(() => {
+            this.router.navigate(['clients/accounts']);
+          }, 1500);
         } else {
           this.bSuccess = false;
           this.msg = this.admUser.login + ': invalid user / password';

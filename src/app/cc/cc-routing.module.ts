@@ -6,11 +6,11 @@ import { CcCompanycardsComponent } from './cc-companycards.component';
 import { CcCardComponent } from './cc-card.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'companylist', pathMatch: 'full'},
   { path: 'companylist', component: CcCompanyListComponent },
   { path: 'company/:company_id', component: CcCompanyComponent, outlet: "company" },
   { path: 'company/cards/:company_id', component: CcCompanycardsComponent },
   { path: 'card/:card_id', component: CcCardComponent }
+  //, { path: '', redirectTo: 'login', pathMatch: 'full'}
 ];
 
 @NgModule({

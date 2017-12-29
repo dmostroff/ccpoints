@@ -152,9 +152,13 @@ export class ClientPersonDataSource extends DataSource<any> {
     //this._pService.getPersonListPage(1, this._paginator.pageSize);
     //Observable.combineLatest(displayDataChanges);
     this._pService.personsPageSubject.subscribe(personslist => {
-      console.log( ["personsPageSubject", personslist])
-      this.renderedData = personslist;
-      this.dataLength = this._pService.personList.length;
+      if( personslist) {
+        console.log( ["personsPageSubject", personslist, this._pService.personList])
+        this.renderedData = personslist;
+        this.dataLength = personslist.length; // this._pService.personList.length;
+      } else {
+        console.log( "personsList undefined");
+      }
     });
     return this._pService.personsPageSubject;
   }
