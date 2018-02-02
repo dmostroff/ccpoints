@@ -7,6 +7,9 @@ import { ClientAccountService } from './../client-account.service';
 import { ClientAccountDlgComponent } from './client-account-dlg.component';
 import { ConfirmDlgComponent } from "./../../utils/confirm-dlg.component";
 
+import { AccNumberPipe} from './../../utils/accnumber.pipe';
+import { AccNumberMaskPipe} from './../../utils/acc-number-mask.pipe';
+
 import {AuthService} from './../../utils/auth.service';
 import {ISubscription} from "rxjs/Subscription";
 

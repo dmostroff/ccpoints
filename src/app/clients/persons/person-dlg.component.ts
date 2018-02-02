@@ -7,6 +7,8 @@ import { MdDialog, MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
 import { PersonsService } from './../persons.service';
 import { ClientPerson } from './../clientperson';
 
+import { PhoneFmtPipe } from './../../utils/phonefmt.pipe';
+
 @Component({
   selector: 'client-person-dlg',
   templateUrl: './person-dlg.component.html',
@@ -28,6 +30,14 @@ export class PersonDlgComponent implements OnChanges {
       this.clientPerson = data.clientPerson;
       this.createForm();
     this.clientPersonFormControl = new FormControl([Validators.required]);
+
+    this.clientPersonForm.controls['phone'].valueChanges.subscribe(
+      (value: string) => {
+        let phone = new PhoneFmtPipe();
+        let v = phone.transform(value); // this.accountNumberFormat(value);
+        this.clientPersonForm.controls['phone'].setValue(v, {emitEvent: false});
+      });
+
   }
 
   createForm() {
@@ -50,7 +60,9 @@ export class PersonDlgComponent implements OnChanges {
     });
   }
 
-  ngOnChanges() {
+
+
+ngOnChanges() {
     this.clientPersonForm.setValue({
       client_id: this.clientPerson.client_id
       , last_name: this.clientPerson.last_name

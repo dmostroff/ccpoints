@@ -35,45 +35,34 @@
         </md-error>
       </md-form-field>
     </div>
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
-      <md-form-field class="form-group" fxFlex>
-        <input mdInput type="text" formControlName="account" placeholder="Account">
-        <md-error *ngIf="clientAccountForm.hasError('required')">Account is <strong>required</strong>
-        </md-error>
-      </md-form-field>
-    </div>
       <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+        <md-form-field class="form-group" fxFlex>
+          <input mdInput type="text" formControlName="account" placeholder="Account">
+          <md-error *ngIf="clientAccountForm.hasError('required')">account is <strong>required</strong>
+          </md-error>
+        </md-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+        <md-form-field class="form-group" fxFlex>
+          <input mdInput type="text" formControlName="account_num" placeholder="Account Number">
+          <show-errors [control]="accountNumber"></show-errors>
+          <md-error *ngIf="clientAccountForm.hasError('required')">Account number is <strong>required</strong>
+          </md-error>
+        </md-form-field>
         <md-form-field class="form-group" fxFlex>
           <input mdInput type="text" formControlName="account_info" placeholder="Info">
-          <md-error *ngIf="clientAccountForm.hasError('required')">ccnumber is <strong>required</strong>
+          <md-error *ngIf="clientAccountForm.hasError('required')">Acc Info is <strong>required</strong>
           </md-error>
         </md-form-field>
-      </div>
-      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
-        <md-form-field class="form-group" fxFlex>
-          <input mdInput type="text" formControlName="accnumber" placeholder="Account Number" (keyup.enter)="accountNumberChange()">
-          <md-error *ngIf="clientAccountForm.hasError('required')">ccnumber is <strong>required</strong>
-          </md-error>
-        </md-form-field>
-      </div>
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
-      <md-form-field class="form-group" fxFlex>
-          <input mdInput [mdDatepicker]="picker" formControlName="expdate" placeholder="Expiration Date">
+      <md-form-field class="form-group" fxFlex="20">
+        <input mdInput type="text" formControlName="account_date" placeholder="Info">
+        <md-error *ngIf="clientAccountForm.hasError('required')">Acc Date is <strong>required</strong>
+        </md-error>
+          <input mdInput [mdDatepicker]="picker" formControlName="account_date" placeholder="Acct Date">
           <md-datepicker-toggle mdSuffix [for]="picker"></md-datepicker-toggle>
           <md-datepicker #picker></md-datepicker>
         </md-form-field>
       <md-datepicker ></md-datepicker>
-        <!--<input mdInput type="text" formControlName="expdate" placeholder="Expiration Date">-->
-        <!--<md-error *ngIf="clientAccountForm.hasError('required')">expdate is <strong>required</strong>-->
-        <!--</md-error>-->
-      <!--</md-form-field>-->
-    </div>
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
-      <md-form-field class="form-group" fxFlex>
-        <input mdInput type="text" formControlName="ccv" placeholder="CCV">
-        <md-error *ngIf="clientAccountForm.hasError('required')">ccv is <strong>required</strong>
-        </md-error>
-      </md-form-field>
     </div>
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
       <md-form-field class="form-group" fxFlex>

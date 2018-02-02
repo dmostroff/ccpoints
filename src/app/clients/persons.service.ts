@@ -58,9 +58,11 @@ export class PersonsService {
       .subscribe(
         resdata => {
           this.personList = resdata.data;
-          this.personListCount = this.personList.length;
-          console.log( ["personService.getPersonList", this.personList, this.personList.length] );
-          this.personsListSubject.next(this.personList);
+          if(this.personList) {
+            this.personListCount = this.personList.length;
+            console.log( ["personService.getPersonList", this.personList, this.personList.length] );
+            this.personsListSubject.next(this.personList);
+          }
         }
         , err => {
           console.log(err);

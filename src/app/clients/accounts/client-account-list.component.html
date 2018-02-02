@@ -2,11 +2,11 @@
   <div fxLayout="row" fxLayoutAlign="start space-between" fxLayoutGap="8px"
        *ngFor="let account of clientAccounts; let ii = index"
   >
-    <div fxFlex >{{ii+1}}</div>
+    <div fxFlex >{{ii+1}}]</div>
     <div fxFlex><a (click)="onEditClick(account)">{{account.name}}</a></div>
-    <div fxFlex><a (click)="onEditClick(account)">{{account.account}}</a></div>
+    <div fxFlex><a (click)="onEditClick(account)">{{account.account_num | accnumbermask }}</a></div>
     <div fxFlex>{{account.version}}</div>
-    <div fxFlex>{{account.annual_fee}}</div>
+    <div fxFlex>{{account.annual_fee | currency:'USD':'symbol-narrow' }}</div>
     <div fxFlex>{{account.first_year_fee}}</div>
     <div fxFlex><span class="recorded_on"> {{account.recorded_on}}</span>
     </div>

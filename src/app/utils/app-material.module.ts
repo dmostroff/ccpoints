@@ -35,6 +35,7 @@ import {
   MdDialogRef,
   MD_DIALOG_DATA
 } from '@angular/material';
+// import { AccNumberMaskPipe } from './acc-number-mask.pipe';
 
 @NgModule({
   exports: [
@@ -69,6 +70,7 @@ import {
     MdPaginatorModule,
     MdSortModule,
     MdTableModule
-  ]
+  ],
+//  declarations: [AccNumberMaskPipe]
 })
 export class AppMaterialModule { }

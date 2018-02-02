@@ -4,10 +4,9 @@ export class ClientAccount {
   cc_card_id: number;
   name: string;
   account: string;
+  account_num: string;
   account_info: string;
-  cc_number: string;
-  expdate: string;
-  ccv: string;
+  account_date: Date;
   cc_login: string;
   cc_password: string;
   cc_status: string;

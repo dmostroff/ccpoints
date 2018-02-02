@@ -8,12 +8,17 @@ import { CcCompanyComponent } from './cc/cc-company.component';
 
 
 export const appRoutes: Routes = [
+  {
+    path: '',
+    redirectTo: "/login",
+    pathMatch: 'full'
+  },
   { path: 'login', component: LoginComponent },
   { path: 'aboutus', component: AboutusComponent },
   { path: 'clients', loadChildren: './clients/clients.module#ClientsModule' },
   { path: 'cc', loadChildren: './cc/cc.module#CcModule' },
   { path: '**', redirectTo: 'pageNotFound', pathMatch: 'full' }
-  //, { path: '', redirectTo: 'login', pathMatch: 'full' }
+  //, { path: '/', redirectTo: 'login', pathMatch: 'full' }
 ];
 
 @NgModule({

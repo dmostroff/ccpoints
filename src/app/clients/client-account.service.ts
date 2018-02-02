@@ -41,14 +41,16 @@ export class ClientAccountService {
       .subscribe(
         resdata => {
           console.log(["ClientAccountService.getclientAccountList", resdata]);
-          if( resdata.res.rc != 0) {
-            this.authService.authTokenRCSubject.next(resdata.res.rc);
-            this.clientAccountListSubject.next(null);
-          } else {
-            if( resdata.data && resdata.data.length > 0) {
-              this.clientAccountList = resdata.data;
-              console.log(this.clientAccountList);
-              this.clientAccountListSubject.next(this.clientAccountList);
+          if (resdata) {
+            if (resdata.res.rc != 0) {
+              this.authService.authTokenRCSubject.next(resdata.res.rc);
+              this.clientAccountListSubject.next(null);
+            } else {
+              if (resdata.data && resdata.data.length > 0) {
+                this.clientAccountList = resdata.data;
+                console.log(this.clientAccountList);
+                this.clientAccountListSubject.next(this.clientAccountList);
+              }
             }
           }
         }

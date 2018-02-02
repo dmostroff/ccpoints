@@ -8,7 +8,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { TokenInterceptor } from './../utils/token-interceptor';
 import { PhoneFmtPipe } from './../utils/phonefmt.pipe';
-import { CcNumberPipe } from './../utils/ccnumber.pipe';
+import { AccNumberPipe } from './../utils/accnumber.pipe';
+import { AccNumberMaskPipe } from './../utils/acc-number-mask.pipe';
 
 import { PersonsService } from './persons.service';
 
@@ -27,6 +28,8 @@ import { ClientAccountComponent } from './accounts/client-account.component';
 import { ClientAccountDlgComponent } from './accounts/client-account-dlg.component';
 import { ClientAccountPersonComponent } from './accounts/client-account-person.component';
 import { ClientAccountListComponent } from './accounts/client-account-list.component';
+import { AccountnumValidatorDirective } from './accounts/accountnum-validator.directive';
+import { ShowErrorsComponent } from './accounts/show-errors.component';
 
 @NgModule({
   imports: [
@@ -50,8 +53,12 @@ import { ClientAccountListComponent } from './accounts/client-account-list.compo
     , ClientAccountDlgComponent
     , ClientAccountPersonComponent
     , ClientAccountListComponent
+    , AccountnumValidatorDirective
+    , ShowErrorsComponent
+    , AccNumberPipe
+    , AccNumberMaskPipe
   ],
-  providers: [ CcNumberPipe, PersonsService, ClientAccountService
+  providers: [ AccNumberPipe, AccNumberMaskPipe, PersonsService, ClientAccountService
     , {
   provide: HTTP_INTERCEPTORS,
   useClass: TokenInterceptor,

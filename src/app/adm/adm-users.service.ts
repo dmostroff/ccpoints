@@ -38,6 +38,7 @@ export class AdmUsersService {
             //  console.log( ["1-login", this.admUser]);
             this.authService.authTokenSubject.next(this.admUser.token);
             this.admUserSubject.next(this.admUser);
+            this.authService.authTokenRCSubject.next(0);
             localStorage.setItem('user', this.admUser.login);
           } else {
             console.log(["resdata is null for ", resp, input]);

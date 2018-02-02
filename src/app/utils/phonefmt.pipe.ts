@@ -3,7 +3,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({ name: 'phone_fmt'})
 
 export class PhoneFmtPipe implements PipeTransform {
-  transform( value: string, phonenumber: string): string {
+  transform( value: string): string {
     if(!value) { return value; }
     let phone_formatted = ''; // value.replace( /^(\d{3})(\d{3})(\d+)$/, '$1-$2-$3');
     let jj = 0;
