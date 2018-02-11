@@ -7,6 +7,8 @@ import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { TokenInterceptor } from './../utils/token-interceptor';
+
+import { CurrencyPipe} from '@angular/common'
 import { PhoneFmtPipe } from './../utils/phonefmt.pipe';
 import { AccNumberPipe } from './../utils/accnumber.pipe';
 import { AccNumberMaskPipe } from './../utils/acc-number-mask.pipe';
@@ -58,7 +60,7 @@ import { ShowErrorsComponent } from './accounts/show-errors.component';
     , AccNumberPipe
     , AccNumberMaskPipe
   ],
-  providers: [ AccNumberPipe, AccNumberMaskPipe, PersonsService, ClientAccountService
+  providers: [ AccNumberPipe, AccNumberMaskPipe, PersonsService, CurrencyPipe, ClientAccountService
     , {
   provide: HTTP_INTERCEPTORS,
   useClass: TokenInterceptor,

@@ -55,14 +55,12 @@
           </md-error>
         </md-form-field>
       <md-form-field class="form-group" fxFlex="20">
-        <input mdInput type="text" formControlName="account_date" placeholder="Info">
+        <input mdInput [mdDatepicker]="picker" formControlName="account_date" placeholder="Acct Date">
+        <md-datepicker-toggle mdSuffix [for]="picker"></md-datepicker-toggle>
+        <md-datepicker #picker></md-datepicker>
         <md-error *ngIf="clientAccountForm.hasError('required')">Acc Date is <strong>required</strong>
         </md-error>
-          <input mdInput [mdDatepicker]="picker" formControlName="account_date" placeholder="Acct Date">
-          <md-datepicker-toggle mdSuffix [for]="picker"></md-datepicker-toggle>
-          <md-datepicker #picker></md-datepicker>
         </md-form-field>
-      <md-datepicker ></md-datepicker>
     </div>
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
       <md-form-field class="form-group" fxFlex>

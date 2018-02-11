@@ -9,11 +9,11 @@ import { ClientAccountService } from './../client-account.service';
 
 import { ClientPerson } from './../clientperson';
 import { PersonsService } from './../persons.service';
+import { UtilsService } from './../../utils/utils.service';
 
 import { CcCards } from './../../cc/cc-cards';
 import { CcCompanyService } from './../../cc/cc-company.service';
 
-import { CurrencyPipe} from '@angular/common'
 import { AccNumberPipe} from './../../utils/accnumber.pipe';
 import { AccountFormatDirective} from './account-format.directive';
 
@@ -44,6 +44,7 @@ export class ClientAccountDlgComponent implements OnChanges {
     , private clientAccountService: ClientAccountService
     , private personsService: PersonsService
     , private companyService: CcCompanyService
+    , private utilsService: UtilsService
     , public dialogRef: MdDialogRef<ClientAccount>
     , private accNumberPipe: AccNumberPipe
     , @Inject(MD_DIALOG_DATA) public data: any
@@ -76,10 +77,12 @@ export class ClientAccountDlgComponent implements OnChanges {
 
   createForm() {
     let account_date = new Date(this.clientAccount.account_date);
+
     this.clientAccount.account_num = this.accNumberPipe.transform(this.clientAccount.account_num);
-    //cp : CurrencyPipe;
-    //let cp = new CurrencyPipe();
-    //this.clientAccount.annual_fee = cp.transform(this.clientAccount.annual_fee.toString());
+
+    let annual_fee = this.utilsService.currencyInit(this.clientAccount.annual_fee);
+    let credit_limit = this.utilsService.currencyInit(this.clientAccount.credit_limit);
+
     console.log( ['createForm', this.clientAccount.account_date]);
     this.clientAccountForm = this.fb.group({
       account_id: this.clientAccount.account_id
@@ -96,8 +99,8 @@ export class ClientAccountDlgComponent implements OnChanges {
       , cc_login: this.clientAccount.cc_login
       , cc_password: this.clientAccount.cc_password
       , cc_status: this.clientAccount.cc_status
-      , annual_fee: this.clientAccount.annual_fee
-      , credit_limit: this.clientAccount.credit_limit
+      , annual_fee: annual_fee
+      , credit_limit: credit_limit
       , addtional_card: this.clientAccount.addtional_card
     });
 
@@ -109,10 +112,15 @@ export class ClientAccountDlgComponent implements OnChanges {
       });
     this.clientAccountForm.controls['annual_fee'].valueChanges.subscribe(
       (value: string) => {
-        //console.log('accnumber changed to:', value);
-        let t = new CurrencyPipe();
-        let v = currencythis.accNumberPipe.transform(value); // this.accountNumberFormat(value);
-        this.clientAccountForm.controls['account_num'].setValue(v, {emitEvent: false});
+        let v = this.utilsService.currencyFmt(value );
+        console.log(["after annual fee:", v]);
+        this.clientAccountForm.controls['annual_fee'].setValue(v, {emitEvent: false});
+      });
+    this.clientAccountForm.controls['credit_limit'].valueChanges.subscribe(
+      (value: string) => {
+        let v = this.utilsService.currencyFmt(value );
+        console.log(["after credit_limit:", v]);
+        this.clientAccountForm.controls['credit_limit'].setValue(v, {emitEvent: false});
       });
 
   }
@@ -178,6 +186,11 @@ export class ClientAccountDlgComponent implements OnChanges {
   onSubmit() {
     if( !this.isCancel && this.clientAccountForm.valid) {
       console.log( "submit");
+      let v = this.utilsService.toNumber(this.clientAccountForm.controls['annual_fee'].value);
+      this.clientAccountForm.controls['annual_fee'].setValue(v, {emitEvent: false});
+      v = this.utilsService.toNumber(this.clientAccountForm.controls['credit_limit'].value);
+      this.clientAccountForm.controls['credit_limit'].setValue(v, {emitEvent: false});
+      console.log( this.clientAccountForm.value);
       this.clientAccountService.postClientAccount( this.clientAccountForm.value);
       this.dialogRef.close(true);
     }

@@ -12,6 +12,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { ClientsModule } from './clients/clients.module';
 import { CcModule } from './cc/cc.module';
 import { AuthService } from './utils/auth.service';
+import { UtilsService } from './utils/utils.service';
 import { AdmUsersService } from './adm/adm-users.service';
 import { TokenInterceptor } from './utils/token-interceptor';
 /* components */
@@ -95,6 +96,7 @@ export const MY_COMPONENTS_LIST = [
   ],
   providers: [AdmUsersService
     , AuthService
+    , UtilsService
     ,{
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptor,
